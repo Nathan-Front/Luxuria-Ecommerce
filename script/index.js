@@ -28,6 +28,9 @@ async function fetchHTML() {
         fetch("./components/index/indexFirstSection.html").then((res) =>
           res.text(),
         ),
+        fetch("./components/index/indexSecondSection.html").then((res) =>
+          res.text(),
+        ),
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
