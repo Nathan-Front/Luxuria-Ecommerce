@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+:root {
+    --nav-height-mobile: 50px;
+    --nav-height-desk: 70px;
+    --nav-height-upper: 20px;
+    --container-max-width: 1400px;
+
+    /*Text fonts*/
+     --text-xsmall: clamp(0.65rem, 0.9vw, 0.75rem);
+    --text-small: clamp(0.75rem, 1vw, 0.875rem);
+    --text-base: clamp(0.875rem, 1.2vw, 1rem);
+    --text-large: clamp(1rem, 1.5vw, 1.25rem);
+
+    /*Header fonts*/
+    --heading-small: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+    --heading-medium: clamp(1.8rem, 1.4rem + 1.8vw, 2.75rem);
+    --heading-large: clamp(2rem, 1.6rem + 3vw, 4rem);
+}
+body {
+    font-family: "Inter", sans-serif;
+    color: #1a1a1a;
+}
+.no-scroll {
+    overflow: hidden;
+}
+h1,
+h2,
+h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+h1 {
+    font-size: var(--heading-large);
+}
+nav,
+button,
+input,
+select {
+    font-family: "Inter", sans-serif;
+}
+button {
+    border: none;
+    background-color: transparent;
+}
+button:hover {
+    cursor: pointer;
+}
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+ul> li {
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+}
+* {
+    box-sizing: content-box;
+}
+nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.upper-nav-con {
+    display: flex;
+    align-items: center;
+    background-color: #1a1a1a;
+    padding: 0 30px;
+    height: var(--nav-height-upper);
+    font-size: var(--text-xsmall);
+}
+.upper-nav-con> span {
+    color: white;
+}
+.upper-nav-con> ul {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    gap: 8px;
+}
+.upper-nav-con> ul> li> a {
+    color: white;
+}
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.language-selector> select {
+    border: none;
+    background: transparent;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 4px;
+    color: white;
+}
+.language-selector> select> option {
+    font-size: var(--text-xsmall);
+}
+@media only screen and (max-width: 640px) {
+    .upper-nav-con {
+        justify-content: center;
+    }
+    .upper-nav-con> ul {
+        display: none;
+    }
+}
+@media (min-width: 641px) and (max-width: 950px) {
+    .upper-nav-con {
+        justify-content: center;
+    }
+    .upper-nav-con> ul {
+        display: none;
+    }
+}
+.lower-nav-con {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: var(--nav-height-desk);
+    gap: 8px;
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+}
+.nav-links {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    gap: 4px;
+}
+.nav-links> li {
+    position: relative;
+    text-align: center;
+    font-size: var(--text-base);
+}
+.burger-menu-icon,
+.menu-user-icon {
+    display: none;
+}
+.nav-links> li> a {
+    width: 100%;
+    padding: 0 2px;
+    color: #1a1a1a;
+    position: relative;
+}
+.nav-links> li> a:hover {
+    cursor: pointer;
+}
+.nav-links> li> a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: aqua;
+    width: 0;
+    height: 100%;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+.nav-links> li> a:hover::before {
+     transform: scale(100%);
+     width: 100%;
+}
+/*Search,heart,user,cart*/
+.search-info-con {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.search {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    width: clamp(120px, 15vw, 200px);
+}
+.search> input {
+    border: none;
+    outline: none;
+    padding: 4px 8px;
+    min-width: 0;
+    flex: 1;
+}
+.search> button {
+    flex-shrink: 0;
+    border: none;
+    background: none;
+    padding: 2px 4px;
+}
+.search> button> img {
+    width: 20px;
+}
+.search-info-con> div> button {
+    width: 20px;
+}
+.search-info-con> div> button>img {
+    width: 100%;
+}
+@media only screen and (max-width: 640px) {
+    .lower-nav-con {
+        height: var(--nav-height-mobile);
+        justify-content: unset;
+        gap: 8px;
+    }
+    .search {
+        display: none;
+    }
+    .nav-links {
+        top: calc(var(--nav-height-mobile) + 20px);
+        width: 100%;
+        height: calc(100dvh - var(--nav-height-mobile));
+    }
+}
+
+@media (max-width: 950px) {
+    .lower-nav-con {
+        justify-content: unset;
+    }
+    .search-info-con {
+        margin-left: auto;
+    }
+    .search> input {
+        font-size: 12px;
+    }
+    .web-logo-con {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .nav-links {
+        position: fixed;
+        left: 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 12px;
+        background-color: #F5F2EA;
+        z-index: 9;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateX(-100%);
+        transition: visibility 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+    }
+    .nav-links.showNav {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(0);
+    }
+    .nav-links> li {
+        flex: 0;
+        text-align: center;
+        padding-left: 8px;
+    }
+    .menu-user-icon {
+        display: block;
+        width: 30px;
+        margin: 16px auto;
+    }
+    .menu-user-icon> button {
+        width: 100%;
+    }
+    .menu-user-icon> button> img {
+        width: 100%;
+    }
+    .burger-menu-icon {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        display: flex;
+        width: 25px;
+        height: 100%;
+    }
+    .burger-menu-icon> button {
+        width: 100%;
+    }
+    .burger-menu-icon> button> img {
+        width: 100%;
+    }
+    .user-con {
+        display: none;
+    }
+}
+@media (min-width: 641px) and (max-width: 950px) {
+    .nav-links {
+        width: 40%;
+        top: calc(var(--nav-height-desk) + 20px);
+        height: calc(100dvh - var(--nav-height-desk));
+    }
+}
