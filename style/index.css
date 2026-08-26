@@ -30,6 +30,7 @@ h4 {
     font-family: "Cormorant Garamond", serif;
     font-weight: 500;
     letter-spacing: -0.02em;
+    margin: 0;
 }
 h1 {
     font-size: var(--heading-large);
