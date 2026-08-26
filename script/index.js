@@ -12,15 +12,29 @@ async function fetchHTML() {
         </div>
     `;
 
-    const [nav] = await Promise.all([
+    const [nav, foot] = await Promise.all([
       fetch("./components/navigation/nav.html").then((res) => {
         if (!res.ok) throw new Error("Navigation fetch failed");
         return res.text();
       }),
+      fetch("./components/footer/footer.html").then((res) => {
+        if (!res.ok) throw new Error("Footer fetch failed");
+        return res.text();
+      }),
     ]);
-
+    let sections = [];
+    if (page === "home") {
+      sections = await Promise.all([
+        fetch("./components/index/indexFirstSection.html").then((res) =>
+          res.text(),
+        ),
+      ]);
+    }
     body.insertAdjacentHTML("beforebegin", nav);
-
+    sections.forEach((sec) => {
+      app.insertAdjacentHTML("beforebegin", sec);
+    });
+    body.insertAdjacentHTML("beforeend", foot);
     app.innerHTML = "";
   } catch (error) {
     console.log(error);
