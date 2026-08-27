@@ -33,7 +33,7 @@
 .second-sect-upper> li> div> small {
     font-size: var(--text-xsmall);
 }
-@media only screen and (max-width: 414px) {
+@media only screen and (max-width: 455px) {
     .second-sect-upper> li {
         justify-self: flex-start;
         align-items: center;
