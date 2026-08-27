@@ -312,3 +312,33 @@ nav {
         height: calc(100dvh - var(--nav-height-desk));
     }
 }
+
+/*fetch data loading spinner*/
+.product-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    gap: 1rem;
+    color: #d4af37;
+}
+.product-spinner {
+    width: 45px;
+    height: 45px;
+    border: 5px solid #ddd;
+    border-top-color: #d4af37;
+    border-radius: 50%;
+    animation: productLoading .8s linear infinite;
+}
+.product-loading.loadingOff {
+    display: none;
+}
+.product-loading[hidden] {
+    display: none !important;
+}
+@keyframes productLoading {
+    to {
+        transform: rotate(360deg);
+    }
+}

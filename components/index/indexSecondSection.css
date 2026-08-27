@@ -67,6 +67,10 @@
     border-radius: 50%;
     border: 1px solid #d4af37;
     width: clamp(40px, 10vw, 100px);
+    transition: 0.4s ease;
+}
+.second-sect-lower> li> a> img:hover {
+    transform: scale(1.2);
 }
 .second-sect-lower> li> span {
     font-size: var(--text-base);
