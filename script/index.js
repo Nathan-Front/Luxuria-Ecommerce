@@ -1,5 +1,8 @@
 import { burgerMenuhandler } from "./navigation.js";
-import { fetchHeroContent } from "../components/index/indexData.js";
+import {
+  fetchHeroContent,
+  fetchIndexFilterContent,
+} from "../components/index/indexData.js";
 async function fetchHTML() {
   const page = document.body.dataset.page;
   const app = document.getElementById("app");
@@ -60,10 +63,11 @@ async function fetchHTML() {
   burgerMenuhandler();
   if (page === "home") {
     fetchHeroContent();
+    fetchIndexFilterContent();
   }
 }
 
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxNmwqUw3PoSWxMm68CLyzJLJ2_NuSuT_tgiQ8R1nDooM1D0r8L1KA-veLU1dp0liOo/exec";
+  "https://script.google.com/macros/s/AKfycbxYHbDpgpgIONyyCcINy3Gxsfgn6GGRAifrzn6eFQTdGduxHnR-afq5yMs1rOG36ZlM/exec";

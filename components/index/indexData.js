@@ -41,6 +41,35 @@ function renderHero(heroContent) {
   heroImg.alt = heroContent[0].heroImgAlt;
 }
 
+export async function fetchIndexFilterContent() {
+  const secondSection = document.querySelector(".index-second-sect");
+  setSectionLoading(secondSection, true);
+  try {
+    fetchDataArr = await fetchSpecificSheet("indexFilter", "indexFilters");
+    renderIndexFilter(fetchDataArr);
+  } catch (error) {
+    console.log(error);
+    setSectionLoading(secondSection);
+  } finally {
+    setSectionLoading(secondSection, false);
+  }
+}
+
+function renderIndexFilter(filterContent) {
+  const filterContainer = document.querySelector(".second-sect-lower");
+  filterContent.map((item) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <a href="#"
+        ><img src="./images/index/secondSection/${item.filterImg}" alt="${item.filterImgAlt}"
+      /></a>
+      <span>${item.filterTitle}</span>
+    `;
+    filterContainer.append(li);
+  });
+}
+
+//For loading and spinner during fetch of data
 function setSectionLoading(section, isLoading) {
   if (!section) return;
   const loading = section.querySelector(".product-loading");

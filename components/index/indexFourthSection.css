@@ -1,6 +1,7 @@
 .index-fourth-sect {
     width: 100%;
     max-width: 1400px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 24px;
