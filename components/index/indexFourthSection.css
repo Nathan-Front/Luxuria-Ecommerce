@@ -5,6 +5,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 24px;
+    padding: 40px 0;
     position: relative;
 }
 .index-fourth-sect> div {

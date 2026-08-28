@@ -1,4 +1,6 @@
 import { GOOGLE_APPS_SCRIPT_URL } from "../../script/index.js";
+import { formatPrice } from "../../script/priceFormat.js";
+import { showSectionError } from "../../script/fetchDataError.js";
 let fetchDataArr = [];
 export async function fetchSpecificSheet(sheetType, key, dataFormatter) {
   try {
@@ -22,7 +24,7 @@ export async function fetchHeroContent() {
     renderHero(fetchDataArr);
   } catch (error) {
     console.log(error);
-    setSectionLoading(firstSection);
+    showSectionError(firstSection);
   } finally {
     setSectionLoading(firstSection, false);
   }
@@ -49,7 +51,7 @@ export async function fetchIndexFilterContent() {
     renderIndexFilter(fetchDataArr);
   } catch (error) {
     console.log(error);
-    setSectionLoading(secondSection);
+    showSectionError(secondSection);
   } finally {
     setSectionLoading(secondSection, false);
   }
@@ -61,7 +63,7 @@ function renderIndexFilter(filterContent) {
     const li = document.createElement("li");
     li.innerHTML = `
       <a href="#"
-        ><img src="./images/index/secondSection/${item.filterImg}" alt="${item.filterImgAlt}"
+        ><img src="./images/index/secondSection/${item.filterImg}.webp" alt="${item.filterImgAlt}" loading="lazy"
       /></a>
       <span>${item.filterTitle}</span>
     `;
@@ -69,6 +71,40 @@ function renderIndexFilter(filterContent) {
   });
 }
 
+export async function fetchIndexNewArrivals() {
+  const thirdSection = document.querySelector(".index-third-sect");
+  setSectionLoading(thirdSection, true);
+  try {
+    fetchDataArr = await fetchSpecificSheet("indexNewArrive", "newArrivals");
+    renderNewArrivals(fetchDataArr);
+  } catch (error) {
+    console.log(error);
+    showSectionError(thirdSection);
+  } finally {
+    setSectionLoading(thirdSection, false);
+  }
+}
+
+function renderNewArrivals(newArrivals) {
+  const newArrivalContainer = document.querySelector(".new-product-list");
+  newArrivals.map((item) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <div class="heart-cont">
+        <img src="./images/nav/heart-svgrepo-com.svg" alt="heart-off" />
+        <!-- <img src="" alt="heart-on" /> -->
+      </div>
+      <img
+        src="./images/index/thirdSection/${item.productImg}.webp"
+        alt="${item.productImgAlt}"
+        loading="lazy"
+      />
+      <span class="product-title">${item.product}</span>
+      <p class="product-price">${formatPrice(item.price)}</p>
+    `;
+    newArrivalContainer.append(li);
+  });
+}
 //For loading and spinner during fetch of data
 function setSectionLoading(section, isLoading) {
   if (!section) return;

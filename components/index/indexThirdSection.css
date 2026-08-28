@@ -14,8 +14,13 @@
 .index-third-sect> a {
     font-size: var(--text-small);
     text-align: right;
-    width: 95%;
-    margin: 0 auto 8px auto;
+    width: fit-content;
+    margin: 0 24px 8px auto;
+    color: #1a1a1a;
+    transition: 0.3s ease;
+}
+.index-third-sect> a:hover {
+    color: #d4af37;
 }
 .new-product-list {
     width: 95%;
@@ -60,6 +65,9 @@
     .new-product-list> li> img {
         height: 200px;
     }
+    .index-third-sect> a {
+        display: none;
+    }
 }
 @media (min-width: 415px) and (max-width: 488px) {
     .new-product-list {
@@ -67,5 +75,8 @@
     }
     .new-product-list> li> img {
         height: 250px;
+    }
+    .index-third-sect> a {
+        display: none;
     }
 }
