@@ -2,13 +2,18 @@
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 24px;
     padding: 40px 0;
     position: relative;
 }
-.index-fourth-sect> div {
+.fourth-upper-con {
+    display: flex;
+    gap: 24px;
+}
+.fourth-upper-con> div {
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,23 +21,24 @@
     padding: 64px 0;
     position: relative;
 }
-.index-fourth-sect> div> *:not(:last-child) {
+.fourth-upper-con> div> *:not(:last-child) {
     margin-left: 32px;
+    margin-right: 8px;
     color: #fff;
 }
-.index-fourth-sect> div> span {
+.fourth-upper-con> div> span {
     font-size: var(--text-small);
     text-transform: uppercase;
     margin-top: 40px;
 }
-.index-fourth-sect> div> h3 {
+.fourth-upper-con> div> h3 {
     font-size: var(--heading-small);
 }
-.index-fourth-sect> div> p {
+.fourth-upper-con> div> p {
     font-size: var(--text-base);
     margin-top: 16px;
 }
-.index-fourth-sect> div> a {
+.fourth-upper-con> div> a {
     width: fit-content;
     margin-top: 64px;
     text-transform: uppercase;
@@ -49,10 +55,10 @@
     -webkit-text-fill-color: transparent;
     transition: background-position 0.4s ease;
 }
-.index-fourth-sect> div> a:hover {
+.fourth-upper-con> div> a:hover {
     background-position: 0, 0;
 }
-.index-fourth-sect> div> a::after {
+.fourth-upper-con> div> a::after {
     content: "";
     width: 100%;
     height: 2px;
@@ -69,10 +75,10 @@
     background-position: 100% 0;
     transition: background-position 0.4s ease;
 }
-.index-fourth-sect> div> a:hover::after {
+.fourth-upper-con> div> a:hover::after {
     background-position: 0, 0;
 }
-.index-fourth-sect> div> img {
+.fourth-upper-con> div> img {
     position: absolute;
     top: 0;
     left: 0;
@@ -81,17 +87,7 @@
     
     z-index: -1;
 }
-.fourth-left-con {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-}
-.fourth-right-con {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-}
 .fourth-bottom-con {
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 32px;
@@ -126,13 +122,8 @@
         display: flex;
         flex-direction: column;
     }
-    .fourth-left-con {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-    }
-    .fourth-right-con {
-        grid-column: 1 / 2;
-        grid-row: 2 / 3;
+    .index-fourth-sect> div {
+        flex-direction: column;
     }
     .fourth-bottom-con {
         grid-column: 1 / 3;
@@ -184,7 +175,7 @@
     .fourth-bottom-con> li::scroll-marker:target-current {
         background-color: #d4af37;
     }
-    .index-fourth-sect> div> span {
+    .fourth-upper-con> div> span {
         margin-top: 0;
     }
 }

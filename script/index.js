@@ -3,6 +3,7 @@ import {
   fetchHeroContent,
   fetchIndexFilterContent,
   fetchIndexNewArrivals,
+  fetchIndexPromo,
 } from "../components/index/indexData.js";
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -66,11 +67,12 @@ async function fetchHTML() {
     fetchHeroContent();
     fetchIndexFilterContent();
     fetchIndexNewArrivals();
+    fetchIndexPromo();
   }
 }
 
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyEmsNHFWqk0POThKsQCPkSu7XaDnfppyEenSJg6d090NTcIyflW3tzUoeuwQgqxVJh/exec";
-//5th ver
+  "https://script.google.com/macros/s/AKfycbxO_49C6uuPlyR6cbHOaN-rfz8za-Ovny-GZ8cMIjp4Qq5Nfnr1NcVaPsdk-1UTiq3T/exec";
+//6th ver

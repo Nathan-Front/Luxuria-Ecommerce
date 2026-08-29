@@ -39,7 +39,7 @@ function renderHero(heroContent) {
   mainTitle.textContent = heroContent[0].mainTitle;
   subTitle.textContent = heroContent[0].subTitle;
   heroText.textContent = heroContent[0].text;
-  heroImg.src = `./images/index/firstSection/${heroContent[0].heroImg}`;
+  heroImg.src = `./images/index/firstSection/${heroContent[0].heroImg}.webp`;
   heroImg.alt = heroContent[0].heroImgAlt;
 }
 
@@ -91,8 +91,7 @@ function renderNewArrivals(newArrivals) {
     const li = document.createElement("li");
     li.innerHTML = `
       <div class="heart-cont">
-        <img src="./images/nav/heart-svgrepo-com.svg" alt="heart-off" />
-        <!-- <img src="" alt="heart-on" /> -->
+        <img src="./images/nav/heart-svgrepo-com.svg" alt="heart-icon"class="liked-product" />
       </div>
       <img
         src="./images/index/thirdSection/${item.productImg}.webp"
@@ -103,6 +102,45 @@ function renderNewArrivals(newArrivals) {
       <p class="product-price">${formatPrice(item.price)}</p>
     `;
     newArrivalContainer.append(li);
+  });
+  productLikeToggle();
+}
+function productLikeToggle() {
+  const heartBtn = document.querySelectorAll(".liked-product");
+  heartBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("liked"); //create a class to toggle
+      btn.src = btn.classList.contains("liked") //use the class to toggle src
+        ? "./images/index/thirdSection/heart-alt-svgrepo-com.svg"
+        : "./images/nav/heart-svgrepo-com.svg";
+    });
+  });
+}
+export async function fetchIndexPromo() {
+  const fourthSection = document.querySelector(".index-fourth-sect");
+  setSectionLoading(fourthSection, true);
+  try {
+    fetchDataArr = await fetchSpecificSheet("indexPromo", "promo");
+    renderPromo(fetchDataArr);
+  } catch (error) {
+    console.log(error);
+    showSectionError(fourthSection);
+  } finally {
+    setSectionLoading(fourthSection, false);
+  }
+}
+function renderPromo(promo) {
+  const promoContainer = document.querySelector(".fourth-upper-con");
+  promo.map((item) => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <span>${item.subTitle}</span>
+      <h3>${item.mainTitle}</h3>
+      <p>${item.text}</p>
+      <a href="#">${item.buttons}</a>
+      <img src="./images/index/fourthSection/${item.promoImg}.webp" alt="${item.promoImgAlt}" loading="lazy" />
+    `;
+    promoContainer.append(div);
   });
 }
 //For loading and spinner during fetch of data
