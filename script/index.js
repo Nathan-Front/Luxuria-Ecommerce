@@ -1,4 +1,4 @@
-import { burgerMenuhandler } from "./navigation.js";
+import { burgerMenuhandler, displayLikedCount } from "./navigation.js";
 import {
   fetchHeroContent,
   fetchIndexFilterContent,
@@ -63,6 +63,7 @@ async function fetchHTML() {
         `;
   }
   burgerMenuhandler();
+  displayLikedCount();
   if (page === "home") {
     fetchHeroContent();
     fetchIndexFilterContent();

@@ -6,3 +6,8 @@ export function burgerMenuhandler() {
     document.body.classList.toggle("no-scroll");
   });
 }
+export async function displayLikedCount() {
+  const likes = document.querySelector(".likes-cnt");
+  const likedProducts = JSON.parse(localStorage.getItem("likedProducts")) || [];
+  likes.textContent = likedProducts.length > 0 ? likedProducts.length : "";
+}

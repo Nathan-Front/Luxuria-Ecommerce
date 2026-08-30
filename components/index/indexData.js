@@ -1,6 +1,7 @@
 import { GOOGLE_APPS_SCRIPT_URL } from "../../script/index.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { showSectionError } from "../../script/fetchDataError.js";
+import { displayLikedCount } from "../../script/navigation.js";
 let fetchDataArr = [];
 export async function fetchSpecificSheet(sheetType, key, dataFormatter) {
   try {
@@ -89,6 +90,7 @@ function renderNewArrivals(newArrivals) {
   const newArrivalContainer = document.querySelector(".new-product-list");
   newArrivals.map((item) => {
     const li = document.createElement("li");
+    li.dataset.productId = item.No;
     li.innerHTML = `
       <div class="heart-cont">
         <img src="./images/nav/heart-svgrepo-com.svg" alt="heart-icon"class="liked-product" />
@@ -103,19 +105,45 @@ function renderNewArrivals(newArrivals) {
     `;
     newArrivalContainer.append(li);
   });
+  restoreLikedProducts();
   productLikeToggle();
 }
+
 function productLikeToggle() {
   const heartBtn = document.querySelectorAll(".liked-product");
   heartBtn.forEach((btn) => {
     btn.addEventListener("click", () => {
-      btn.classList.toggle("liked"); //create a class to toggle
-      btn.src = btn.classList.contains("liked") //use the class to toggle src
-        ? "./images/index/thirdSection/heart-alt-svgrepo-com.svg"
-        : "./images/nav/heart-svgrepo-com.svg";
+      const clickedProduct = btn.closest("li");
+      const productId = clickedProduct.dataset.productId;
+      let likedProducts =
+        JSON.parse(localStorage.getItem("likedProducts")) || [];
+      if (likedProducts.includes(productId)) {
+        likedProducts = likedProducts.filter((id) => id !== productId); //remove the clicked product from array
+        btn.src = "./images/nav/heart-svgrepo-com.svg";
+        btn.classList.remove("liked");
+      } else {
+        likedProducts.push(productId);
+        btn.src = "./images/index/thirdSection/heart-alt-svgrepo-com.svg";
+        btn.classList.add("liked");
+      }
+      localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
+      displayLikedCount();
     });
   });
 }
+
+function restoreLikedProducts() {
+  const likedProducts = JSON.parse(localStorage.getItem("likedProducts")) || [];
+  const heartBtns = document.querySelectorAll(".liked-product");
+  heartBtns.forEach((btn) => {
+    const productId = btn.closest("li").dataset.productId;
+    if (likedProducts.includes(productId)) {
+      btn.src = "./images/index/thirdSection/heart-alt-svgrepo-com.svg";
+      btn.classList.add("liked");
+    }
+  });
+}
+
 export async function fetchIndexPromo() {
   const fourthSection = document.querySelector(".index-fourth-sect");
   setSectionLoading(fourthSection, true);

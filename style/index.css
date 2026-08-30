@@ -216,9 +216,20 @@ nav {
 }
 .search-info-con> div> button {
     width: 20px;
+    position: relative;
 }
 .search-info-con> div> button>img {
     width: 100%;
+}
+.likes-cnt {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    width: 2ch;
+    font-size: var(--text-xsmall);
+    background-color: #d4af37;
+    border-radius: 50%;
+    
 }
 @media only screen and (max-width: 640px) {
     .lower-nav-con {
