@@ -1,0 +1,79 @@
+.user-window {
+    position: fixed;
+    top: var(--nav-height-desk);
+    right: 0;
+    width: 200px;
+    height: calc(100dvh - var(--nav-height-desk));
+    background-color: #fff;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100px);
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+}
+.userWindow {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+.user-window> div,
+.user-window> ul {
+    display: flex;
+    gap: 8px;
+    padding: 16px 0;
+}
+.logged-user {
+    align-items: center;
+}
+.logged-user> img {
+    width: clamp(40px, 3.5vw, 70px);
+    border-radius: 50%;
+    border: 1px solid #1a1a1a;
+}
+.logged-user> div {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.logged-user> div> span {
+    width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--text-base); 
+}
+.settings-opt {
+    flex-direction: column;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+}
+.settings-opt> li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.settings-opt> li> img {
+    width: 25px;
+    height: 25px;
+}
+.settings-opt> li> a {
+    color: #1a1a1a;
+    font-size: var(--text-base);
+    transition: transform 0.1s ease;
+}
+.logout-container> img {
+    width: 30px;
+    height: 30px;
+}
+.logout-container> button {
+    font-size: var(--text-large);
+    transition: transform 0.1s ease;
+}
+.settings-opt> li> a:active,
+.logout-container> button:active {
+    transform: scale(0.95);
+}

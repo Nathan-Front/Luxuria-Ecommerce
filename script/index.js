@@ -5,6 +5,7 @@ import {
   fetchIndexNewArrivals,
   fetchIndexPromo,
 } from "../components/index/indexData.js";
+
 async function fetchHTML() {
   const page = document.body.dataset.page;
   const app = document.getElementById("app");
@@ -17,13 +18,25 @@ async function fetchHTML() {
         </div>
     `;
 
-    const [nav, foot] = await Promise.all([
+    const [nav, foot, login, userWindow, logoutModal] = await Promise.all([
       fetch("./components/navigation/nav.html").then((res) => {
         if (!res.ok) throw new Error("Navigation fetch failed");
         return res.text();
       }),
       fetch("./components/footer/footer.html").then((res) => {
         if (!res.ok) throw new Error("Footer fetch failed");
+        return res.text();
+      }),
+      fetch("./components/login-create-form/login.html").then((res) => {
+        if (!res.ok) throw new Error("Login form fetch failed");
+        return res.text();
+      }),
+      fetch("./components/login-create-form/userWindow.html").then((res) => {
+        if (!res.ok) throw new Error("User window fetch failed");
+        return res.text();
+      }),
+      fetch("./components/login-create-form/logoutModal.html").then((res) => {
+        if (!res.ok) throw new Error("User window fetch failed");
         return res.text();
       }),
     ]);
@@ -45,6 +58,9 @@ async function fetchHTML() {
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
+    body.insertAdjacentHTML("beforeend", login);
+    body.insertAdjacentHTML("beforeend", userWindow);
+    body.insertAdjacentHTML("beforeend", logoutModal);
     sections.forEach((sec) => {
       app.insertAdjacentHTML("beforebegin", sec);
     });
@@ -70,6 +86,8 @@ async function fetchHTML() {
     fetchIndexNewArrivals();
     fetchIndexPromo();
   }
+  displayLoginForm();
+  //displayUserWindow();
 }
 
 document.addEventListener("DOMContentLoaded", fetchHTML);
@@ -77,3 +95,54 @@ document.addEventListener("DOMContentLoaded", fetchHTML);
 export const GOOGLE_APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxO_49C6uuPlyR6cbHOaN-rfz8za-Ovny-GZ8cMIjp4Qq5Nfnr1NcVaPsdk-1UTiq3T/exec";
 //6th ver
+
+//login form
+function displayLoginForm() {
+  const userBtn = document.querySelectorAll(".user-icon-btn");
+  const loginForm = document.querySelector(".login-overlay");
+  const userData = JSON.parse(localStorage.getItem("userData")) || [];
+  userBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (userData) {
+        loginForm.classList.add("loginForm");
+      } else {
+        displayUserWindow();
+      }
+    });
+  });
+  const closeLoginForm = document.querySelector(".close-login");
+  closeLoginForm.addEventListener("click", () => {
+    loginForm.classList.remove("loginForm");
+  });
+}
+
+//user window
+function displayUserWindow() {
+  const userBtn = document.querySelectorAll(".user-icon-btn");
+  const userWindow = document.querySelector(".user-window");
+
+  userBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      userWindow.classList.add("userWindow");
+    });
+  });
+  displayLogoutModal();
+}
+
+//logout modal
+function displayLogoutModal() {
+  const logoutBtn = document.querySelector(".logout");
+  const logoutModal = document.querySelector(".logout-modal");
+  logoutBtn.addEventListener("click", () => {
+    const userWindow = document.querySelector(".user-window");
+    userWindow.classList.remove("userWindow");
+    logoutModal.classList.add("logoutModal");
+  });
+
+  const cancel = document.querySelector(".cancel-logout");
+  cancel.addEventListener("click", () => {
+    if (logoutModal) {
+      logoutModal.classList.remove("logoutModal");
+    }
+  });
+}
