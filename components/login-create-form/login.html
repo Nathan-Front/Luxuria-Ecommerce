@@ -4,9 +4,14 @@
 
     <h2>Welcome Back</h2>
     <p>Login to continue your shopping.</p>
-    <form>
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
+    <form class="login-form">
+      <input
+        type="email"
+        placeholder="Email"
+        autocomplete="email"
+        id="email-input"
+      />
+      <input type="password" placeholder="Password" id="password-input" />
 
       <div>
         <input type="checkbox" value="lsRememberMe" id="rememberMe" />
@@ -23,7 +28,10 @@
       <span>Continue with Google</span>
     </button>
     <p class="to-create-acnt">
-      Don't have any account? <a href="#">Create an account</a>
+      Don't have any account?
+      <button type="button" class="create-account-btn">
+        Create an account
+      </button>
     </p>
   </div>
 </div>

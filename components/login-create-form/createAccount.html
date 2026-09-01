@@ -1,0 +1,65 @@
+<div class="create-account-con">
+  <div class="create-account-modal">
+    <button type="button" class="close-create-account">×</button>
+    <h2>Create Account</h2>
+    <p>Join Luxuria and endjoy a personalized shopping experience.</p>
+    <form class="create-account-form">
+      <div class="name-container">
+        <label for="firstName"
+          >First Name<input
+            type="text"
+            id="firstName"
+            class="required-create-inputs"
+            placeholder="First name"
+        /></label>
+
+        <label for="lastName"
+          >Last Name<input
+            type="text"
+            id="lastName"
+            class="required-create-inputs"
+            placeholder="Last name"
+        /></label>
+      </div>
+      <label for="userEmail"></label>
+      <input
+        type="email"
+        id="userEmail"
+        class="required-create-inputs"
+        placeholder="Email"
+      />
+      <label for="password"></label>
+      <input
+        type="password"
+        id="password"
+        class="required-create-inputs"
+        placeholder="Password"
+      />
+
+      <div class="eula-container">
+        <label for="eula" class="eula"
+          ><input
+            type="checkbox"
+            id="eula"
+            placeholder="Email"
+            disabled
+          />EULA</label
+        >
+        <p>
+          I agree to the <a href="#">Terms & conditions</a> and
+          <a href="#">Privacy policy</a>
+        </p>
+      </div>
+      <button type="submit" class="create-account-submit" disabled>
+        Create Account
+      </button>
+    </form>
+  </div>
+  <div class="create-account-lower">
+    <p class="or-divider"><span>OR</span></p>
+    <p class="sign-in-link">
+      Already have an account?
+      <button type="button" class="return-to-sign-in">Sign in</button>
+    </p>
+  </div>
+</div>
