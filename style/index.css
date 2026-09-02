@@ -392,3 +392,13 @@ nav {
     visibility: visible;
     pointer-events: auto;
 }
+
+/*Error email*/
+.error {
+    border: 1px red solid;
+}
+.__honeypot {
+    position: absolute;
+    visibility: hidden;
+}   
+ 

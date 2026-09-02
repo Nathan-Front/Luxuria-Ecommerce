@@ -5,7 +5,7 @@ import {
   fetchIndexNewArrivals,
   fetchIndexPromo,
 } from "../components/index/indexData.js";
-
+import { validateEmail } from "./emailValidator.js";
 async function fetchHTML() {
   const page = document.body.dataset.page;
   const app = document.getElementById("app");
@@ -107,8 +107,8 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxO_49C6uuPlyR6cbHOaN-rfz8za-Ovny-GZ8cMIjp4Qq5Nfnr1NcVaPsdk-1UTiq3T/exec";
-//6th ver
+  "https://script.google.com/macros/s/AKfycby9iOopLaCbtyWR-RJEPlJUDrjX_ZvzWpTOZnKVpdWcBWJ1Kpyr0nZMLqQc1gcIYmoD/exec";
+//12th ver
 
 //login form
 function displayLoginForm() {
@@ -133,7 +133,7 @@ function displayLoginForm() {
     authCon.classList.remove("authOpen");
   });
 
-  createAccountHandler();
+  openCreateAccountModal();
 }
 function loginHandler() {
   const form = document.querySelector(".login-form");
@@ -143,7 +143,8 @@ function loginHandler() {
     e.preventDefault();
   });
 }
-//Create account
+
+//Disable/enable eula checbox and button
 function checkInputs() {
   const inputs = document.querySelectorAll(".required-create-inputs");
   const createAccountSubmit = document.querySelector(".create-account-submit");
@@ -162,7 +163,8 @@ function checkInputs() {
     createAccountSubmit.disabled = !eulaCheckbox.checked;
   });
 }
-function createAccountHandler() {
+//Create account modal
+function openCreateAccountModal() {
   const createAccountBtn = document.querySelector(".create-account-btn");
   const createAccountForm = document.querySelector(".create-account-con");
   const authCon = document.querySelector(".auth-overlay");
@@ -186,10 +188,69 @@ function createAccountHandler() {
 
   const form = document.querySelector(".create-account-form");
   const inputs = form.querySelectorAll(".required-create-inputs");
-  //const allFilled = [...inputs].every((input) => input.value.trim() !== "");
 
   inputs.forEach((input) => {
     input.addEventListener("input", checkInputs);
+  });
+  createAccountHandler();
+}
+function createAccountHandler() {
+  const form = document.querySelector(".create-account-form");
+  if (!form) return;
+  const firstNameInput = document.getElementById("firstName");
+  const lastNameInput = document.getElementById("lastName");
+  const emailInput = document.getElementById("userEmail");
+  const passwordInput = document.getElementById("password");
+  const sendBtn = document.querySelector(".create-account-submit");
+  let lastSent = 0;
+  emailInput.addEventListener("input", () => {
+    if (validateEmail(emailInput.value)) {
+      emailInput.classList.remove("error");
+    }
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const isValidEmail = validateEmail(emailInput.value);
+    if (!isValidEmail) {
+      emailInput.classList.add("error");
+      return;
+    }
+    const trap = document.querySelector(".__honeypot");
+    if (trap.value !== "") {
+      return;
+    }
+    //timer for 30s
+    const now = Date.now();
+    if (now - lastSent < 30000) {
+      alert("Please wait before sending again!");
+      return;
+    }
+    lastSent = now;
+    sendBtn.disabled = true;
+    const param = {
+      formType: "create-account",
+      firstName: firstNameInput.value,
+      lastName: lastNameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
+    };
+    try {
+      const formData = new FormData(form);
+      /* Object.entries(param).forEach(([key, value]) => {
+        formData.append(key, value);
+      }); */
+      const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(param),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error creating account:", error);
+      alert("An error occurred while creating the account. Please try again.");
+    }
   });
 }
 //user window
