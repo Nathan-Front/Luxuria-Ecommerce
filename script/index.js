@@ -107,7 +107,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycby9iOopLaCbtyWR-RJEPlJUDrjX_ZvzWpTOZnKVpdWcBWJ1Kpyr0nZMLqQc1gcIYmoD/exec";
+  "https://script.google.com/macros/s/AKfycbzSImuCsqwnHq91pz2YrkT-ywv48MwCvQ1zXfTI7wc6WRmYc8LgKIb7OpDwev8OmW_h/exec";
 //12th ver
 
 //login form
@@ -223,7 +223,7 @@ function createAccountHandler() {
     //timer for 30s
     const now = Date.now();
     if (now - lastSent < 30000) {
-      alert("Please wait before sending again!");
+      alert("Please wait 30 seconds before sending again!");
       return;
     }
     lastSent = now;
@@ -235,11 +235,9 @@ function createAccountHandler() {
       email: emailInput.value,
       password: passwordInput.value,
     };
+    showSpinner();
     try {
-      const formData = new FormData(form);
-      /* Object.entries(param).forEach(([key, value]) => {
-        formData.append(key, value);
-      }); */
+      /* const formData = new FormData(form); */
       const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify(param),
@@ -247,9 +245,20 @@ function createAccountHandler() {
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
+      const result = await response.json(); //parse the JSON response
+      console.log(result);
+      if (!result.success) {
+        alert(result.message);
+        hideSpinner();
+        return;
+      } else {
+        alert(result.message);
+      }
     } catch (error) {
       console.error("Error creating account:", error);
       alert("An error occurred while creating the account. Please try again.");
+    } finally {
+      hideSpinner();
     }
   });
 }
@@ -282,4 +291,26 @@ function displayLogoutModal() {
       logoutModal.classList.remove("logoutModal");
     }
   });
+}
+
+//spinner
+function showSpinner() {
+  const autthContainer = document.querySelector("#auth-modals");
+  const spinner = document.createElement("div");
+  spinner.className = "spinner-overlay";
+  spinner.innerHTML = `
+    
+        <div class="loader-box">
+          <div class="waiting-spinner"></div>
+          <h3>Processing...</h3>
+          <p>Please wait a moment.</p>
+        </div>
+      
+  `;
+  autthContainer.append(spinner);
+}
+function hideSpinner() {
+  const spinner = document.querySelector(".spinner-overlay");
+  if (!spinner) return;
+  spinner.remove();
 }
