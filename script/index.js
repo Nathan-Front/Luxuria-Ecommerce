@@ -101,13 +101,13 @@ async function fetchHTML() {
     fetchIndexPromo();
   }
   displayLoginForm();
-  //displayUserWindow();
+  restoreLoggedUser();
 }
 
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyLp--5_Xlr3wUsQbg2PxGL1FVdE_cAlPhtOQbyN6tQdhU6n5SxFe0pu6DdHf12AVA_/exec";
+  "https://script.google.com/macros/s/AKfycbzX2JAqRaX8z1u6l6QFv6xAABbifID_50ryZ_1J_bZ-tSD1fS1xMLU5YWl2bQeFEqWK/exec";
 //12th ver
 
 //login form
@@ -159,18 +159,49 @@ function loginHandler() {
       email: userInput.value,
       password: passInput.value,
     };
+    showSpinner();
     try {
       const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify(params),
       });
       const result = await response.json();
-      console.log(result);
+      if (!result.success) {
+        alert(result.message);
+        hideSpinner();
+        return;
+      }
+      if (result.success) {
+        const rememberMeCheckbox = document.getElementById("rememberMe");
+        if (rememberMeCheckbox.checked) {
+          localStorage.setItem(
+            "rememberUserName",
+            JSON.stringify(result.email),
+          );
+        } else {
+          localStorage.removeItem("rememberUserName");
+        }
+      }
+
+      alert(result.message);
+      hideSpinner();
     } catch (error) {
       console.log(error);
       alert("An error occurred while logging in. Please try again.");
+      hideSpinner();
+    } finally {
+      hideSpinner();
     }
   });
+}
+
+//on relaod, restore the logged in user
+function restoreLoggedUser() {
+  const savedUser = JSON.parse(localStorage.getItem("rememberUserName"));
+  if (savedUser) {
+    const userEmailInput = document.getElementById("email-input");
+    userEmailInput.value = savedUser;
+  }
 }
 
 //Disable/enable eula checbox and button
