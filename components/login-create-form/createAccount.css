@@ -22,7 +22,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
 }
 .close-create-account {
     font-size: var(--heading-medium);
@@ -36,6 +36,7 @@
 }
 .create-account-modal> h2 {
     font-size: var(--heading-small);
+    margin-top: 8px;
 }
 .create-account-modal> p{
     font-size: var(--text-base);

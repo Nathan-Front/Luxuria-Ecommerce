@@ -107,7 +107,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzSImuCsqwnHq91pz2YrkT-ywv48MwCvQ1zXfTI7wc6WRmYc8LgKIb7OpDwev8OmW_h/exec";
+  "https://script.google.com/macros/s/AKfycbyLp--5_Xlr3wUsQbg2PxGL1FVdE_cAlPhtOQbyN6tQdhU6n5SxFe0pu6DdHf12AVA_/exec";
 //12th ver
 
 //login form
@@ -121,6 +121,7 @@ function displayLoginForm() {
       if (userData) {
         loginForm.classList.add("loginForm");
         authCon.classList.add("authOpen");
+        document.body.classList.add("no-scroll");
       } else {
         displayUserWindow();
       }
@@ -131,16 +132,44 @@ function displayLoginForm() {
   closeLoginForm.addEventListener("click", () => {
     loginForm.classList.remove("loginForm");
     authCon.classList.remove("authOpen");
+    document.body.classList.remove("no-scroll");
   });
-
   openCreateAccountModal();
+  loginHandler();
 }
+
 function loginHandler() {
   const form = document.querySelector(".login-form");
-  const userInput = document.getElementById("email-input");
-  const passInput = document.getElementById("password-input");
+  if (!form) return;
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const userInput = document.getElementById("email-input");
+    const passInput = document.getElementById("password-input");
+    const isValidEmail = validateEmail(userInput.value);
+    if (!isValidEmail) {
+      userInput.classList.add("error");
+      return;
+    }
+    const trap = document.querySelector(".login_honeypot");
+    if (trap.value !== "") {
+      return;
+    }
+    const params = {
+      formType: "login",
+      email: userInput.value,
+      password: passInput.value,
+    };
+    try {
+      const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(params),
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert("An error occurred while logging in. Please try again.");
+    }
   });
 }
 
@@ -172,11 +201,13 @@ function openCreateAccountModal() {
   createAccountBtn.addEventListener("click", () => {
     authCon.classList.add("authOpen");
     createAccountForm.classList.add("createAccntForm");
+    document.body.classList.add("no-scroll");
   });
 
   const closeCreateAccount = document.querySelector(".close-create-account");
   closeCreateAccount.addEventListener("click", () => {
     authCon.classList.remove("authOpen");
+    document.body.classList.remove("no-scroll");
     createAccountForm.classList.remove("createAccntForm");
   });
 
@@ -246,7 +277,6 @@ function createAccountHandler() {
         throw new Error(`HTTP ${response.status}`);
       }
       const result = await response.json(); //parse the JSON response
-      console.log(result);
       if (!result.success) {
         alert(result.message);
         hideSpinner();

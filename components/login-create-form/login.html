@@ -11,13 +11,24 @@
         autocomplete="email"
         id="email-input"
       />
-      <input type="password" placeholder="Password" id="password-input" />
+      <input
+        type="password"
+        placeholder="Password"
+        id="password-input"
+        autocomplete="current-password"
+      />
 
       <div>
         <input type="checkbox" value="lsRememberMe" id="rememberMe" />
         <label for="rememberMe">Remember me</label>
         <a href="#">Forgot password?</a>
       </div>
+      <input
+        type="text"
+        name="website"
+        class="login_honeypot"
+        placeholder="Leave this field empty"
+      />
       <button type="submit" class="login-btn">LOGIN</button>
     </form>
   </div>
