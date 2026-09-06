@@ -182,7 +182,7 @@ function loginHandler() {
       };
       const savedUser = JSON.parse(localStorage.getItem("savedUser")) || [];
       const loggedUserIcon = "./images/nav/user-logged-in.svg";
-      const userIcon = document.querySelector(".nav-user-icon");
+      const userIcon = document.querySelectorAll(".nav-user-icon");
       if (result.success) {
         const rememberMeCheckbox = document.getElementById("rememberMe");
         if (rememberMeCheckbox.checked) {
@@ -196,7 +196,9 @@ function loginHandler() {
         localStorage.setItem("savedUser", JSON.stringify(loggedUserIcon));
         localStorage.setItem("loggedIn", JSON.stringify(paramReturn));
         if (savedUser) {
-          userIcon.src = loggedUserIcon;
+          userIcon.forEach((icon) => {
+            icon.src = loggedUserIcon;
+          });
         }
       }
 

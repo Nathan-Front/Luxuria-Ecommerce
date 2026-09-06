@@ -47,7 +47,7 @@
     gap: 16px;
     margin-top: 24px;
 }
-.name-container{
+.name-container {
     display: flex;
     gap: 32px;
 }
@@ -102,4 +102,34 @@
 .sign-in-link> button {
     text-decoration: underline;
     text-underline-offset: 3px;
+}
+@media only screen and (max-width: 415px) {
+    .create-account-con {
+        width: 100%;
+        height: calc(100dvh - var(--nav-height-mobile));
+        margin-top: calc(var(--nav-height-upper) + var(--nav-height-mobile));
+        border-radius: unset;
+    }
+    .create-account-modal {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .name-container {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .name-container> label[for="firstName"],
+    .name-container> label[for="lastName"] {
+        font-size: 0;
+    }
+    .create-account-form {
+        gap: 8px;
+    }
+    .eula-container {
+        margin: 8px 0;
+    }
+    .create-account-lower {
+        width: 90%;
+        margin: 0 auto;
+    }
 }
