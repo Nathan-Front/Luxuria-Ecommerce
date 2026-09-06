@@ -110,16 +110,35 @@ export const GOOGLE_APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwB_81QWyNsk3_5u8HqcR89JZcFR9ffobOcmSELEDFUJMivTAMupCkAeaCDZh26Dasm/exec";
 //12th ver
 
+//display/hide authCon on click of user icon
+function showAuthCon() {
+  const authCon = document.querySelector(".auth-overlay");
+  authCon.classList.add("authOpen");
+  document.body.classList.add("no-scroll");
+}
+function hideAuthCon() {
+  const authCon = document.querySelector(".auth-overlay");
+  authCon.classList.remove("authOpen");
+  document.body.classList.remove("no-scroll");
+}
+
+//show/hide login form
+function showLoginForm() {
+  const loginForm = document.querySelector(".login-overlay");
+  loginForm.classList.add("loginForm");
+}
+function hideLoginForm() {
+  const loginForm = document.querySelector(".login-overlay");
+  loginForm.classList.remove("loginForm");
+}
 //login form
 function displayLoginForm() {
   const userBtn = document.querySelectorAll(".user-icon-btn");
-  const loginForm = document.querySelector(".login-overlay");
-
   userBtn.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const loggedIn = JSON.parse(localStorage.getItem("loggedIn"));
       if (!loggedIn || !loggedIn.loggedIn) {
-        loginForm.classList.add("loginForm");
+        showLoginForm();
         showAuthCon();
       } else {
         showAuthCon();
@@ -127,10 +146,10 @@ function displayLoginForm() {
       }
     });
   });
-  const closeLoginForm = document.querySelector(".close-login");
 
+  const closeLoginForm = document.querySelector(".close-login");
   closeLoginForm.addEventListener("click", () => {
-    loginForm.classList.remove("loginForm");
+    hideLoginForm();
     hideAuthCon();
   });
   openCreateAccountModal();
@@ -190,8 +209,6 @@ function loginHandler() {
             "rememberUserName",
             JSON.stringify(result.user.email),
           );
-        } else {
-          localStorage.removeItem("rememberUserName");
         }
         localStorage.setItem("savedUser", JSON.stringify(loggedUserIcon));
         localStorage.setItem("loggedIn", JSON.stringify(paramReturn));
@@ -204,6 +221,9 @@ function loginHandler() {
 
       alert(result.message);
       hideSpinner();
+      hideLoginForm();
+      hideAuthCon();
+      form.reset();
     } catch (error) {
       console.log(error);
       alert("An error occurred while logging in. Please try again.");
@@ -218,13 +238,15 @@ function loginHandler() {
 function restoreLoggedUser() {
   const savedUser = JSON.parse(localStorage.getItem("rememberUserName"));
   const savedUserIcon = JSON.parse(localStorage.getItem("savedUser"));
-  const userIcon = document.querySelector(".nav-user-icon");
+  const userIcon = document.querySelectorAll(".nav-user-icon");
   if (savedUser) {
     const userEmailInput = document.getElementById("email-input");
     userEmailInput.value = savedUser;
   }
   if (userIcon) {
-    userIcon.src = savedUserIcon || "./images/nav/user-svgrepo-com.svg";
+    userIcon.forEach((icon) => {
+      icon.src = savedUserIcon || "./images/nav/user-svgrepo-com.svg";
+    });
   }
 }
 
@@ -247,27 +269,34 @@ function checkInputs() {
     createAccountSubmit.disabled = !eulaCheckbox.checked;
   });
 }
+
+//hide/show create account form
+function showCreateAccountForm() {
+  const createAccountForm = document.querySelector(".create-account-con");
+  createAccountForm.classList.add("createAccntForm");
+}
+function hideCreateAccountForm() {
+  const createAccountForm = document.querySelector(".create-account-con");
+  createAccountForm.classList.remove("createAccntForm");
+}
 //Create account modal
 function openCreateAccountModal() {
   const createAccountBtn = document.querySelector(".create-account-btn");
-  const createAccountForm = document.querySelector(".create-account-con");
-  const authCon = document.querySelector(".auth-overlay");
-
   createAccountBtn.addEventListener("click", () => {
-    createAccountForm.classList.add("createAccntForm");
+    showCreateAccountForm();
     showAuthCon();
   });
 
   const closeCreateAccount = document.querySelector(".close-create-account");
   closeCreateAccount.addEventListener("click", () => {
     hideAuthCon();
-    createAccountForm.classList.remove("createAccntForm");
+    hideCreateAccountForm();
   });
 
   const returnToSignIn = document.querySelector(".return-to-sign-in");
   returnToSignIn.addEventListener("click", () => {
     showAuthCon();
-    createAccountForm.classList.remove("createAccntForm");
+    hideCreateAccountForm();
   });
 
   const form = document.querySelector(".create-account-form");
@@ -278,6 +307,7 @@ function openCreateAccountModal() {
   });
   createAccountHandler();
 }
+
 function createAccountHandler() {
   const form = document.querySelector(".create-account-form");
   if (!form) return;
@@ -345,10 +375,19 @@ function createAccountHandler() {
     }
   });
 }
-//user window
-function displayUserWindow(loggedInUser) {
+
+//show/hide user window
+function showUserWindow() {
   const userWindow = document.querySelector(".user-window");
   userWindow.classList.add("userWindow");
+}
+function hideUserWindow() {
+  const userWindow = document.querySelector(".user-window");
+  userWindow.classList.remove("userWindow");
+}
+//user window
+function displayUserWindow(loggedInUser) {
+  showUserWindow();
   const userNameElement = document.querySelector(".user-name");
   const userEmailElement = document.querySelector(".user-email");
   userNameElement.textContent =
@@ -356,7 +395,7 @@ function displayUserWindow(loggedInUser) {
   userEmailElement.textContent = loggedInUser.email;
   const closeUserWindow = document.querySelector(".close-userWindow");
   closeUserWindow.addEventListener("click", () => {
-    userWindow.classList.remove("userWindow");
+    hideUserWindow();
     hideAuthCon();
   });
   displayLogoutModal();
@@ -367,8 +406,7 @@ function displayLogoutModal() {
   const logoutBtn = document.querySelector(".logout");
   const logoutModal = document.querySelector(".logout-modal");
   logoutBtn.addEventListener("click", () => {
-    const userWindow = document.querySelector(".user-window");
-    userWindow.classList.remove("userWindow");
+    hideUserWindow();
     logoutModal.classList.add("logoutModal");
   });
 
@@ -391,31 +429,17 @@ function displayLogoutModal() {
   }
 }
 
-//display/hide authCon on click of user icon
-function showAuthCon() {
-  const authCon = document.querySelector(".auth-overlay");
-  authCon.classList.add("authOpen");
-  document.body.classList.add("no-scroll");
-}
-function hideAuthCon() {
-  const authCon = document.querySelector(".auth-overlay");
-  authCon.classList.remove("authOpen");
-  document.body.classList.remove("no-scroll");
-}
-
 //spinner
 function showSpinner() {
   const autthContainer = document.querySelector("#auth-modals");
   const spinner = document.createElement("div");
   spinner.className = "spinner-overlay";
   spinner.innerHTML = `
-    
         <div class="loader-box">
           <div class="waiting-spinner"></div>
           <h3>Processing...</h3>
           <p>Please wait a moment.</p>
         </div>
-      
   `;
   autthContainer.append(spinner);
 }
