@@ -123,7 +123,7 @@ function displayLoginForm() {
         showAuthCon();
       } else {
         showAuthCon();
-        displayUserWindow();
+        displayUserWindow(loggedIn);
       }
     });
   });
@@ -344,9 +344,14 @@ function createAccountHandler() {
   });
 }
 //user window
-function displayUserWindow() {
+function displayUserWindow(loggedInUser) {
   const userWindow = document.querySelector(".user-window");
   userWindow.classList.add("userWindow");
+  const userNameElement = document.querySelector(".user-name");
+  const userEmailElement = document.querySelector(".user-email");
+  userNameElement.textContent =
+    loggedInUser.firstName + " " + loggedInUser.lastName;
+  userEmailElement.textContent = loggedInUser.email;
   const closeUserWindow = document.querySelector(".close-userWindow");
   closeUserWindow.addEventListener("click", () => {
     userWindow.classList.remove("userWindow");
@@ -365,12 +370,23 @@ function displayLogoutModal() {
     logoutModal.classList.add("logoutModal");
   });
 
+  const confirmLogout = document.querySelector(".confirm-logout");
   const cancel = document.querySelector(".cancel-logout");
-  cancel.addEventListener("click", () => {
-    if (logoutModal) {
+  if (confirmLogout) {
+    confirmLogout.addEventListener("click", () => {
       logoutModal.classList.remove("logoutModal");
-    }
-  });
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("savedUser");
+      hideAuthCon();
+      restoreLoggedUser(); //update icon
+    });
+  }
+  if (cancel) {
+    cancel.addEventListener("click", () => {
+      logoutModal.classList.remove("logoutModal");
+      hideAuthCon();
+    });
+  }
 }
 
 //display/hide authCon on click of user icon
