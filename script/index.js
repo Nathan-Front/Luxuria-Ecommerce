@@ -145,6 +145,10 @@ function loginHandler() {
     e.preventDefault();
     const userInput = document.getElementById("email-input");
     const passInput = document.getElementById("password-input");
+    if (userInput.value === "" || passInput.value === "") {
+      alert("Please fill in both email and password fields.");
+      return;
+    }
     const isValidEmail = validateEmail(userInput.value);
     if (!isValidEmail) {
       userInput.classList.add("error");
@@ -171,7 +175,11 @@ function loginHandler() {
         hideSpinner();
         return;
       }
+      const savedUser = JSON.parse(localStorage.getItem("savedUser")) || [];
+      const loggedUserIcon = "./images/nav/user-logged-in.svg";
+      const userIcon = document.querySelector(".nav-user-icon");
       if (result.success) {
+        localStorage.setItem("savedUser", JSON.stringify(loggedUserIcon));
         const rememberMeCheckbox = document.getElementById("rememberMe");
         if (rememberMeCheckbox.checked) {
           localStorage.setItem(
@@ -180,6 +188,9 @@ function loginHandler() {
           );
         } else {
           localStorage.removeItem("rememberUserName");
+        }
+        if (savedUser) {
+          userIcon.src = loggedUserIcon;
         }
       }
 
@@ -195,12 +206,17 @@ function loginHandler() {
   });
 }
 
-//on relaod, restore the logged in user
+//on relaod, restore rememberme
 function restoreLoggedUser() {
   const savedUser = JSON.parse(localStorage.getItem("rememberUserName"));
+  const savedUserIcon = JSON.parse(localStorage.getItem("savedUser")) || [];
+  const userIcon = document.querySelector(".nav-user-icon");
   if (savedUser) {
     const userEmailInput = document.getElementById("email-input");
     userEmailInput.value = savedUser;
+  }
+  if (userIcon) {
+    userIcon.src = savedUserIcon;
   }
 }
 
