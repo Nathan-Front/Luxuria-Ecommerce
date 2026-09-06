@@ -107,22 +107,22 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzX2JAqRaX8z1u6l6QFv6xAABbifID_50ryZ_1J_bZ-tSD1fS1xMLU5YWl2bQeFEqWK/exec";
+  "https://script.google.com/macros/s/AKfycbwB_81QWyNsk3_5u8HqcR89JZcFR9ffobOcmSELEDFUJMivTAMupCkAeaCDZh26Dasm/exec";
 //12th ver
 
 //login form
 function displayLoginForm() {
   const userBtn = document.querySelectorAll(".user-icon-btn");
   const loginForm = document.querySelector(".login-overlay");
-  const authCon = document.querySelector(".auth-overlay");
-  const userData = JSON.parse(localStorage.getItem("userData")) || [];
+
   userBtn.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (userData) {
+    btn.addEventListener("click", async () => {
+      const loggedIn = JSON.parse(localStorage.getItem("loggedIn"));
+      if (!loggedIn || !loggedIn.loggedIn) {
         loginForm.classList.add("loginForm");
-        authCon.classList.add("authOpen");
-        document.body.classList.add("no-scroll");
+        showAuthCon();
       } else {
+        showAuthCon();
         displayUserWindow();
       }
     });
@@ -131,8 +131,7 @@ function displayLoginForm() {
 
   closeLoginForm.addEventListener("click", () => {
     loginForm.classList.remove("loginForm");
-    authCon.classList.remove("authOpen");
-    document.body.classList.remove("no-scroll");
+    hideAuthCon();
   });
   openCreateAccountModal();
   loginHandler();
@@ -175,20 +174,27 @@ function loginHandler() {
         hideSpinner();
         return;
       }
+      const paramReturn = {
+        firstName: result.user.firstName,
+        lastName: result.user.lastName,
+        email: result.user.email,
+        loggedIn: true,
+      };
       const savedUser = JSON.parse(localStorage.getItem("savedUser")) || [];
       const loggedUserIcon = "./images/nav/user-logged-in.svg";
       const userIcon = document.querySelector(".nav-user-icon");
       if (result.success) {
-        localStorage.setItem("savedUser", JSON.stringify(loggedUserIcon));
         const rememberMeCheckbox = document.getElementById("rememberMe");
         if (rememberMeCheckbox.checked) {
           localStorage.setItem(
             "rememberUserName",
-            JSON.stringify(result.email),
+            JSON.stringify(result.user.email),
           );
         } else {
           localStorage.removeItem("rememberUserName");
         }
+        localStorage.setItem("savedUser", JSON.stringify(loggedUserIcon));
+        localStorage.setItem("loggedIn", JSON.stringify(paramReturn));
         if (savedUser) {
           userIcon.src = loggedUserIcon;
         }
@@ -209,14 +215,14 @@ function loginHandler() {
 //on relaod, restore rememberme
 function restoreLoggedUser() {
   const savedUser = JSON.parse(localStorage.getItem("rememberUserName"));
-  const savedUserIcon = JSON.parse(localStorage.getItem("savedUser")) || [];
+  const savedUserIcon = JSON.parse(localStorage.getItem("savedUser"));
   const userIcon = document.querySelector(".nav-user-icon");
   if (savedUser) {
     const userEmailInput = document.getElementById("email-input");
     userEmailInput.value = savedUser;
   }
   if (userIcon) {
-    userIcon.src = savedUserIcon;
+    userIcon.src = savedUserIcon || "./images/nav/user-svgrepo-com.svg";
   }
 }
 
@@ -246,21 +252,19 @@ function openCreateAccountModal() {
   const authCon = document.querySelector(".auth-overlay");
 
   createAccountBtn.addEventListener("click", () => {
-    authCon.classList.add("authOpen");
     createAccountForm.classList.add("createAccntForm");
-    document.body.classList.add("no-scroll");
+    showAuthCon();
   });
 
   const closeCreateAccount = document.querySelector(".close-create-account");
   closeCreateAccount.addEventListener("click", () => {
-    authCon.classList.remove("authOpen");
-    document.body.classList.remove("no-scroll");
+    hideAuthCon();
     createAccountForm.classList.remove("createAccntForm");
   });
 
   const returnToSignIn = document.querySelector(".return-to-sign-in");
   returnToSignIn.addEventListener("click", () => {
-    authCon.classList.add("authOpen");
+    showAuthCon();
     createAccountForm.classList.remove("createAccntForm");
   });
 
@@ -341,14 +345,13 @@ function createAccountHandler() {
 }
 //user window
 function displayUserWindow() {
-  //const userBtn = document.querySelectorAll(".user-icon-btn");
   const userWindow = document.querySelector(".user-window");
-
-  //userBtn.forEach((btn) => {
-  // btn.addEventListener("click", () => {
-  userWindow.classList.toggle("userWindow");
-  //});
-  //});
+  userWindow.classList.add("userWindow");
+  const closeUserWindow = document.querySelector(".close-userWindow");
+  closeUserWindow.addEventListener("click", () => {
+    userWindow.classList.remove("userWindow");
+    hideAuthCon();
+  });
   displayLogoutModal();
 }
 
@@ -368,6 +371,18 @@ function displayLogoutModal() {
       logoutModal.classList.remove("logoutModal");
     }
   });
+}
+
+//display/hide authCon on click of user icon
+function showAuthCon() {
+  const authCon = document.querySelector(".auth-overlay");
+  authCon.classList.add("authOpen");
+  document.body.classList.add("no-scroll");
+}
+function hideAuthCon() {
+  const authCon = document.querySelector(".auth-overlay");
+  authCon.classList.remove("authOpen");
+  document.body.classList.remove("no-scroll");
 }
 
 //spinner
