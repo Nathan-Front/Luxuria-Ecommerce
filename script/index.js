@@ -6,6 +6,7 @@ import {
   fetchIndexPromo,
 } from "../components/index/indexData.js";
 import { validateEmail } from "./emailValidator.js";
+import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
 async function fetchHTML() {
   const page = document.body.dataset.page;
   const app = document.getElementById("app");
@@ -107,8 +108,8 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwB_81QWyNsk3_5u8HqcR89JZcFR9ffobOcmSELEDFUJMivTAMupCkAeaCDZh26Dasm/exec";
-//12th ver
+  "https://script.google.com/macros/s/AKfycbyR0TSCt5abJCp6d8Um68TTGcip-FcLc-K3Xp_9flhfyfUHPoZkD88QuyR9YQOA1kUj/exec";
+//50th ver
 
 //display/hide authCon on click of user icon
 function showAuthCon() {
@@ -143,6 +144,7 @@ function displayLoginForm() {
       } else {
         showAuthCon();
         displayUserWindow(loggedIn);
+        restoreLoggedUser();
       }
     });
   });
@@ -197,6 +199,7 @@ function loginHandler() {
         firstName: result.user.firstName,
         lastName: result.user.lastName,
         email: result.user.email,
+        avatar: result.user.avatar,
         loggedIn: true,
       };
       const savedUser = JSON.parse(localStorage.getItem("savedUser")) || [];
@@ -232,22 +235,6 @@ function loginHandler() {
       hideSpinner();
     }
   });
-}
-
-//on relaod, restore rememberme
-function restoreLoggedUser() {
-  const savedUser = JSON.parse(localStorage.getItem("rememberUserName"));
-  const savedUserIcon = JSON.parse(localStorage.getItem("savedUser"));
-  const userIcon = document.querySelectorAll(".nav-user-icon");
-  if (savedUser) {
-    const userEmailInput = document.getElementById("email-input");
-    userEmailInput.value = savedUser;
-  }
-  if (userIcon) {
-    userIcon.forEach((icon) => {
-      icon.src = savedUserIcon || "./images/nav/user-svgrepo-com.svg";
-    });
-  }
 }
 
 //Disable/enable eula checbox and button
@@ -393,12 +380,14 @@ function displayUserWindow(loggedInUser) {
   userNameElement.textContent =
     loggedInUser.firstName + " " + loggedInUser.lastName;
   userEmailElement.textContent = loggedInUser.email;
+
   const closeUserWindow = document.querySelector(".close-userWindow");
   closeUserWindow.addEventListener("click", () => {
     hideUserWindow();
     hideAuthCon();
   });
   displayLogoutModal();
+  avatarUpload();
 }
 
 //logout modal
@@ -447,4 +436,25 @@ function hideSpinner() {
   const spinner = document.querySelector(".spinner-overlay");
   if (!spinner) return;
   spinner.remove();
+}
+
+//on relaod, restore rememberme, user icon and user avatar
+function restoreLoggedUser() {
+  const savedUser = JSON.parse(localStorage.getItem("rememberUserName"));
+  const savedUserIcon = JSON.parse(localStorage.getItem("savedUser"));
+  const userIcon = document.querySelectorAll(".nav-user-icon");
+  if (savedUser) {
+    const userEmailInput = document.getElementById("email-input");
+    userEmailInput.value = savedUser;
+  }
+  if (userIcon) {
+    userIcon.forEach((icon) => {
+      icon.src = savedUserIcon || "./images/nav/user-svgrepo-com.svg";
+    });
+  }
+  const userData = JSON.parse(localStorage.getItem("loggedIn"));
+  const userAvatar = document.getElementById("user-avatar");
+  if (userData?.loggedIn && userData.avatar) {
+    userAvatar.src = `https://drive.google.com/thumbnail?id=${userData.avatar}&sz=w500`;
+  }
 }

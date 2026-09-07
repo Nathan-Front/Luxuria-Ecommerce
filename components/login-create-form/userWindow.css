@@ -31,14 +31,39 @@
     display: flex;
     gap: 8px;
     padding: 16px 0;
+    position: relative;
 }
 .logged-user {
     align-items: center;
 }
-.logged-user> img {
-    width: clamp(40px, 3.5vw, 70px);
+.user-avatar {
+    width: 100%;
     border-radius: 50%;
-    border: 1px solid #1a1a1a;
+    border: 1px solid #1a1a1a;  
+}
+.user-avatar:hover {
+    cursor: pointer;
+}
+#avatarUpload {
+    display: none;
+}
+.avatar-camera {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+}
+.avatar-camera> img {
+    width: 80%;
+    object-fit: cover;
 }
 .logged-user> div {
     width: 150px;

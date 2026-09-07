@@ -1,7 +1,23 @@
 <aside class="user-window">
   <button class="close-userWindow" type="button">×</button>
   <div class="logged-user">
-    <img src="../../images/index/secondSection/mens.webp" alt="user-image" />
+    <div class="avatar-wrapper">
+      <img
+        src="./images/index/secondSection/mens.webp"
+        alt="user-image"
+        id="user-avatar"
+        class="user-avatar"
+      />
+
+      <label for="avatarUpload" class="avatar-camera">
+        <img
+          src="./images/login-create/camera-svgrepo-com.svg"
+          alt="camera-icon"
+        />
+      </label>
+
+      <input type="file" id="avatarUpload" accept="image/*" />
+    </div>
     <div>
       <span class="user-name"></span>
       <span class="user-email"></span>
@@ -9,44 +25,41 @@
   </div>
   <ul class="settings-opt">
     <li>
-      <img src="../../images/nav/user-svgrepo-com.svg" alt="user-icon" />
+      <img src="./images/nav/user-svgrepo-com.svg" alt="user-icon" />
       <a href="#">My Account</a>
     </li>
     <li>
-      <img src="../../images/nav/bag-svgrepo-com.svg" alt="user-icon" />
+      <img src="./images/nav/bag-svgrepo-com.svg" alt="user-icon" />
       <a href="#">My Orders</a>
     </li>
     <li>
-      <img src="../../images/nav/heart-svgrepo-com.svg" alt="user-icon" />
+      <img src="./images/nav/heart-svgrepo-com.svg" alt="user-icon" />
       <a href="#">My Wishlists</a>
     </li>
     <li>
       <img
-        src="../../images/login-create/location-pin-alt-1-svgrepo-com.svg"
+        src="./images/login-create/location-pin-alt-1-svgrepo-com.svg"
         alt="user-icon"
       />
       <a href="#">Address Book</a>
     </li>
     <li>
       <img
-        src="../../images/login-create/credit-card-business-payment-finance-banking-svgrepo-com.svg"
+        src="./images/login-create/credit-card-business-payment-finance-banking-svgrepo-com.svg"
         alt="user-icon"
       />
       <a href="#">Payment Method</a>
     </li>
     <li>
       <img
-        src="../../images/login-create/setting-svgrepo-com.svg"
+        src="./images/login-create/setting-svgrepo-com.svg"
         alt="user-icon"
       />
       <a href="#">Settings</a>
     </li>
   </ul>
   <div class="logout-container">
-    <img
-      src="../../images/login-create/logout-svgrepo-com.svg"
-      alt="logout-icon"
-    />
+    <img src="./images/login-create/logout-svgrepo-com.svg" alt="logout-icon" />
     <button type="button" class="logout">Logout</button>
   </div>
 </aside>
