@@ -220,7 +220,12 @@ function loginHandler() {
             icon.src = loggedUserIcon;
           });
         }
-        restoreLoggedUser();
+        const userAvatar = document.getElementById("user-avatar");
+        if (user.avatarFileId) {
+          userAvatar.src = `https://drive.google.com/thumbnail?id=${userData.avatar}&sz=w200`;
+        } else {
+          userAvatar.src = "./images/index/secondSection/mens.webp";
+        }
       }
 
       alert(result.message);
@@ -458,6 +463,6 @@ function restoreLoggedUser() {
   const userData = JSON.parse(localStorage.getItem("loggedIn"));
   const userAvatar = document.getElementById("user-avatar");
   if (userData?.loggedIn && userData.avatar) {
-    userAvatar.src = `https://drive.google.com/thumbnail?id=${userData.avatar}&sz=w500`;
+    userAvatar.src = `https://drive.google.com/thumbnail?id=${userData.avatar}&sz=w200`;
   }
 }
