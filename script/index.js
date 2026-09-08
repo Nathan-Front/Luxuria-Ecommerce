@@ -221,8 +221,8 @@ function loginHandler() {
           });
         }
         const userAvatar = document.getElementById("user-avatar");
-        if (user.avatarFileId) {
-          userAvatar.src = `https://drive.google.com/thumbnail?id=${userData.avatar}&sz=w200`;
+        if (result.user.avatar) {
+          userAvatar.src = `https://drive.google.com/thumbnail?id=${result.user.avatar}&sz=w200`;
         } else {
           userAvatar.src = "./images/index/secondSection/mens.webp";
         }
@@ -237,6 +237,7 @@ function loginHandler() {
       console.log(error);
       alert("An error occurred while logging in. Please try again.");
       hideSpinner();
+      return;
     } finally {
       hideSpinner();
     }
