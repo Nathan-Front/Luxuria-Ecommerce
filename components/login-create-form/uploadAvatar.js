@@ -1,7 +1,13 @@
-import { GOOGLE_APPS_SCRIPT_URL } from "../../script/index.js";
+import {
+  GOOGLE_APPS_SCRIPT_URL,
+  showSpinner,
+  hideSpinner,
+} from "../../script/index.js";
+
 export function avatarUpload() {
   const avatarInput = document.getElementById("avatarUpload");
   const profilePic = document.getElementById("user-avatar");
+
   avatarInput.addEventListener("change", () => {
     const file = avatarInput.files[0]; //get only one image
     if (!file) return;
@@ -10,13 +16,11 @@ export function avatarUpload() {
       alert("Please select an image file.");
       return;
     }
-    //immediately display selected image
-    const previewURL = URL.createObjectURL(file);
-    profilePic.src = previewURL;
-
     const reader = new FileReader();
+
     try {
       reader.onload = async () => {
+        showSpinner();
         const imageData = reader.result;
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
           method: "POST",
@@ -44,6 +48,10 @@ export function avatarUpload() {
           const userData = JSON.parse(localStorage.getItem("loggedIn"));
           userData.avatar = result.fileId;
           localStorage.setItem("loggedIn", JSON.stringify(userData));
+          //immediately display selected image
+          const previewURL = URL.createObjectURL(file);
+          profilePic.src = previewURL;
+          hideSpinner();
         } else {
           alert("Failed to upload image. Please try again.");
         }
@@ -51,7 +59,10 @@ export function avatarUpload() {
     } catch (error) {
       console.error("Error reading file:", error);
       alert("An error occurred while reading the file. Please try again.");
+      hideSpinner();
       return;
+    } finally {
+      hideSpinner();
     }
     reader.readAsDataURL(file); //open the file and convert it to string
   });

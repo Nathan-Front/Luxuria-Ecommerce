@@ -419,7 +419,7 @@ function displayLogoutModal() {
 }
 
 //spinner
-function showSpinner() {
+export function showSpinner() {
   const autthContainer = document.querySelector("#auth-modals");
   const spinner = document.createElement("div");
   spinner.className = "spinner-overlay";
@@ -432,7 +432,7 @@ function showSpinner() {
   `;
   autthContainer.append(spinner);
 }
-function hideSpinner() {
+export function hideSpinner() {
   const spinner = document.querySelector(".spinner-overlay");
   if (!spinner) return;
   spinner.remove();
