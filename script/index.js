@@ -220,6 +220,7 @@ function loginHandler() {
             icon.src = loggedUserIcon;
           });
         }
+        restoreLoggedUser();
       }
 
       alert(result.message);
@@ -401,6 +402,7 @@ function displayLogoutModal() {
 
   const confirmLogout = document.querySelector(".confirm-logout");
   const cancel = document.querySelector(".cancel-logout");
+  const avatar = document.getElementById("user-avatar");
   if (confirmLogout) {
     confirmLogout.addEventListener("click", () => {
       logoutModal.classList.remove("logoutModal");
@@ -408,6 +410,7 @@ function displayLogoutModal() {
       localStorage.removeItem("savedUser");
       hideAuthCon();
       restoreLoggedUser(); //update icon
+      avatar.src = "./images/index/secondSection/mens.webp";
     });
   }
   if (cancel) {
