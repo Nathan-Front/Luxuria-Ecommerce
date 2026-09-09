@@ -2,9 +2,26 @@ export function burgerMenuhandler() {
   const burgerBtn = document.querySelector(".burger-menu-btn");
   const filterOpt = document.querySelector(".nav-links");
   burgerBtn.addEventListener("click", () => {
-    filterOpt.classList.toggle("showNav");
-    document.body.classList.toggle("no-scroll");
+    if (!filterOpt.classList.contains("showNav")) {
+      showBurgerOpt();
+    } else {
+      hideBurgerOpt();
+    }
   });
+}
+function showBurgerOpt() {
+  const filterOpt = document.querySelector(".nav-links");
+  filterOpt.classList.add("showNav");
+  document.body.classList.add("no-scroll");
+  const burgerBtn = document.getElementById("burger-btn");
+  burgerBtn.classList.add("activeBurger");
+}
+function hideBurgerOpt() {
+  const filterOpt = document.querySelector(".nav-links");
+  filterOpt.classList.remove("showNav");
+  document.body.classList.remove("no-scroll");
+  const burgerBtn = document.getElementById("burger-btn");
+  burgerBtn.classList.remove("activeBurger");
 }
 export async function displayLikedCount() {
   const likes = document.querySelector(".likes-cnt");

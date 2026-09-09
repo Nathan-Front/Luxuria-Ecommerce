@@ -312,14 +312,35 @@ nav {
         left: 0;
         transform: translateY(-50%);
         display: flex;
+        align-items: center;
         width: 25px;
         height: 100%;
     }
-    .burger-menu-icon> button {
+    .burger-menu-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
         width: 100%;
+        height: 16px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    } 
+    .burger-menu-btn> span {
+        width: 100%;
+        height: 3px;
+        background: black;
+        transition: 0.3s ease;
     }
-    .burger-menu-icon> button> img {
-        width: 100%;
+    .burger-menu-btn.activeBurger> span:nth-child(1) {
+        transform: translateY(6.5px) rotate(45deg);
+    }
+    .burger-menu-btn.activeBurger> span:nth-child(2) {
+        opacity: 0;
+    }
+    .burger-menu-btn.activeBurger> span:nth-child(3) {
+        transform: translateY(-6.5px) rotate(-45deg);
     }
     .user-con {
         display: none;
