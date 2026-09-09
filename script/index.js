@@ -226,6 +226,23 @@ function loginHandler() {
         } else {
           userAvatar.src = "./images/index/secondSection/mens.webp";
         }
+        const avatarUrl = `https://drive.google.com/thumbnail?id=${result.user.avatar}&sz=w200`;
+        console.log("Avatar ID:", result.user.avatar);
+        console.log("Avatar URL:", avatarUrl);
+
+        const img = document.getElementById("user-avatar");
+
+        img.src = avatarUrl;
+
+        img.onload = () => {
+          console.log("IMAGE LOADED");
+          console.log("Width:", img.naturalWidth);
+          console.log("Height:", img.naturalHeight);
+        };
+
+        img.onerror = () => {
+          console.log("IMAGE FAILED TO LOAD");
+        };
       }
 
       alert(result.message);
