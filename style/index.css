@@ -16,8 +16,17 @@
     --heading-medium: clamp(1.8rem, 1.4rem + 1.8vw, 2.75rem);
     --heading-large: clamp(2rem, 1.6rem + 3vw, 4rem);
 }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,
 body {
+    margin: 0;
+    width: 100%;
     font-family: "Inter", sans-serif;
+    padding: 0;
     color: #1a1a1a;
 }
 .no-scroll {
