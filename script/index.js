@@ -221,8 +221,8 @@ function loginHandler() {
           });
         }
         const userAvatar = document.getElementById("user-avatar");
-        if (result.user.avatar) {
-          userAvatar.src = `https://drive.google.com/thumbnail?id=${result.user.avatar}&sz=w200`;
+        if (userAvatar) {
+          userAvatar.src = `https://drive.google.com/thumbnail?id=${result.user.avatar}&sz=w1000`;
         } else {
           userAvatar.src = "./images/index/secondSection/mens.webp";
         }
