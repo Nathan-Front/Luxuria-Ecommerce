@@ -108,8 +108,8 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyR0TSCt5abJCp6d8Um68TTGcip-FcLc-K3Xp_9flhfyfUHPoZkD88QuyR9YQOA1kUj/exec";
-//50th ver
+  "https://script.google.com/macros/s/AKfycbzIb88No3DKlQ4PqQqstT-VhPyocrD7gVv_6_KhEyKsLNw9Vgp7K_HdyY2Om76jb1tz/exec";
+//51st ver
 
 //display/hide authCon on click of user icon
 function showAuthCon() {
@@ -226,23 +226,6 @@ function loginHandler() {
         } else {
           userAvatar.src = "./images/index/secondSection/mens.webp";
         }
-        const avatarUrl = `https://drive.google.com/thumbnail?id=${result.user.avatar}&sz=w200`;
-        console.log("Avatar ID:", result.user.avatar);
-        console.log("Avatar URL:", avatarUrl);
-
-        const img = document.getElementById("user-avatar");
-
-        img.src = avatarUrl;
-
-        img.onload = () => {
-          console.log("IMAGE LOADED");
-          console.log("Width:", img.naturalWidth);
-          console.log("Height:", img.naturalHeight);
-        };
-
-        img.onerror = () => {
-          console.log("IMAGE FAILED TO LOAD");
-        };
       }
 
       alert(result.message);
