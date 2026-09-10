@@ -1,8 +1,9 @@
-import { GOOGLE_APPS_SCRIPT_URL } from "../../script/index.js";
+import { fetchSpecificSheet } from "../../script/fetchApps.js";
+import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { displayLikedCount } from "../../script/navigation.js";
-let fetchDataArr = [];
+/* let fetchDataArr = [];
 export async function fetchSpecificSheet(sheetType, key, dataFormatter) {
   try {
     const response = await fetch(`${GOOGLE_APPS_SCRIPT_URL}?type=${sheetType}`);
@@ -15,8 +16,8 @@ export async function fetchSpecificSheet(sheetType, key, dataFormatter) {
     console.log(error);
     throw error; //Re-throw so the caller knows it failed
   }
-}
-
+} */
+let fetchDataArr = [];
 export async function fetchHeroContent() {
   const firstSection = document.querySelector(".index-first-sect");
   setSectionLoading(firstSection, true); //pass true
@@ -170,12 +171,4 @@ function renderPromo(promo) {
     `;
     promoContainer.append(div);
   });
-}
-//For loading and spinner during fetch of data
-function setSectionLoading(section, isLoading) {
-  if (!section) return;
-  const loading = section.querySelector(".product-loading");
-  if (loading) {
-    loading.hidden = !isLoading;
-  }
 }

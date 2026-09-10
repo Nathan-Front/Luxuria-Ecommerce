@@ -5,6 +5,7 @@ import {
   fetchIndexNewArrivals,
   fetchIndexPromo,
 } from "../components/index/indexData.js";
+import { fetchShopHeroCont } from "../components/shop/shopData.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
 async function fetchHTML() {
@@ -108,6 +109,9 @@ async function fetchHTML() {
     fetchIndexNewArrivals();
     fetchIndexPromo();
   }
+  if (page === "shop") {
+    fetchShopHeroCont();
+  }
   displayLoginForm();
   restoreLoggedUser();
 }
@@ -115,7 +119,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzIb88No3DKlQ4PqQqstT-VhPyocrD7gVv_6_KhEyKsLNw9Vgp7K_HdyY2Om76jb1tz/exec";
+  "https://script.google.com/macros/s/AKfycbz6FjsQL4gplVd3IFw7OAymoKpNyVkd0inIrtExQ_R8v9O3VxL32MLbKeGG3RLLSl74/exec";
 //51st ver
 
 //display/hide authCon on click of user icon
