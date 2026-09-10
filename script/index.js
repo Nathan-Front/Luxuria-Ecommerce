@@ -66,6 +66,13 @@ async function fetchHTML() {
         ),
       ]);
     }
+    if (page === "shop") {
+      sections = await Promise.all([
+        fetch("./components/shop/shopFirstSection.html").then((res) =>
+          res.text(),
+        ),
+      ]);
+    }
     body.insertAdjacentHTML("beforebegin", nav);
 
     /* body.insertAdjacentHTML("beforeend", login);
