@@ -1,0 +1,213 @@
+<section class="shop-second-sec">
+  <aside class="aside">
+    <div class="reset-filters-con">
+      <img
+        src="./images/shop/secondSection/filter-options.svg"
+        alt="filter-options"
+      />
+      <h4>Filter</h4>
+      <button type="button" class="reset-filter">Clear all</button>
+    </div>
+    <div class="category-fieldset-con">
+      <div class="filter-titles">
+        <h4>Category</h4>
+        <img
+          src="./images/shop/secondSection/arrow-down.svg"
+          alt="arrow-icon"
+          class="filters-arrow"
+        />
+      </div>
+
+      <fieldset class="category-fieldset hide-select-cont">
+        <label>
+          <input type="checkbox" name="men" value="men" />
+          <span>Men</span>
+        </label>
+        <label>
+          <input type="checkbox" name="women" value="women" />
+          <span>Women</span>
+        </label>
+        <label>
+          <input type="checkbox" name="dress" value="dress" />
+          <span>Dresses</span>
+        </label>
+        <label>
+          <input type="checkbox" name="tops" value="tops" />
+          <span>Tops</span>
+        </label>
+        <label>
+          <input type="checkbox" name="bags" value="bags" />
+          <span>Bags</span>
+        </label>
+        <label>
+          <input type="checkbox" name="accessory" value="accessory" />
+          <span>Accessories</span>
+        </label>
+      </fieldset>
+    </div>
+    <div class="price-sliders-con">
+      <div class="filter-titles">
+        <h4>Price Range</h4>
+        <img
+          src="./images/shop/secondSection/arrow-down.svg"
+          alt="arrow-icon"
+          class="filters-arrow"
+        />
+      </div>
+      <div class="price-sliders hide-select-cont">
+        <div class="category-list price-filter">
+          <span>$<span id="min-value">0</span></span>
+          <span>$<span id="max-value">200</span></span>
+        </div>
+        <div class="range-slider">
+          <div class="slider-tracker"></div>
+          <input
+            type="range"
+            id="min-price"
+            min="0"
+            max="199"
+            value="0"
+            aria-label="min-price"
+          />
+          <input
+            type="range"
+            id="max-price"
+            min="1"
+            max="200"
+            value="200"
+            aria-label="max-price"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="color-select-con">
+      <div class="filter-titles">
+        <h4>Color</h4>
+        <img
+          src="./images/shop/secondSection/arrow-down.svg"
+          alt="arrow-icon"
+          class="filters-arrow"
+        />
+      </div>
+      <div class="color-select hide-select-cont">
+        <label class="color-label">
+          <input
+            type="radio"
+            name="color"
+            value="black"
+            id="black"
+            aria-label="black"
+            checked
+          />
+          <span class="checkmark black"></span>
+        </label>
+        <label class="color-label">
+          <input
+            type="radio"
+            name="color"
+            value="white"
+            id="white"
+            aria-label="white"
+            checked
+          />
+          <span class="checkmark white"></span>
+        </label>
+        <label class="color-label">
+          <input
+            type="radio"
+            name="color"
+            value="cream"
+            id="cream"
+            aria-label="cream"
+            checked
+          />
+          <span class="checkmark cream"></span>
+        </label>
+        <label class="color-label">
+          <input
+            type="radio"
+            name="color"
+            value="pink"
+            id="pink"
+            aria-label="pink"
+            checked
+          />
+          <span class="checkmark pink"></span>
+        </label>
+        <label class="color-label">
+          <input
+            type="radio"
+            name="color"
+            value="black"
+            id="green"
+            aria-label="green"
+            checked
+          />
+          <span class="checkmark green"></span>
+        </label>
+        <label class="color-label">
+          <input
+            type="radio"
+            name="color"
+            value="blue"
+            id="blue"
+            aria-label="blue"
+            checked
+          />
+          <span class="checkmark blue"></span>
+        </label>
+      </div>
+    </div>
+    <div class="size-fieldset-con">
+      <div class="filter-titles">
+        <h4>Size</h4>
+        <img
+          src="./images/shop/secondSection/arrow-down.svg"
+          alt="arrow-icon"
+          class="filters-arrow"
+        />
+      </div>
+      <fieldset class="size-fieldset hide-select-cont">
+        <label>
+          <input type="checkbox" name="xs" value="xs" />
+          <span>XS</span>
+        </label>
+        <label>
+          <input type="checkbox" name="s" value="s" />
+          <span>S</span>
+        </label>
+        <label>
+          <input type="checkbox" name="m" value="m" />
+          <span>M</span>
+        </label>
+        <label>
+          <input type="checkbox" name="l" value="l" />
+          <span>L</span>
+        </label>
+        <label>
+          <input type="checkbox" name="xl" value="xl" />
+          <span>XL</span>
+        </label>
+      </fieldset>
+    </div>
+    <div class="feature-con">
+      <div class="filter-titles">
+        <h4>Features</h4>
+        <img
+          src="./images/shop/secondSection/arrow-down.svg"
+          alt="arrow-icon"
+          class="filters-arrow"
+        />
+      </div>
+      <div class="sort-by hide-select-cont">
+        <label for="features">Sort by:</label>
+        <select name="feature" id="features">
+          <option value="new">New</option>
+          <option value="bestSeller">Best Seller</option>
+          <option value="sale">Sale</option>
+        </select>
+      </div>
+    </div>
+  </aside>
+  <article></article>
+</section>
