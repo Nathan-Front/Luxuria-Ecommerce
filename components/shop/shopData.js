@@ -29,3 +29,22 @@ function renderShopCont(shopHeroCon) {
   shopHeroImg.src = `./images/shop/firstSection/${shopHeroCon[0].heroImg}.webp`;
   shopHeroImg.alt = shopHeroCon[0].heroImgAlt;
 }
+
+export function renderProducts() {
+  const productCon = document.querySelector(".products-lists");
+  if (!productCon) return;
+
+  for (let x = 0; x < 12; x++) {
+    const li = document.createElement("li");
+    li.innerHTML = `
+    <span class="condition-tag">New</span>
+    <div class="heart-cont">
+      <img src="./images/nav/heart-svgrepo-com.svg" alt="heart-icon"class="liked-product" />
+    </div>
+    <img src="" alt="" class="article-image"/>
+    <span class="article-title">Article</span>
+    <span class="article-price">Price</span>
+  `;
+    productCon.append(li);
+  }
+}

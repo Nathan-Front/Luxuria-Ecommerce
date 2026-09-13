@@ -26,3 +26,24 @@ export function filterContents() {
     });
   });
 }
+window.addEventListener("resize", () => {
+  document.querySelectorAll(".hide-select-cont").forEach((container) => {
+    if (container.style.maxHeight) {
+      container.style.maxHeight = container.scrollHeight + "px";
+    }
+  });
+});
+
+export function displayFiltersTablet() {
+  const display = document.querySelector(".display-filter-tablet");
+  display.addEventListener("click", () => {
+    const filterOpt = document.querySelectorAll(".filter-tablet");
+    filterOpt.forEach((item) => {
+      if (item.classList.contains("displayFilter")) {
+        item.classList.remove("displayFilter");
+      } else {
+        item.classList.add("displayFilter");
+      }
+    });
+  });
+}

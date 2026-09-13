@@ -5,8 +5,14 @@ import {
   fetchIndexNewArrivals,
   fetchIndexPromo,
 } from "../components/index/indexData.js";
-import { fetchShopHeroCont } from "../components/shop/shopData.js";
-import { filterContents } from "../components/shop/filters.js";
+import {
+  fetchShopHeroCont,
+  renderProducts,
+} from "../components/shop/shopData.js";
+import {
+  filterContents,
+  displayFiltersTablet,
+} from "../components/shop/filters.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
 async function fetchHTML() {
@@ -116,6 +122,8 @@ async function fetchHTML() {
   if (page === "shop") {
     fetchShopHeroCont();
     filterContents();
+    displayFiltersTablet();
+    renderProducts();
   }
   displayLoginForm();
   restoreLoggedUser();
