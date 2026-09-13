@@ -1,6 +1,7 @@
 .shop-second-sec {
     width:  100%;
     max-width: var(--container-max-width);
+    margin: 0 auto;
     display: flex;
     align-items: flex-start;
     color: #fff;
@@ -262,12 +263,16 @@
 }
 
 @media only screen and (max-width: 768px) {
+    .shop-second-sec {
+        flex-direction: column;
+    }
     .aside {
-        width: 100px;
-        /* position: absolute;
+        width: 25vw;
+        position: absolute;
         top: 0;
         left: 0;
-        z-index: 9; */
+        z-index: 9; 
+        background-color: #fff;
     }
     .reset-filters-con {
         gap: 4px;
@@ -317,20 +322,34 @@ article> p {
     flex-direction: column;
     gap: 16px;
     padding-bottom: 16px;
+    overflow: hidden;
 }
 .condition-tag {
     position: absolute;
     top: 2px;
     left: 2px;
     width: fit-content;
+    padding: 0 3px;
+    z-index: 9;
+}
+.new {
     background-color: #B8963E;
-    padding: 2px 6px;
+}
+.best-seller {
+    background-color: #657153;
+}
+.sale {
+    background-color: #B76E79;
 }
 .heart-cont {
     width: 30px;
     position: absolute;
     top: 8px;
     right: 8px;
+    z-index: 9;
+}
+.heart-cont:hover {
+    cursor: pointer;
 }
 .heart-cont> img {
     width: 100%;
@@ -338,8 +357,38 @@ article> p {
 .article-image {
     width: 100%;
     height: 250px;
+    transition: 0.4s ease;
+}
+.article-image:hover {
+    transform: scale(1.05); 
 }
 .article-title,
 .article-price {
    margin: 0 2px;
+   font-family: "Bodoni Moda", serif;
+   font-weight: 600;
+   font-size: var(--text-large);
+}
+@media only screen and (max-width: 450px) {
+    article {
+        width: 95%;
+        padding: 0;
+        margin: 0 auto;
+    }
+    .products-lists {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+    .article-image {
+        height: 200px;
+    }
+}
+@media (min-width:450px) and (max-width:768px) {
+    article {
+        width: 95%;
+        padding: 0;
+        margin: 0 auto;
+    }
+    .products-lists {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }

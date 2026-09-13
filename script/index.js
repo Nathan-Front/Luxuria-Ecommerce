@@ -7,7 +7,7 @@ import {
 } from "../components/index/indexData.js";
 import {
   fetchShopHeroCont,
-  renderProducts,
+  fetchProducts,
 } from "../components/shop/shopData.js";
 import {
   filterContents,
@@ -123,7 +123,7 @@ async function fetchHTML() {
     fetchShopHeroCont();
     filterContents();
     displayFiltersTablet();
-    renderProducts();
+    fetchProducts();
   }
   displayLoginForm();
   restoreLoggedUser();
@@ -132,7 +132,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz6FjsQL4gplVd3IFw7OAymoKpNyVkd0inIrtExQ_R8v9O3VxL32MLbKeGG3RLLSl74/exec";
+  "https://script.google.com/macros/s/AKfycbyHxF07l4GXUF3WY-WzUPZMmxH4lknC639W_tqVASkH0a0emptwD_YECtAbIDqbyYnO/exec";
 //51st ver
 
 //display/hide authCon on click of user icon

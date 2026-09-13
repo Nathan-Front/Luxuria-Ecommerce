@@ -30,21 +30,45 @@ function renderShopCont(shopHeroCon) {
   shopHeroImg.alt = shopHeroCon[0].heroImgAlt;
 }
 
-export function renderProducts() {
+export async function fetchProducts() {
+  const shopSecondSection = document.querySelector(".shop-second-sec");
+  setSectionLoading(shopSecondSection, true);
+  try {
+    fetchDataArr = await fetchSpecificSheet("shop-articles", "products");
+    renderProducts(fetchDataArr);
+  } catch (error) {
+    console.log(error);
+    showSectionError(shopSecondSection);
+  } finally {
+    setSectionLoading(shopSecondSection, false);
+  }
+}
+export function renderProducts(products) {
   const productCon = document.querySelector(".products-lists");
   if (!productCon) return;
-
-  for (let x = 0; x < 12; x++) {
+  //used reverse since in db new item are at the bottom of the list
+  products.reverse().map((item) => {
     const li = document.createElement("li");
     li.innerHTML = `
-    <span class="condition-tag">New</span>
+    ${
+      item.condition
+        ? `<span class="condition-tag ${item.condition}">${item.condition}</span>`
+        : ""
+    }
     <div class="heart-cont">
       <img src="./images/nav/heart-svgrepo-com.svg" alt="heart-icon"class="liked-product" />
     </div>
-    <img src="" alt="" class="article-image"/>
-    <span class="article-title">Article</span>
-    <span class="article-price">Price</span>
+    <img src="./images/shop/secondSection/${item.articleImg}.webp" alt=${item.articleAlt} class="article-image"/>
+    <span class="article-title">${item.article}</span>
+    <span class="article-price">${item.price}</span>
   `;
     productCon.append(li);
-  }
+  });
+}
+
+let currentPage = 1;
+function createPagination() {
+  const productCon = document.querySelector(".products-lists");
+  if (!productCon) return;
+  const cardsPerPage = 12;
 }

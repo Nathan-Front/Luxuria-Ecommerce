@@ -77,7 +77,7 @@ export async function fetchIndexNewArrivals() {
   const thirdSection = document.querySelector(".index-third-sect");
   setSectionLoading(thirdSection, true);
   try {
-    fetchDataArr = await fetchSpecificSheet("indexNewArrive", "newArrivals");
+    fetchDataArr = await fetchSpecificSheet("shop-articles", "products");
     renderNewArrivals(fetchDataArr);
   } catch (error) {
     console.log(error);
@@ -87,25 +87,35 @@ export async function fetchIndexNewArrivals() {
   }
 }
 
-function renderNewArrivals(newArrivals) {
+export function renderNewArrivals(newArrivals) {
+  console.log(newArrivals);
   const newArrivalContainer = document.querySelector(".new-product-list");
-  newArrivals.map((item) => {
+  //used reverse since in db new item are at the bottom of the list
+  const newProducts = newArrivals
+    .filter((item) => item.condition === "new")
+    .reverse();
+  //newProducts.map((item) => { //use this if next line is confusing
+  for (const item of newProducts) {
     const li = document.createElement("li");
     li.dataset.productId = item.No;
     li.innerHTML = `
       <div class="heart-cont">
-        <img src="./images/nav/heart-svgrepo-com.svg" alt="heart-icon"class="liked-product" />
+        <img
+          src="./images/nav/heart-svgrepo-com.svg"
+          alt="heart-icon"
+          class="liked-product"
+        />
       </div>
       <img
-        src="./images/index/thirdSection/${item.productImg}.webp"
-        alt="${item.productImgAlt}"
+        src="./images/shop/secondSection/${item.articleImg}.webp"
+        alt="${item.articleAlt}"
         loading="lazy"
       />
-      <span class="product-title">${item.product}</span>
-      <p class="product-price">${formatPrice(item.price)}</p>
+      <span class="product-title">${item.article}</span>
+      <p class="product-price">${formatPrice(item.price)}</p> 
     `;
     newArrivalContainer.append(li);
-  });
+  }
   restoreLikedProducts();
   productLikeToggle();
 }
