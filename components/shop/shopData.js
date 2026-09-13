@@ -1,6 +1,7 @@
 import { fetchSpecificSheet } from "../../script/fetchApps.js";
 import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
+import { formatPrice } from "../../script/priceFormat.js";
 
 let fetchDataArr = [];
 export async function fetchShopHeroCont() {
@@ -29,13 +30,16 @@ function renderShopCont(shopHeroCon) {
   shopHeroImg.src = `./images/shop/firstSection/${shopHeroCon[0].heroImg}.webp`;
   shopHeroImg.alt = shopHeroCon[0].heroImgAlt;
 }
-
+let productArray = [];
 export async function fetchProducts() {
   const shopSecondSection = document.querySelector(".shop-second-sec");
   setSectionLoading(shopSecondSection, true);
   try {
     fetchDataArr = await fetchSpecificSheet("shop-articles", "products");
-    renderProducts(fetchDataArr);
+    productArray = [...fetchDataArr].reverse();
+
+    createPagination(fetchDataArr);
+    displayPage(1);
   } catch (error) {
     console.log(error);
     showSectionError(shopSecondSection);
@@ -46,8 +50,9 @@ export async function fetchProducts() {
 export function renderProducts(products) {
   const productCon = document.querySelector(".products-lists");
   if (!productCon) return;
+  productCon.innerHTML = "";
   //used reverse since in db new item are at the bottom of the list
-  products.reverse().map((item) => {
+  [...products].reverse().map((item) => {
     const li = document.createElement("li");
     li.innerHTML = `
     ${
@@ -60,15 +65,49 @@ export function renderProducts(products) {
     </div>
     <img src="./images/shop/secondSection/${item.articleImg}.webp" alt=${item.articleAlt} class="article-image"/>
     <span class="article-title">${item.article}</span>
-    <span class="article-price">${item.price}</span>
+    <span class="article-price">${formatPrice(item.price)}</span>
   `;
     productCon.append(li);
   });
 }
 
 let currentPage = 1;
-function createPagination() {
-  const productCon = document.querySelector(".products-lists");
-  if (!productCon) return;
-  const cardsPerPage = 12;
+const cardsPerPage = 12;
+function createPagination(productArr) {
+  const pagination = document.querySelector(".pagination");
+  if (!pagination) return;
+
+  const totalPage = Math.ceil(productArr.length / cardsPerPage); //compute total page
+  currentPage = Math.min(currentPage, totalPage || 1); //always return the smaller number of the two
+  pagination.innerHTML = "";
+  for (let i = 1; i <= totalPage; i++) {
+    const button = document.createElement("button");
+    button.textContent = i;
+    button.classList.add("page-btn");
+    button.addEventListener("click", () => {
+      currentPage = i;
+      displayPage(currentPage);
+      document.querySelector(".shop-second-sec").scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+    pagination.append(button);
+  }
+}
+
+function displayPage(page) {
+  const start = (page - 1) * cardsPerPage;
+  const end = start + cardsPerPage;
+  const productPerPage = productArray.slice(start, end).reverse();
+  renderProducts(productPerPage);
+  activePageButton();
+}
+
+function activePageButton() {
+  const pageButtons = document.querySelectorAll(".page-btn");
+  if (!pageButtons) return;
+  pageButtons.forEach((btn, index) => {
+    btn.classList.toggle("activePageBtn", index + 1 === currentPage);
+  });
 }

@@ -310,7 +310,7 @@ article> p {
 .products-lists {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 24px;
     color: #1a1a1a;
 }
@@ -326,11 +326,12 @@ article> p {
 }
 .condition-tag {
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: 8px;
+    left: 8px;
     width: fit-content;
     padding: 0 3px;
     z-index: 9;
+    font-size: var(--text-small);
 }
 .new {
     background-color: #B8963E;
@@ -368,6 +369,7 @@ article> p {
    font-family: "Bodoni Moda", serif;
    font-weight: 600;
    font-size: var(--text-large);
+   margin-left: 8px;
 }
 @media only screen and (max-width: 450px) {
     article {
@@ -376,7 +378,7 @@ article> p {
         margin: 0 auto;
     }
     .products-lists {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     }
     .article-image {
         height: 200px;
@@ -389,6 +391,24 @@ article> p {
         margin: 0 auto;
     }
     .products-lists {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
+}
+
+/*Pagination*/
+.pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+.page-btn {
+    width: 20px;
+    height: 20px;
+    padding: 4px;
+    background-color: #B8963E;
+    border-radius: 50%;
+}
+.activePageBtn {
+    background-color: #657153;
 }
