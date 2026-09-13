@@ -102,6 +102,7 @@ function displayPage(page) {
   const productPerPage = productArray.slice(start, end).reverse();
   renderProducts(productPerPage);
   activePageButton();
+  displayCountPerPage(productArray.length);
 }
 
 function activePageButton() {
@@ -110,4 +111,16 @@ function activePageButton() {
   pageButtons.forEach((btn, index) => {
     btn.classList.toggle("activePageBtn", index + 1 === currentPage);
   });
+}
+
+function displayCountPerPage(totalProduct) {
+  const start = (currentPage - 1) * cardsPerPage + 1;
+  const end = Math.min(currentPage * cardsPerPage, totalProduct);
+  const startCnt = document.querySelector(".start-count");
+  const endCnt = document.querySelector(".end-count");
+  const totalCnt = document.querySelector(".total-count");
+  if (!startCnt || !endCnt || !totalCnt) return;
+  startCnt.textContent = start;
+  endCnt.textContent = end;
+  totalCnt.textContent = totalProduct;
 }
