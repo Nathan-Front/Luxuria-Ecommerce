@@ -8,6 +8,7 @@ import {
 import {
   fetchShopHeroCont,
   fetchProducts,
+  filtersHandler,
 } from "../components/shop/shopData.js";
 import {
   filterContents,
@@ -123,7 +124,14 @@ async function fetchHTML() {
     fetchShopHeroCont();
     filterContents();
     displayFiltersTablet();
-    fetchProducts();
+    await fetchProducts();
+    const categoryCheckboxes = document.querySelectorAll(
+      'input[name="category"]',
+    );
+
+    categoryCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", filtersHandler);
+    });
   }
   displayLoginForm();
   restoreLoggedUser();

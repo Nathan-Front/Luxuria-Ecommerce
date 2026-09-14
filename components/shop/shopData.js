@@ -124,3 +124,24 @@ function displayCountPerPage(totalProduct) {
   endCnt.textContent = end;
   totalCnt.textContent = totalProduct;
 }
+
+export function filtersHandler() {
+  const checkedCategories = [
+    ...document.querySelectorAll('input[name="category"]:checked'),
+  ].map((input) => input.value);
+
+  let filtered = [...fetchDataArr];
+  if (checkedCategories.length === 0) {
+    filtered = [...fetchDataArr];
+  } else {
+    filtered = filtered.filter((item) =>
+      checkedCategories.includes(item.category),
+    );
+  }
+
+  productArray = filtered;
+  currentPage = 1;
+  renderProducts(productArray.reverse());
+  createPagination(productArray);
+  displayPage(currentPage);
+}
