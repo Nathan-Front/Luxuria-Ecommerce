@@ -150,6 +150,13 @@ export function filtersHandler() {
     const price = Number(item.price);
     return price >= min && price <= max;
   });
+  //features filter
+  const features = document.getElementById("features").value;
+  if (features !== "") {
+    filtered = filtered.filter((item) => item.condition === features);
+  } else {
+    filtered = [...fetchDataArr];
+  }
   productArray = filtered;
   currentPage = 1;
   renderProducts(productArray.reverse());
@@ -194,4 +201,23 @@ export function initializePriceSlider() {
   minSlider.addEventListener("input", priceSliderHandler);
   maxSlider.addEventListener("input", priceSliderHandler);
   priceSliderHandler();
+}
+
+export function inputElemInit() {
+  const categoryCheckboxes = document.querySelectorAll(
+    'input[name="category"]',
+  );
+  categoryCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", filtersHandler);
+  });
+  const minSlider = document.getElementById("min-price");
+  const maxSlider = document.getElementById("max-price");
+  if (minSlider && maxSlider) {
+    minSlider.addEventListener("input", filtersHandler);
+    maxSlider.addEventListener("input", filtersHandler);
+  }
+  const features = document.getElementById("features");
+  if (features) {
+    features.addEventListener("change", filtersHandler);
+  }
 }

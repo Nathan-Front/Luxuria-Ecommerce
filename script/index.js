@@ -8,7 +8,7 @@ import {
 import {
   fetchShopHeroCont,
   fetchProducts,
-  filtersHandler,
+  inputElemInit,
   initializePriceSlider,
 } from "../components/shop/shopData.js";
 import {
@@ -126,19 +126,7 @@ async function fetchHTML() {
     filterContents();
     displayFiltersTablet();
     await fetchProducts();
-
-    const categoryCheckboxes = document.querySelectorAll(
-      'input[name="category"]',
-    );
-    categoryCheckboxes.forEach((checkbox) => {
-      checkbox.addEventListener("change", filtersHandler);
-    });
-    const minSlider = document.getElementById("min-price");
-    const maxSlider = document.getElementById("max-price");
-    if (minSlider && maxSlider) {
-      minSlider.addEventListener("input", filtersHandler);
-      maxSlider.addEventListener("input", filtersHandler);
-    }
+    inputElemInit();
     initializePriceSlider();
   }
   displayLoginForm();
