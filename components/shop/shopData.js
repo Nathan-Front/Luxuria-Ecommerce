@@ -69,6 +69,7 @@ export function renderProducts(products) {
   `;
     productCon.append(li);
   });
+  priceSliderHandler();
 }
 
 let currentPage = 1;
@@ -131,6 +132,7 @@ export function filtersHandler() {
   ].map((input) => input.value);
 
   let filtered = [...fetchDataArr];
+  //category filter
   if (checkedCategories.length === 0) {
     filtered = [...fetchDataArr];
   } else {
@@ -138,10 +140,55 @@ export function filtersHandler() {
       checkedCategories.includes(item.category),
     );
   }
-
+  //price filter
+  const min = Number(document.getElementById("min-price").value);
+  const max = Number(document.getElementById("max-price").value);
+  filtered = filtered.filter((item) => {
+    const price = Number(item.price);
+    return price >= min && price <= max;
+  });
   productArray = filtered;
   currentPage = 1;
   renderProducts(productArray.reverse());
   createPagination(productArray);
   displayPage(currentPage);
+}
+
+function priceSliderHandler() {
+  const tracker = document.querySelector(".slider-tracker");
+  const minSlider = document.getElementById("min-price");
+  const maxSlider = document.getElementById("max-price");
+  const minValue = document.getElementById("min-value");
+  const maxValue = document.getElementById("max-value");
+  if (!tracker || !minSlider || !maxSlider) return;
+  const min = Number(minSlider.value);
+  const max = Number(maxSlider.value);
+
+  if (min > max) {
+    minSlider.value = max;
+    return priceSliderHandler();
+  }
+  minValue.textContent = min;
+  maxValue.textContent = max;
+
+  const left = (min / Number(minSlider.max)) * 100;
+  const right = (max / Number(maxSlider.max)) * 100;
+  tracker.style.background = `
+        linear-gradient(
+            to right,
+            #B8963E ${left}%,
+            #657153 ${left}%,
+            #657153 ${right}%,
+            #B8963E ${right}%
+        )
+    `;
+}
+
+export function initializePriceSlider() {
+  const minSlider = document.getElementById("min-price");
+  const maxSlider = document.getElementById("max-price");
+  if (!minSlider || !maxSlider) return;
+  minSlider.addEventListener("input", priceSliderHandler);
+  maxSlider.addEventListener("input", priceSliderHandler);
+  priceSliderHandler();
 }
