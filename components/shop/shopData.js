@@ -52,7 +52,7 @@ export function renderProducts(products) {
   if (!productCon) return;
   productCon.innerHTML = "";
   //used reverse since in db new item are at the bottom of the list
-  [...products].reverse().map((item) => {
+  [...products].reverse().map((item, index) => {
     const li = document.createElement("li");
     li.innerHTML = `
     ${
@@ -68,6 +68,9 @@ export function renderProducts(products) {
     <span class="article-price">${formatPrice(item.price)}</span>
   `;
     productCon.append(li);
+    requestAnimationFrame(() => {
+      li.style.animationDelay = `${index * 0.05}s`;
+    });
   });
   priceSliderHandler();
 }

@@ -320,6 +320,20 @@ article> p {
     gap: 16px;
     padding-bottom: 16px;
     overflow: hidden;
+    animation: cardReveal 0.5s ease forwards;
+    display: flex;
+    flex: 1;
+}
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .condition-tag {
     position: absolute;
