@@ -155,9 +155,9 @@ export function filtersHandler() {
   if (features !== "") {
     filtered = filtered.filter((item) => item.condition === features);
   }
-  productArray = filtered;
+  productArray = filtered.reverse();
   currentPage = 1;
-  renderProducts(productArray.reverse());
+  renderProducts(productArray);
   createPagination(productArray);
   displayPage(currentPage);
 }
@@ -208,9 +208,9 @@ export function resetFiltersHandler() {
     minSlider.value = minSlider.defaultValue;
     maxSlider.value = maxSlider.defaultValue;
     features.value = "";
-    productArray = [...fetchDataArr];
+    productArray = [...fetchDataArr].reverse();
     currentPage = 1;
-    renderProducts(productArray.reverse());
+    renderProducts(productArray);
     createPagination(productArray);
     displayPage(currentPage);
     const url = new URL(window.location.href);
