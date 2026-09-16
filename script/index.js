@@ -8,6 +8,7 @@ import {
 import {
   fetchShopHeroCont,
   fetchProducts,
+  resetFiltersHandler,
   inputElemInit,
   initializePriceSlider,
 } from "../components/shop/shopData.js";
@@ -126,6 +127,7 @@ async function fetchHTML() {
     filterContents();
     displayFiltersTablet();
     await fetchProducts();
+    resetFiltersHandler();
     inputElemInit();
     initializePriceSlider();
   }

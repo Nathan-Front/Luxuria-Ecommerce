@@ -154,8 +154,6 @@ export function filtersHandler() {
   const features = document.getElementById("features").value;
   if (features !== "") {
     filtered = filtered.filter((item) => item.condition === features);
-  } else {
-    filtered = [...fetchDataArr];
   }
   productArray = filtered;
   currentPage = 1;
@@ -192,6 +190,30 @@ function priceSliderHandler() {
             #B8963E ${right}%
         )
     `;
+}
+
+export function resetFiltersHandler() {
+  const resetBtn = document.querySelector(".reset-filter");
+  if (!resetBtn) return;
+  resetBtn.addEventListener("click", () => {
+    const checkedCategories = document.querySelectorAll(
+      'input[name="category"]',
+    );
+    const minSlider = document.getElementById("min-price");
+    const maxSlider = document.getElementById("max-price");
+    const features = document.getElementById("features");
+    checkedCategories.forEach((category) => {
+      category.checked = false;
+    });
+    minSlider.value = minSlider.defaultValue;
+    maxSlider.value = maxSlider.defaultValue;
+    features.value = "";
+    productArray = [...fetchDataArr];
+    currentPage = 1;
+    renderProducts(productArray.reverse());
+    createPagination(productArray);
+    displayPage(currentPage);
+  });
 }
 
 export function initializePriceSlider() {
