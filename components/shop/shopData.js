@@ -213,6 +213,9 @@ export function resetFiltersHandler() {
     renderProducts(productArray.reverse());
     createPagination(productArray);
     displayPage(currentPage);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("category");
+    window.history.replaceState({}, "", url);
   });
 }
 
@@ -241,5 +244,18 @@ export function inputElemInit() {
   const features = document.getElementById("features");
   if (features) {
     features.addEventListener("change", filtersHandler);
+  }
+}
+
+export function openShopFromURL() {
+  const param = new URLSearchParams(window.location.search);
+  const category = param.get("category");
+  if (!category) return;
+  const categoryFilter = document.querySelector(
+    `input[name="category"][value=${category}`,
+  );
+  if (categoryFilter) {
+    categoryFilter.checked = true;
+    filtersHandler();
   }
 }

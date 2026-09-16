@@ -3,20 +3,7 @@ import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { displayLikedCount } from "../../script/navigation.js";
-/* let fetchDataArr = [];
-export async function fetchSpecificSheet(sheetType, key, dataFormatter) {
-  try {
-    const response = await fetch(`${GOOGLE_APPS_SCRIPT_URL}?type=${sheetType}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch sheet");
-    }
-    const data = await response.json();
-    return dataFormatter ? dataFormatter(data[key]) : data[key];
-  } catch (error) {
-    console.log(error);
-    throw error; //Re-throw so the caller knows it failed
-  }
-} */
+
 let fetchDataArr = [];
 export async function fetchHeroContent() {
   const firstSection = document.querySelector(".index-first-sect");
@@ -63,8 +50,9 @@ function renderIndexFilter(filterContent) {
   const filterContainer = document.querySelector(".second-sect-lower");
   filterContent.map((item) => {
     const li = document.createElement("li");
+    li.classList.add("index-filters");
     li.innerHTML = `
-      <a href="#"
+      <a href="./shop.html?category=${item.category}" data-category=${item.category}
         ><img src="./images/index/secondSection/${item.filterImg}.webp" alt="${item.filterImgAlt}" loading="lazy"
       /></a>
       <span>${item.filterTitle}</span>
@@ -88,7 +76,6 @@ export async function fetchIndexNewArrivals() {
 }
 
 export function renderNewArrivals(newArrivals) {
-  console.log(newArrivals);
   const newArrivalContainer = document.querySelector(".new-product-list");
   //used reverse since in db new item are at the bottom of the list
   const newProducts = newArrivals

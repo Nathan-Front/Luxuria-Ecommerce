@@ -11,7 +11,9 @@ import {
   resetFiltersHandler,
   inputElemInit,
   initializePriceSlider,
+  openShopFromURL,
 } from "../components/shop/shopData.js";
+
 import {
   filterContents,
   displayFiltersTablet,
@@ -130,6 +132,7 @@ async function fetchHTML() {
     resetFiltersHandler();
     inputElemInit();
     initializePriceSlider();
+    openShopFromURL();
   }
   displayLoginForm();
   restoreLoggedUser();
