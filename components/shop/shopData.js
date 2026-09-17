@@ -51,6 +51,14 @@ export function renderProducts(products) {
   const productCon = document.querySelector(".products-lists");
   if (!productCon) return;
   productCon.innerHTML = "";
+  if (products.length === 0) {
+    const noProducts = document.createElement("p");
+    noProducts.classList.add("no-products");
+    noProducts.textContent = "No products found.";
+
+    productCon.appendChild(noProducts);
+    return;
+  }
   //used reverse since in db new item are at the bottom of the list
   [...products].reverse().map((item, index) => {
     const li = document.createElement("li");
@@ -134,11 +142,9 @@ export function filtersHandler() {
     ...document.querySelectorAll('input[name="category"]:checked'),
   ].map((input) => input.value);
 
-  let filtered = [...fetchDataArr];
+  let filtered = [...fetchDataArr].reverse();
   //category filter
-  if (checkedCategories.length === 0) {
-    filtered = [...fetchDataArr];
-  } else {
+  if (checkedCategories.length > 0) {
     filtered = filtered.filter((item) =>
       checkedCategories.includes(item.category),
     );
@@ -155,7 +161,7 @@ export function filtersHandler() {
   if (features !== "") {
     filtered = filtered.filter((item) => item.condition === features);
   }
-  productArray = filtered.reverse();
+  productArray = filtered;
   currentPage = 1;
   renderProducts(productArray);
   createPagination(productArray);

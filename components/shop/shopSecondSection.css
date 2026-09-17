@@ -424,3 +424,10 @@ article> p {
 .activePageBtn {
     background-color: #657153;
 }
+/*if no products*/
+.no-products {
+    grid-column: 1 / 5;
+    color: #0A0A0A;
+    font-size: var(--text-large);
+    text-align: center;
+}
