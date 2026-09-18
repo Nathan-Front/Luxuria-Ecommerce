@@ -382,6 +382,16 @@ article> p {
    font-size: var(--text-large);
    margin-left: 8px;
 }
+.add-to-cart {
+    display: none;
+    width: 40px;
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+}
+.add-to-cart> img {
+    width: 100%;
+}
 .next-btn,
 .previous-btn {
     font-size: 20px;
@@ -427,6 +437,10 @@ article> p {
 }
 .activePageBtn {
     background-color: #657153;
+}
+.page-btn-dots {
+    color: #0A0A0A;
+    font-size: 32px;
 }
 /*if no products*/
 .no-products {

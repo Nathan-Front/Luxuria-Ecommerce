@@ -74,6 +74,7 @@ export function renderProducts(products) {
     <img src="./images/shop/secondSection/${item.articleImg}.webp" alt=${item.articleAlt} class="article-image"/>
     <span class="article-title">${item.article}</span>
     <span class="article-price">${formatPrice(item.price)}</span>
+    <button type="button" class="add-to-cart"><img src="./images/shop/secondSection/cart-bag.svg" alt="cart" /></button>
   `;
     productCon.append(li);
     requestAnimationFrame(() => {
@@ -91,19 +92,41 @@ function createPagination(productArr) {
 
   const totalPage = Math.ceil(productArr.length / cardsPerPage); //compute total page
   currentPage = Math.min(currentPage, totalPage || 1); //always return the smaller number of the two
-
+  const pages = getPageNumbers(currentPage, totalPage);
   pagination.innerHTML = "";
-  const backToStart = document.createElement("button");
-  backToStart.classList.add("previous-btn");
-  backToStart.innerHTML = "<";
-  pagination.append(backToStart);
-  backToStart.addEventListener("click", () => {
+  const prevBtn = document.createElement("button");
+  prevBtn.classList.add("previous-btn");
+  prevBtn.innerHTML = "<";
+  pagination.append(prevBtn);
+  prevBtn.addEventListener("click", () => {
     if (currentPage > 1 && currentPage <= totalPage) {
       currentPage--;
       displayPage(currentPage);
+      createPagination(productArr);
     }
   });
-  for (let i = 1; i <= totalPage; i++) {
+  pages.forEach((page) => {
+    if (page === "...") {
+      const dots = document.createElement("span");
+      dots.classList.add("page-btn-dots");
+      dots.textContent = "...";
+      pagination.appendChild(dots);
+      return;
+    }
+    const button = document.createElement("button");
+    button.classList.add("page-btn");
+    button.textContent = page;
+    if (page === currentPage) {
+      button.classList.add("activePageBtn");
+    }
+    button.addEventListener("click", () => {
+      currentPage = page;
+      displayPage(currentPage);
+      createPagination(productArr);
+    });
+    pagination.appendChild(button);
+  });
+  /* for (let i = 1; i <= totalPage; i++) {
     const button = document.createElement("button");
     button.textContent = i;
     button.classList.add("page-btn");
@@ -116,17 +139,37 @@ function createPagination(productArr) {
       });
     });
     pagination.append(button);
-  }
-  const goToEnd = document.createElement("button");
-  goToEnd.classList.add("next-btn");
-  goToEnd.innerHTML = ">";
-  pagination.append(goToEnd);
-  goToEnd.addEventListener("click", () => {
+  } */
+  const nextBtn = document.createElement("button");
+  nextBtn.classList.add("next-btn");
+  nextBtn.innerHTML = ">";
+  pagination.append(nextBtn);
+  nextBtn.addEventListener("click", () => {
     if (currentPage < totalPage) {
       currentPage++;
       displayPage(currentPage);
+      createPagination(productArr);
     }
   });
+}
+
+function getPageNumbers(current, total) {
+  //If there are only 5 or fewer pages,
+  //show everything.
+  if (total <= 5) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  //Beginning
+  if (current <= 3) {
+    return [1, 2, 3, 4, "...", total];
+  }
+  //End
+  if (current >= total - 2) {
+    return [1, "...", total - 3, total - 2, total - 1, total];
+  }
+
+  //Middle
+  return [1, "...", current - 1, current, current + 1, "...", total];
 }
 
 function displayPage(page) {
@@ -134,17 +177,17 @@ function displayPage(page) {
   const end = start + cardsPerPage;
   const productPerPage = productArray.slice(start, end).reverse();
   renderProducts(productPerPage);
-  activePageButton();
+  //activePageButton();
   displayCountPerPage(productArray.length);
 }
 
-function activePageButton() {
+/* function activePageButton() {
   const pageButtons = document.querySelectorAll(".page-btn");
   if (!pageButtons) return;
   pageButtons.forEach((btn, index) => {
     btn.classList.toggle("activePageBtn", index + 1 === currentPage);
   });
-}
+} */
 
 function displayCountPerPage(totalProduct) {
   const start = (currentPage - 1) * cardsPerPage + 1;
