@@ -2,6 +2,7 @@ import { fetchSpecificSheet } from "../../script/fetchApps.js";
 import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
+import { displayLikedCount } from "../../script/navigation.js";
 
 let fetchDataArr = [];
 export async function fetchShopHeroCont() {
@@ -59,9 +60,11 @@ export function renderProducts(products) {
     productCon.appendChild(noProducts);
     return;
   }
+  const likes = likedProduct();
   //used reverse since in db new item are at the bottom of the list
   [...products].reverse().map((item, index) => {
     const li = document.createElement("li");
+    li.dataset.productId = item.No;
     li.innerHTML = `
     ${
       item.condition
@@ -69,7 +72,7 @@ export function renderProducts(products) {
         : ""
     }
     <div class="heart-cont">
-      <img src="./images/nav/heart-svgrepo-com.svg" alt="heart-icon"class="liked-product" />
+      <img src=${likes.includes(item.No) ? "./images/nav/heart-alt-svgrepo-com.svg" : "./images/nav/heart-svgrepo-com.svg"} alt="heart-icon" class="shop-liked-product" />
     </div>
     <img src="./images/shop/secondSection/${item.articleImg}.webp" alt=${item.articleAlt} class="article-image"/>
     <span class="article-title">${item.article}</span>
@@ -82,6 +85,7 @@ export function renderProducts(products) {
     });
   });
   priceSliderHandler();
+  likeProductToggle();
 }
 
 let currentPage = 1;
@@ -123,6 +127,10 @@ function createPagination(productArr) {
       currentPage = page;
       displayPage(currentPage);
       createPagination(productArr);
+      document.querySelector(".shop-second-sec").scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     });
     pagination.appendChild(button);
   });
@@ -328,4 +336,34 @@ export function openShopFromURL() {
     categoryFilter.checked = true;
     filtersHandler();
   }
+}
+
+function likedProduct() {
+  const liked = JSON.parse(localStorage.getItem("likedProducts")) || [];
+  return productArray
+    .filter((item) => liked.includes(String(item.No)))
+    .map((item) => item.No);
+}
+
+function likeProductToggle() {
+  const heartBtn = document.querySelectorAll(".shop-liked-product");
+  heartBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const clickedProduct = btn.closest("li");
+      const productId = clickedProduct.dataset.productId;
+      let likedProducts =
+        JSON.parse(localStorage.getItem("likedProducts")) || [];
+      if (likedProducts.includes(productId)) {
+        likedProducts = likedProducts.filter((id) => id !== productId);
+        btn.src = "./images/nav/heart-svgrepo-com.svg";
+        btn.classList.remove("liked");
+      } else {
+        likedProducts.push(productId);
+        btn.src = "./images/nav/heart-alt-svgrepo-com.svg";
+        btn.classList.add("liked");
+      }
+      localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
+      displayLikedCount();
+    });
+  });
 }

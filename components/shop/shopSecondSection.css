@@ -335,6 +335,22 @@ article> p {
     transform: translateY(0);
   }
 }
+.products-lists> li:hover .add-to-cart {
+    opacity: 1;
+    visibility: visible;
+}
+.add-to-cart {
+    width: 40px;
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.add-to-cart> img {
+    width: 100%;
+}
 .condition-tag {
     position: absolute;
     top: 8px;
@@ -381,16 +397,6 @@ article> p {
    font-weight: 600;
    font-size: var(--text-large);
    margin-left: 8px;
-}
-.add-to-cart {
-    display: none;
-    width: 40px;
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-}
-.add-to-cart> img {
-    width: 100%;
 }
 .next-btn,
 .previous-btn {
