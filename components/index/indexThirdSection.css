@@ -34,6 +34,12 @@
     flex-direction: column;
     position: relative;
     gap: 16px;
+    padding: 8px;
+    transition: 0.4s ease;
+}
+.new-product-list> li:hover {
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.45);
+    border-radius: 0.5rem;
 }
 .new-product-list> li> img {
     border-radius: 0.5rem;

@@ -414,7 +414,11 @@ nav {
 }
 /*section fetching error message*/
 .section-error {
-    grid-column: 1 / 5;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    flex: 1;
     min-height: 200px;
     margin: 0 auto;
     display: flex;

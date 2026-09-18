@@ -91,7 +91,18 @@ function createPagination(productArr) {
 
   const totalPage = Math.ceil(productArr.length / cardsPerPage); //compute total page
   currentPage = Math.min(currentPage, totalPage || 1); //always return the smaller number of the two
+
   pagination.innerHTML = "";
+  const backToStart = document.createElement("button");
+  backToStart.classList.add("previous-btn");
+  backToStart.innerHTML = "<";
+  pagination.append(backToStart);
+  backToStart.addEventListener("click", () => {
+    if (currentPage > 1 && currentPage <= totalPage) {
+      currentPage--;
+      displayPage(currentPage);
+    }
+  });
   for (let i = 1; i <= totalPage; i++) {
     const button = document.createElement("button");
     button.textContent = i;
@@ -106,6 +117,16 @@ function createPagination(productArr) {
     });
     pagination.append(button);
   }
+  const goToEnd = document.createElement("button");
+  goToEnd.classList.add("next-btn");
+  goToEnd.innerHTML = ">";
+  pagination.append(goToEnd);
+  goToEnd.addEventListener("click", () => {
+    if (currentPage < totalPage) {
+      currentPage++;
+      displayPage(currentPage);
+    }
+  });
 }
 
 function displayPage(page) {

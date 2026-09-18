@@ -163,7 +163,7 @@ function renderPromo(promo) {
       <span>${item.subTitle}</span>
       <h3>${item.mainTitle}</h3>
       <p>${item.text}</p>
-      <a href="#">${item.buttons}</a>
+      <a href=${item.link}.html>${item.buttons}</a>
       <img src="./images/index/fourthSection/${item.promoImg}.webp" alt="${item.promoImgAlt}" loading="lazy" />
     `;
     promoContainer.append(div);
