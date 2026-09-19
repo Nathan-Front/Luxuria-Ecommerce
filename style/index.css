@@ -6,7 +6,7 @@
     --container-max-width: 1400px;
 
     /*Text fonts*/
-     --text-xsmall: clamp(0.65rem, 0.9vw, 0.75rem);
+    --text-xsmall: clamp(0.65rem, 0.9vw, 0.75rem);
     --text-small: clamp(0.75rem, 1vw, 0.875rem);
     --text-base: clamp(0.875rem, 1.2vw, 1rem);
     --text-large: clamp(1rem, 1.5vw, 1.25rem);
@@ -437,7 +437,7 @@ nav {
 }
 
 /*global auth*/
-.auth-overlay{
+.auth-overlay {
     position: fixed;
     inset: 0;
     display: flex;

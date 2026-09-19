@@ -33,35 +33,44 @@ async function fetchHTML() {
         </div>
     `;
 
-    const [nav, foot, login, userWindow, logoutModal, createAccount] =
-      await Promise.all([
-        fetch("./components/navigation/nav.html").then((res) => {
-          if (!res.ok) throw new Error("Navigation fetch failed");
-          return res.text();
-        }),
-        fetch("./components/footer/footer.html").then((res) => {
-          if (!res.ok) throw new Error("Footer fetch failed");
-          return res.text();
-        }),
-        fetch("./components/login-create-form/login.html").then((res) => {
-          if (!res.ok) throw new Error("Login form fetch failed");
-          return res.text();
-        }),
-        fetch("./components/login-create-form/userWindow.html").then((res) => {
-          if (!res.ok) throw new Error("User window fetch failed");
-          return res.text();
-        }),
-        fetch("./components/login-create-form/logoutModal.html").then((res) => {
-          if (!res.ok) throw new Error("User window fetch failed");
-          return res.text();
-        }),
-        fetch("./components/login-create-form/createAccount.html").then(
-          (res) => {
-            if (!res.ok) throw new Error("User window fetch failed");
-            return res.text();
-          },
-        ),
-      ]);
+    const [
+      nav,
+      foot,
+      login,
+      userWindow,
+      logoutModal,
+      createAccount,
+      cartModal,
+    ] = await Promise.all([
+      fetch("./components/navigation/nav.html").then((res) => {
+        if (!res.ok) throw new Error("Navigation fetch failed");
+        return res.text();
+      }),
+      fetch("./components/footer/footer.html").then((res) => {
+        if (!res.ok) throw new Error("Footer fetch failed");
+        return res.text();
+      }),
+      fetch("./components/login-create-form/login.html").then((res) => {
+        if (!res.ok) throw new Error("Login form fetch failed");
+        return res.text();
+      }),
+      fetch("./components/login-create-form/userWindow.html").then((res) => {
+        if (!res.ok) throw new Error("User window fetch failed");
+        return res.text();
+      }),
+      fetch("./components/login-create-form/logoutModal.html").then((res) => {
+        if (!res.ok) throw new Error("User window fetch failed");
+        return res.text();
+      }),
+      fetch("./components/login-create-form/createAccount.html").then((res) => {
+        if (!res.ok) throw new Error("User window fetch failed");
+        return res.text();
+      }),
+      fetch("./components/cart/cartModal.html").then((res) => {
+        if (!res.ok) throw new Error("Cart modal fetch failed");
+        return res.text();
+      }),
+    ]);
     let sections = [];
     if (page === "home") {
       sections = await Promise.all([
@@ -90,18 +99,14 @@ async function fetchHTML() {
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
-
-    /* body.insertAdjacentHTML("beforeend", login);
-    body.insertAdjacentHTML("beforeend", userWindow);
-    body.insertAdjacentHTML("beforeend", logoutModal);
-    body.insertAdjacentHTML("beforeend", createAccount); */
+    /* body.insertAdjacentHTML("beforebegin", cartModal); */
     sections.forEach((sec) => {
       app.insertAdjacentHTML("beforebegin", sec);
     });
     body.insertAdjacentHTML("beforeend", foot);
     authContainer.insertAdjacentHTML(
       "beforeend",
-      login + userWindow + logoutModal + createAccount,
+      login + userWindow + logoutModal + createAccount + cartModal,
     );
     app.innerHTML = "";
   } catch (error) {
@@ -145,12 +150,12 @@ export const GOOGLE_APPS_SCRIPT_URL =
 //51st ver
 
 //display/hide authCon on click of user icon
-function showAuthCon() {
+export function showAuthCon() {
   const authCon = document.querySelector(".auth-overlay");
   authCon.classList.add("authOpen");
   document.body.classList.add("no-scroll");
 }
-function hideAuthCon() {
+export function hideAuthCon() {
   const authCon = document.querySelector(".auth-overlay");
   authCon.classList.remove("authOpen");
   document.body.classList.remove("no-scroll");

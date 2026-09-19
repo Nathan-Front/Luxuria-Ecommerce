@@ -3,6 +3,8 @@ import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { displayLikedCount } from "../../script/navigation.js";
+import { showAuthCon } from "../../script/index.js";
+import { hideModalCartHandler } from "../cart/cartModal.js";
 
 let fetchDataArr = [];
 export async function fetchShopHeroCont() {
@@ -86,6 +88,7 @@ export function renderProducts(products) {
   });
   priceSliderHandler();
   likeProductToggle();
+  addToCart(products);
 }
 
 let currentPage = 1;
@@ -366,4 +369,25 @@ function likeProductToggle() {
       displayLikedCount();
     });
   });
+}
+
+/*Add to cart*/
+function addToCart(products) {
+  const addToCartBtn = document.querySelectorAll(".add-to-cart");
+  addToCartBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const productId = btn.closest("li").dataset.productId;
+      let addItem = [...products]
+        .reverse()
+        .find((item) => Number(item.No) === Number(productId));
+      showAuthCon();
+      showCartModal();
+    });
+  });
+}
+
+function showCartModal() {
+  const cartModal = document.querySelector(".cart-modal");
+  cartModal.classList.add("cartModal");
+  hideModalCartHandler();
 }

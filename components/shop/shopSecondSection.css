@@ -211,17 +211,7 @@
 .blue {
     background-color: #172033;
 }
-.checkmark {
-    display: inline-block;
-    border: 1px solid #d8c8cc;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: .3s;
-    padding: 2px;
-    width: clamp(18px, 4vw, 24px);
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-} */
+*/
 /*Size select*/
 /* .size-fieldset-con {
     flex-direction: column;
