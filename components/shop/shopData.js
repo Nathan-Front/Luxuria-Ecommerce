@@ -4,7 +4,10 @@ import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { showAuthCon } from "../../script/index.js";
-import { hideModalCartHandler } from "../cart/cartModal.js";
+import {
+  hideModalCartHandler,
+  renderCartModalHandler,
+} from "../cart/cartModal.js";
 
 let fetchDataArr = [];
 export async function fetchShopHeroCont() {
@@ -380,8 +383,10 @@ function addToCart(products) {
       let addItem = [...products]
         .reverse()
         .find((item) => Number(item.No) === Number(productId));
+
       showAuthCon();
       showCartModal();
+      renderCartModalHandler(addItem);
     });
   });
 }

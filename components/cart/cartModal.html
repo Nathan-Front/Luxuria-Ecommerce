@@ -6,9 +6,9 @@
   <div class="middle-cart-con">
     <div class="product-summary">
       <div>
-        <img src="" alt="product-image" />
+        <img class="cart-article-image" src="" alt="" />
         <div>
-          <span class="product-title">PRoduct title</span>
+          <span class="product-title">Product title</span>
           <span class="product-color">selected color</span>
           <span class="product-price">Product price</span>
           <span class="product-condition">Condition</span>
@@ -37,7 +37,6 @@
             value="white"
             id="white"
             aria-label="white"
-            checked
           />
           <span class="checkmark white"></span>
         </label>
@@ -48,7 +47,6 @@
             value="cream"
             id="cream"
             aria-label="cream"
-            checked
           />
           <span class="checkmark cream"></span>
         </label>
@@ -59,7 +57,6 @@
             value="pink"
             id="pink"
             aria-label="pink"
-            checked
           />
           <span class="checkmark pink"></span>
         </label>
@@ -67,10 +64,9 @@
           <input
             type="radio"
             name="color"
-            value="black"
+            value="green"
             id="green"
             aria-label="green"
-            checked
           />
           <span class="checkmark green"></span>
         </label>
@@ -81,7 +77,6 @@
             value="blue"
             id="blue"
             aria-label="blue"
-            checked
           />
           <span class="checkmark blue"></span>
         </label>
@@ -97,7 +92,7 @@
           <span class="size-check">S</span>
         </label>
         <label>
-          <input type="radio" name="size" value="m" />
+          <input type="radio" name="size" value="m" checked />
           <span class="size-check">M</span>
         </label>
         <label>
@@ -125,9 +120,9 @@
   </div>
   <div class="bottom-cart-con">
     <div>
-      <button type="button">-</button>
-      <span>0</span>
-      <button type="button">+</button>
+      <button type="button" id="decrease-count">-</button>
+      <span id="cart-count">0</span>
+      <button type="button" id="increase-count">+</button>
     </div>
     <button type="button" class="add-item">Add To Cart</button>
   </div>

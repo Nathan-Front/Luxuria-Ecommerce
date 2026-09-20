@@ -54,10 +54,10 @@
     gap: 16px;
     padding: 16px;
 }
-.product-summary> div> img {
+.cart-article-image {
     flex: 1;
-    border: 1px solid white;
-    height: 250px;
+    height: 200px;
+    border: none;
 }
 .product-summary> div> div {
     flex: 1;
@@ -72,8 +72,19 @@
 .product-summary> button {
     color: #fff;
     text-align: left;
-    margin-left: 16px;
-    margin-top: 32px;
+    margin: 32px 0 32px 16px;
+    font-size: var(--text-large);
+    position: relative;
+    width: fit-content;
+}
+.product-summary> button::after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    background-color: #fff;
 }
 .color-size-select {
     display: flex;
