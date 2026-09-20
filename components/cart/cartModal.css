@@ -100,6 +100,9 @@
 .color-select> label> input { 
     display: none;
 }
+.product-color {
+    text-transform: uppercase;
+}
 .checkmark {
     display: flex;
     border-radius: 999px;
@@ -179,6 +182,9 @@
     width: 40px;
     border: 1px solid rgb(67, 67, 67);
 } 
+.product-size {
+    text-transform: uppercase;
+}
 .size-fieldset> label> input:checked + span {
     position: relative; 
 }

@@ -383,7 +383,6 @@ function addToCart(products) {
       let addItem = [...products]
         .reverse()
         .find((item) => Number(item.No) === Number(productId));
-
       showAuthCon();
       showCartModal();
       renderCartModalHandler(addItem);

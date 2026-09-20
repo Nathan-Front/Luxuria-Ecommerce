@@ -20,6 +20,7 @@ import {
 } from "../components/shop/filters.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
+
 async function fetchHTML() {
   const page = document.body.dataset.page;
   const app = document.getElementById("app");
