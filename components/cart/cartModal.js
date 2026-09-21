@@ -42,17 +42,16 @@ export function renderCartModalHandler(selectedItem) {
     : "In Stock";
 
   const articleSelected = {
-    article: selectedItem.article,
-    articleImg: selectedItem.articleImg,
+    Id: selectedItem.No,
     color: colorSelected,
     size: sizeSelected,
-    price: selectedItem.price,
     quantity: 1,
   };
 
   colorSelectHandler(articleSelected);
   sizeSelectHandler(articleSelected);
   productCountHandler(articleSelected);
+  saveToCartHandler(articleSelected);
 }
 
 export function colorSelectHandler(articleSelected) {
@@ -81,9 +80,9 @@ export function sizeSelectHandler(articleSelected) {
 }
 
 export function productCountHandler(articleSelected) {
-  const add = document.getElementById("increase-count");
-  const minus = document.getElementById("decrease-count");
-  const counter = document.getElementById("cart-count");
+  const add = document.querySelector(".increase-count");
+  const minus = document.querySelector(".decrease-count");
+  const counter = document.querySelector(".cart-count");
   let cnt = 1;
 
   add.addEventListener("click", () => {
@@ -101,5 +100,20 @@ export function productCountHandler(articleSelected) {
 }
 
 function saveToCartHandler(articleSelected) {
-  console.log(articleSelected);
+  const addTocartBtn = document.querySelector(".add-item");
+  const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+  addTocartBtn.addEventListener("click", () => {
+    let itemExist = storage.find(
+      (item) =>
+        item.No === articleSelected.No &&
+        item.color === articleSelected.color &&
+        item.size === articleSelected.size,
+    );
+    if (itemExist) {
+      itemExist.quantity += articleSelected.quantity;
+    } else {
+      storage.push(articleSelected);
+    }
+    localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+  });
 }

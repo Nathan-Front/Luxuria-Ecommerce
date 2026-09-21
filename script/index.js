@@ -14,6 +14,7 @@ import {
   openShopFromURL,
 } from "../components/shop/shopData.js";
 import { fetchCartHeroCont } from "../components/cart/cartData.js";
+import { fetchSummaryData } from "../components/cart/cartSummary.js";
 import {
   filterContents,
   displayFiltersTablet,
@@ -154,6 +155,7 @@ async function fetchHTML() {
   if (page === "cart") {
     fetchCartHeroCont();
   }
+  fetchSummaryData();
   displayLoginForm();
   restoreLoggedUser();
 }
