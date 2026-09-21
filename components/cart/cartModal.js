@@ -10,18 +10,19 @@ export function hideModalCartHandler() {
   close.addEventListener("click", () => {
     hideCartModal();
     hideAuthCon();
+    document.querySelector("#black").checked = true;
+    document.querySelector('input[name="size"][value="m"]').checked = true;
+    document.getElementById("cart-count").textContent = 1;
   });
 }
 
 export function renderCartModalHandler(selectedItem) {
   const article = document.querySelector(".cart-article-image");
-
   const product = document.querySelector(".product-title");
   const color = document.querySelector(".product-color");
   const size = document.querySelector(".product-size");
   const price = document.querySelector(".product-price");
   const condition = document.querySelector(".product-condition");
-  if (!article || !product || !color || !price || !condition) return;
 
   article.src = `./images/shop/secondSection/${selectedItem.articleImg}.webp`;
   article.alt = selectedItem.articleAlt;
@@ -36,18 +37,22 @@ export function renderCartModalHandler(selectedItem) {
   color.textContent = colorSelected;
   size.textContent = sizeSelected;
   price.textContent = selectedItem.price;
-  condition.textContent = selectedItem.condition;
+  condition.textContent = selectedItem.condition
+    ? selectedItem.condition
+    : "In Stock";
 
   const articleSelected = {
     article: selectedItem.article,
+    articleImg: selectedItem.articleImg,
     color: colorSelected,
     size: sizeSelected,
     price: selectedItem.price,
+    quantity: 1,
   };
-  saveToCartHandler(articleSelected);
-  productCountHandler();
+
   colorSelectHandler(articleSelected);
   sizeSelectHandler(articleSelected);
+  productCountHandler(articleSelected);
 }
 
 export function colorSelectHandler(articleSelected) {
@@ -75,23 +80,23 @@ export function sizeSelectHandler(articleSelected) {
   });
 }
 
-export function productCountHandler() {
+export function productCountHandler(articleSelected) {
   const add = document.getElementById("increase-count");
   const minus = document.getElementById("decrease-count");
   const counter = document.getElementById("cart-count");
-  let cnt = 0;
+  let cnt = 1;
 
   add.addEventListener("click", () => {
-    if (add) {
-      cnt++;
-      counter.textContent = cnt;
-    }
+    cnt++;
+    counter.textContent = cnt !== 1 ? cnt : 1;
+    articleSelected.quantity = cnt;
+    saveToCartHandler(articleSelected);
   });
   minus.addEventListener("click", () => {
-    if (minus) {
-      cnt = Math.max(0, cnt - 1);
-      counter.textContent = cnt;
-    }
+    cnt = Math.max(1, cnt - 1);
+    counter.textContent = cnt !== 1 ? cnt : 1;
+    articleSelected.quantity = cnt;
+    saveToCartHandler(articleSelected);
   });
 }
 

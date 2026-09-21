@@ -13,7 +13,7 @@ import {
   initializePriceSlider,
   openShopFromURL,
 } from "../components/shop/shopData.js";
-
+import { fetchCartHeroCont } from "../components/cart/cartData.js";
 import {
   filterContents,
   displayFiltersTablet,
@@ -99,6 +99,16 @@ async function fetchHTML() {
         ),
       ]);
     }
+    if (page === "cart") {
+      sections = await Promise.all([
+        fetch("./components/cart/cartFirstSection.html").then((res) =>
+          res.text(),
+        ),
+        fetch("./components/cart/cartSecondSection.html").then((res) =>
+          res.text(),
+        ),
+      ]);
+    }
     body.insertAdjacentHTML("beforebegin", nav);
     /* body.insertAdjacentHTML("beforebegin", cartModal); */
     sections.forEach((sec) => {
@@ -122,6 +132,7 @@ async function fetchHTML() {
             </div>
         `;
   }
+  goToCartSummary();
   burgerMenuhandler();
   displayLikedCount();
   if (page === "home") {
@@ -140,6 +151,9 @@ async function fetchHTML() {
     initializePriceSlider();
     openShopFromURL();
   }
+  if (page === "cart") {
+    fetchCartHeroCont();
+  }
   displayLoginForm();
   restoreLoggedUser();
 }
@@ -147,7 +161,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyHxF07l4GXUF3WY-WzUPZMmxH4lknC639W_tqVASkH0a0emptwD_YECtAbIDqbyYnO/exec";
+  "https://script.google.com/macros/s/AKfycbwmaJJE1CMXA_yh451Ci0IWX4HRCvfyJg8yN2_sPcmOSaFC07woAL7P6jbIkwZFxZ8C/exec";
 //51st ver
 
 //display/hide authCon on click of user icon
@@ -160,6 +174,14 @@ export function hideAuthCon() {
   const authCon = document.querySelector(".auth-overlay");
   authCon.classList.remove("authOpen");
   document.body.classList.remove("no-scroll");
+}
+
+//To cart summary page
+function goToCartSummary() {
+  const toCartBtn = document.getElementById("to-cart");
+  toCartBtn.addEventListener("click", () => {
+    location.href = "cart.html";
+  });
 }
 
 //show/hide login form
