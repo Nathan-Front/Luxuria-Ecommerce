@@ -13,7 +13,6 @@
 .summary-left-container {
     display: flex;
     flex-direction: column;
-    
 }
 .summary-left-container> p {
     text-transform: uppercase;
@@ -74,6 +73,7 @@
     max-width: 220px;
     min-width: 100px;
     border: 1px solid black;
+    border-radius: 0.25rem;
 }
 .summary-article-details {
     display: flex;
@@ -167,12 +167,11 @@
 }
 .summary-total {
     padding: 16px 0;
-    
 }
 
 /*Right side content*/
 .summary-right-container {
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     padding: 16px 0;
@@ -200,22 +199,22 @@
 }
 .summary-right-container > div:nth-child(2)::before,
 .summary-right-container > div:nth-child(4)::before {
-  content: "";
-  position: absolute;
-  left: 5%;
-  width: 90%;
-  top: 0;
-  border-top: 1px solid #B5A078;
+    content: "";
+    position: absolute;
+    left: 5%;
+    width: 90%;
+    top: 0;
+    border-top: 1px solid #B5A078;
 }
 
 .summary-right-container > div:nth-child(2)::after,
 .summary-right-container > div:nth-child(4)::after {
-  content: "";
-  position: absolute;
-  left: 5%;
-  width: 90%;
-  bottom: 0;
-  border-bottom: 1px solid #B5A078;
+    content: "";
+    position: absolute;
+    left: 5%;
+     width: 90%;
+    bottom: 0;
+    border-bottom: 1px solid #B5A078;
 }
 .summary-right-container> div> p {
     font-size: var(--heading-small);
@@ -272,4 +271,25 @@
 }
 .continue-shopping> span {
     text-decoration: underline;
+}
+
+@media only screen and (max-width: 640px) {
+    .cart-second-sec {
+        grid-template-columns: 1fr;
+    }
+    .summary-left-container> p {
+        padding: 16px 0;
+    }
+    .cart-second-sec> div {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .summary-right-container {
+        margin: 0 auto;
+    }
+    .summary-right-container> div {
+        width: 90%;
+        margin: 0 auto;
+        padding: 5%;
+    }
 }
