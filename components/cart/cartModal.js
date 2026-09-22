@@ -113,8 +113,10 @@ function saveToCartHandler(articleSelected) {
     );
     if (itemExist) {
       itemExist.quantity += articleSelected.quantity;
+      alert("Same item is already in the cart. \nQuantity increased");
     } else {
       storage.push(articleSelected);
+      alert("Item added to cart.");
     }
     localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
     displayCartCount();

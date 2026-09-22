@@ -2,6 +2,7 @@ import { fetchSpecificSheet } from "../../script/fetchApps.js";
 import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
+import { displayCartCount } from "../../script/navigation.js";
 
 let fetchDataArr = [];
 export async function fetchSummaryData() {
@@ -71,10 +72,10 @@ export function renderTemporaryCart(products) {
   });
   increaseDecreaseQuantity(products);
   renderTotalCosts(products);
+  deleteItemHandler();
 }
 
 function increaseDecreaseQuantity(products) {
-  const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
   const summaryList = document.querySelector(".cart-summary-list");
   const summaryAdd = summaryList.querySelectorAll(".summary-increase-count");
   const summaryMinus = summaryList.querySelectorAll(".summary-decrease-count");
@@ -85,6 +86,7 @@ function increaseDecreaseQuantity(products) {
       const productNo = String(li.dataset.productNo);
       const color = String(li.dataset.color);
       const size = String(li.dataset.size);
+      const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
       const itemExist = storage.find(
         (item) =>
           String(item.No) === productNo &&
@@ -98,6 +100,7 @@ function increaseDecreaseQuantity(products) {
         localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
       }
       renderTemporaryCart(products);
+      displayCartCount();
     });
   });
   summaryMinus.forEach((btn) => {
@@ -106,6 +109,7 @@ function increaseDecreaseQuantity(products) {
       const productNo = String(li.dataset.productNo);
       const color = String(li.dataset.color);
       const size = String(li.dataset.size);
+      const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
       const itemExist = storage.find(
         (item) =>
           String(item.No) === productNo &&
@@ -120,6 +124,31 @@ function increaseDecreaseQuantity(products) {
         localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
       }
       renderTemporaryCart(products);
+      displayCartCount();
+    });
+  });
+}
+
+function deleteItemHandler() {
+  const delBtn = document.querySelectorAll(".delete-item");
+  delBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const li = btn.closest("li");
+      const productNo = String(li.dataset.productNo);
+      const color = String(li.dataset.color);
+      const size = String(li.dataset.size);
+      let storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+      storage = storage.filter(
+        (item) =>
+          !(
+            String(item.No) === productNo &&
+            String(item.color) === color &&
+            String(item.size) === size
+          ),
+      );
+      localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+      li.remove();
+      displayCartCount();
     });
   });
 }
