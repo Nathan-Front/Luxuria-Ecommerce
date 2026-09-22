@@ -154,8 +154,9 @@ async function fetchHTML() {
   }
   if (page === "cart") {
     fetchCartHeroCont();
+    fetchSummaryData();
   }
-  fetchSummaryData();
+
   displayLoginForm();
   restoreLoggedUser();
 }

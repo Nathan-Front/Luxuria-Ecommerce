@@ -42,7 +42,7 @@ export function renderCartModalHandler(selectedItem) {
     : "In Stock";
 
   const articleSelected = {
-    Id: selectedItem.No,
+    No: selectedItem.No,
     color: colorSelected,
     size: sizeSelected,
     quantity: 1,
@@ -80,20 +80,21 @@ export function sizeSelectHandler(articleSelected) {
 }
 
 export function productCountHandler(articleSelected) {
-  const add = document.querySelector(".increase-count");
-  const minus = document.querySelector(".decrease-count");
-  const counter = document.querySelector(".cart-count");
+  const add = document.getElementById("increase-count");
+  const minus = document.getElementById("decrease-count");
+  if (!add || !minus) return;
+  const counter = document.getElementById("cart-count");
   let cnt = 1;
 
   add.addEventListener("click", () => {
     cnt++;
-    counter.textContent = cnt !== 1 ? cnt : 1;
+    counter.textContent = cnt;
     articleSelected.quantity = cnt;
     saveToCartHandler(articleSelected);
   });
   minus.addEventListener("click", () => {
     cnt = Math.max(1, cnt - 1);
-    counter.textContent = cnt !== 1 ? cnt : 1;
+    counter.textContent = cnt;
     articleSelected.quantity = cnt;
     saveToCartHandler(articleSelected);
   });
