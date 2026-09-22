@@ -1,4 +1,8 @@
-import { burgerMenuhandler, displayLikedCount } from "./navigation.js";
+import {
+  burgerMenuhandler,
+  displayLikedCount,
+  restoreCartCount,
+} from "./navigation.js";
 import {
   fetchHeroContent,
   fetchIndexFilterContent,
@@ -135,7 +139,7 @@ async function fetchHTML() {
   }
   goToCartSummary();
   burgerMenuhandler();
-  displayLikedCount();
+
   if (page === "home") {
     fetchHeroContent();
     fetchIndexFilterContent();
@@ -156,7 +160,8 @@ async function fetchHTML() {
     fetchCartHeroCont();
     fetchSummaryData();
   }
-
+  displayLikedCount();
+  restoreCartCount();
   displayLoginForm();
   restoreLoggedUser();
 }

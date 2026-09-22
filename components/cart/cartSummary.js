@@ -1,6 +1,7 @@
 import { fetchSpecificSheet } from "../../script/fetchApps.js";
 import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
+import { formatPrice } from "../../script/priceFormat.js";
 
 let fetchDataArr = [];
 export async function fetchSummaryData() {
@@ -52,7 +53,7 @@ export function renderTemporaryCart(products) {
           <p class="summary-condition">Condition: <span>${product.condition}</span></p>
         </div>
         <div class="summary-article-opt">
-          <p class="summary-price">$<span>${Number(product.price * storageItem.quantity).toFixed(2)}</span></p>
+          <p class="summary-price"><span>${formatPrice(product.price * storageItem.quantity)}</span></p>
           <div>
             <button type="button" class="summary-decrease-count">-</button>
             <span class="summary-cart-count">${storageItem.quantity}</span>
@@ -136,9 +137,11 @@ function renderTotalCosts(products) {
     if (!foundItem) return total;
     return total + Number(foundItem.price) * Number(storeItem.quantity);
   }, 0);
-  subTotal.textContent = Number(subtotal).toFixed(2);
+
+  subTotal.innerHTML = formatPrice(subtotal);
   delFee.textContent = Number(0).toFixed(2);
   tax.textContent = Number(0).toFixed(2);
-  grandTotal.textContent =
-    Number(subtotal) + Number(delFee.textContent) + Number(tax.textContent);
+  grandTotal.innerHTML = formatPrice(
+    Number(subtotal) + Number(delFee.textContent) + Number(tax.textContent),
+  );
 }

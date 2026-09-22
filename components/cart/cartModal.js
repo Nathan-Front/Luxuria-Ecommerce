@@ -1,4 +1,5 @@
 import { hideAuthCon } from "../../script/index.js";
+import { displayCartCount } from "../../script/navigation.js";
 
 function hideCartModal() {
   const cartModal = document.querySelector(".cart-modal");
@@ -116,5 +117,8 @@ function saveToCartHandler(articleSelected) {
       storage.push(articleSelected);
     }
     localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+    displayCartCount();
+    hideCartModal();
+    hideAuthCon();
   });
 }

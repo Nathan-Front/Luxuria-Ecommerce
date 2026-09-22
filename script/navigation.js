@@ -28,3 +28,21 @@ export async function displayLikedCount() {
   const likedProducts = JSON.parse(localStorage.getItem("likedProducts")) || [];
   likes.textContent = likedProducts.length > 0 ? likedProducts.length : "";
 }
+export async function displayCartCount() {
+  const cartCount = document.querySelector(".cart-cnt");
+  const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+  const totalCnt = storage.reduce(
+    (total, item) => total + Number(item.quantity),
+    0,
+  );
+  cartCount.textContent = storage.length > 0 ? totalCnt : "";
+}
+export function restoreCartCount() {
+  const cartCount = document.querySelector(".cart-cnt");
+  const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+  const totalCnt = storage.reduce(
+    (total, item) => total + Number(item.quantity),
+    0,
+  );
+  cartCount.textContent = storage.length > 0 ? totalCnt : "";
+}
