@@ -72,7 +72,7 @@ export function renderTemporaryCart(products) {
   });
   increaseDecreaseQuantity(products);
   renderTotalCosts(products);
-  deleteItemHandler();
+  deleteItemHandler(products);
 }
 
 function increaseDecreaseQuantity(products) {
@@ -129,7 +129,7 @@ function increaseDecreaseQuantity(products) {
   });
 }
 
-function deleteItemHandler() {
+function deleteItemHandler(products) {
   const delBtn = document.querySelectorAll(".delete-item");
   delBtn.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -149,6 +149,7 @@ function deleteItemHandler() {
       localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
       li.remove();
       displayCartCount();
+      renderTotalCosts(products);
     });
   });
 }
