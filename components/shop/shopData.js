@@ -8,6 +8,7 @@ import {
   hideModalCartHandler,
   renderCartModalHandler,
 } from "../cart/cartModal.js";
+import { disableSizeHandler } from "../cart/cartModal.js";
 
 let fetchDataArr = [];
 export async function fetchShopHeroCont() {
@@ -374,7 +375,7 @@ function likeProductToggle() {
   });
 }
 
-/*Add to cart*/
+/*Add to cart modal*/
 function addToCart(products) {
   const addToCartBtn = document.querySelectorAll(".add-to-cart");
   addToCartBtn.forEach((btn) => {
@@ -383,9 +384,17 @@ function addToCart(products) {
       let addItem = [...products]
         .reverse()
         .find((item) => Number(item.No) === Number(productId));
+      let noSize = [...products].find(
+        (item) =>
+          Number(item.No) === Number(productId) &&
+          (String(item.category) === "bags" ||
+            String(item.category) === "accessory"),
+      );
+      disableSizeHandler(noSize);
       showAuthCon();
       showCartModal();
       renderCartModalHandler(addItem);
+      hideModalCartHandler();
     });
   });
 }
@@ -393,5 +402,4 @@ function addToCart(products) {
 function showCartModal() {
   const cartModal = document.querySelector(".cart-modal");
   cartModal.classList.add("cartModal");
-  hideModalCartHandler();
 }

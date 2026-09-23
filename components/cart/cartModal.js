@@ -36,7 +36,13 @@ export function renderCartModalHandler(selectedItem) {
 
   product.textContent = selectedItem.article;
   color.textContent = colorSelected;
-  size.textContent = sizeSelected;
+  const sizeContainer = document.querySelector(".size-fieldset");
+  if (sizeContainer.classList.contains("disabledSize")) {
+    size.textContent = "-";
+  } else {
+    size.textContent = sizeSelected;
+  }
+
   price.textContent = selectedItem.price;
   condition.textContent = selectedItem.condition
     ? selectedItem.condition
@@ -48,11 +54,20 @@ export function renderCartModalHandler(selectedItem) {
     size: sizeSelected,
     quantity: 1,
   };
-
   colorSelectHandler(articleSelected);
   sizeSelectHandler(articleSelected);
   productCountHandler(articleSelected);
   saveToCartHandler(articleSelected);
+}
+export function disableSizeHandler(noSize) {
+  const sizeContainer = document.querySelector(".size-fieldset");
+  const sizeText = document.querySelector(".product-size");
+  if (noSize) {
+    sizeContainer.classList.add("disabledSize");
+    sizeText.textContent = "";
+  } else {
+    sizeContainer.classList.remove("disabledSize");
+  }
 }
 
 export function colorSelectHandler(articleSelected) {
