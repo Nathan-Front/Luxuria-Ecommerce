@@ -141,24 +141,6 @@
 .color-label {
     width: fit-content;
 }
-.black {
-    background-color: #0A0A0A;
-}
-.white {
-    background-color: #ffffff;
-}
-.cream {
-    background-color: #E8D8BD;
-}
-.pink {
-    background-color: #B76E79;
-}
-.green {
-    background-color: #657153;
-}
-.blue {
-    background-color: #172033;
-}
 .size-indicator {
     margin-top: 40px;
 }

@@ -150,6 +150,7 @@ function deleteItemHandler(products) {
       li.remove();
       displayCartCount();
       renderTotalCosts(products);
+      renderTemporaryCart(products);
     });
   });
 }

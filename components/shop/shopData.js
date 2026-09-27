@@ -8,7 +8,7 @@ import {
   hideModalCartHandler,
   renderCartModalHandler,
 } from "../cart/cartModal.js";
-import { disableSizeHandler } from "../cart/cartModal.js";
+import { disableSizeHandler, renderColors } from "../cart/cartModal.js";
 
 let fetchDataArr = [];
 export async function fetchShopHeroCont() {
@@ -195,14 +195,6 @@ function displayPage(page) {
   //activePageButton();
   displayCountPerPage(productArray.length);
 }
-
-/* function activePageButton() {
-  const pageButtons = document.querySelectorAll(".page-btn");
-  if (!pageButtons) return;
-  pageButtons.forEach((btn, index) => {
-    btn.classList.toggle("activePageBtn", index + 1 === currentPage);
-  });
-} */
 
 function displayCountPerPage(totalProduct) {
   const start = (currentPage - 1) * cardsPerPage + 1;
@@ -392,14 +384,19 @@ function addToCart(products) {
       );
       disableSizeHandler(noSize);
       showAuthCon();
-      showCartModal();
-      renderCartModalHandler(addItem);
+
       hideModalCartHandler();
+      let colorArr = addItem.color
+        .split(",")
+        .map((color) => color.trim().replaceAll('"', ""));
+      showCartModal(colorArr);
+      renderCartModalHandler(addItem);
     });
   });
 }
 
-function showCartModal() {
+function showCartModal(colorArr) {
   const cartModal = document.querySelector(".cart-modal");
   cartModal.classList.add("cartModal");
+  renderColors(colorArr);
 }
