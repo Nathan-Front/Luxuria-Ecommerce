@@ -44,23 +44,29 @@ export function renderColors(colorArr) {
 export function colorInit() {
   const colorCont = document.querySelector(".color-select");
   const colorDisplay = document.querySelector(".product-color");
-
+  const article = document.querySelector(".cart-article-image");
   // Initial selected color
   const selectedRadio = colorCont.querySelector('input[name="color"]:checked');
   const selectedColor = selectedRadio?.value;
   if (selectedColor) {
     colorDisplay.textContent = selectedColor;
   }
+
   // when color is changed
-  colorCont.onchange = (event) => {
+  /* colorCont.onchange = (event) => {
     if (event.target.name !== "color") return;
     const newColor = event.target.value;
     colorDisplay.textContent = newColor;
-  };
+
+    const colorName = newColor.replace(/\s+/g, "_");
+    const imageName = `${selectedItem.articleImg}_${colorName}.webp`;
+    article.src = `./images/shop/secondSection/articleOptions/${imageName}`;
+  }; */
   return selectedColor;
 }
 
 export function renderCartModalHandler(selectedItem) {
+  console.log("text", selectedItem);
   const colorCont = document.querySelector(".color-select");
   const article = document.querySelector(".cart-article-image");
   const product = document.querySelector(".product-title");
@@ -69,10 +75,9 @@ export function renderCartModalHandler(selectedItem) {
   const price = document.querySelector(".product-price");
   const condition = document.querySelector(".product-condition");
 
+  const colorSelected = colorInit();
   article.src = `./images/shop/secondSection/${selectedItem.articleImg}.webp`;
   article.alt = selectedItem.articleAlt;
-
-  const colorSelected = colorInit();
 
   const sizeSelected = document.querySelector(
     'input[name="size"]:checked',
@@ -99,16 +104,23 @@ export function renderCartModalHandler(selectedItem) {
     size: sizeSelected,
     quantity: 1,
   };
-
+  const colorName = colorSelected.replace(/\s+/g, "_");
+  const imageName = `${selectedItem.articleImg}_${colorName}.webp`;
+  article.src = `./images/shop/secondSection/articleOptions/${imageName}`;
   colorCont.onchange = (event) => {
     if (event.target.name !== "color") return;
 
     const newColor = event.target.value;
 
     articleSelected.color = newColor;
+
+    const colorName = newColor.replace(/\s+/g, "_");
+    const imageName = `${selectedItem.articleImg}_${colorName}.webp`;
+    article.src = `./images/shop/secondSection/articleOptions/${imageName}`;
+
     console.log(articleSelected);
   };
-
+  console.log(articleSelected);
   colorSelectHandler(articleSelected);
   sizeSelectHandler(articleSelected);
   productCountHandler(articleSelected);

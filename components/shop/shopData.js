@@ -7,6 +7,7 @@ import { showAuthCon } from "../../script/index.js";
 import {
   hideModalCartHandler,
   renderCartModalHandler,
+  colorInit,
 } from "../cart/cartModal.js";
 import { disableSizeHandler, renderColors } from "../cart/cartModal.js";
 
@@ -390,6 +391,7 @@ function addToCart(products) {
         .split(",")
         .map((color) => color.trim().replaceAll('"', ""));
       showCartModal(colorArr);
+      colorInit();
       renderCartModalHandler(addItem);
     });
   });
