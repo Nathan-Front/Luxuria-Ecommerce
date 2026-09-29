@@ -46,7 +46,7 @@ export function renderTemporaryCart(products) {
     li.dataset.color = storageItem.color;
     li.dataset.size = storageItem.size;
     li.innerHTML = `
-        <img src="./images/shop/secondSection/${product.articleImg}.webp" alt="${product.articleImgAlt}" class="summary-cart-article-image" />
+        <img src="${storageItem.imageName !== "none" ? `./images/shop/secondSection/articleOptions/${storageItem.articleImg}` : `./images/shop/secondSection/${product.articleImg}.webp`}" alt="${storageItem.imageName}" class="summary-cart-article-image" />
         <div class="summary-article-details">
           <p class="summary-title">${product.article}</p>
           <p class="summary-color">Color: <span>${storageItem.color}</span></p>

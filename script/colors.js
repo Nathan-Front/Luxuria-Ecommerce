@@ -256,4 +256,5 @@ export const colorOptions = {
   "pastel yellow": "#FFFAA0",
   saffron: "#F4C430",
   yellow: "#FFFF00",
+  none: "none",
 };

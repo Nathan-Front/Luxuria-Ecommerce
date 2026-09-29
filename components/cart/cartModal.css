@@ -102,8 +102,13 @@
     gap: 16px;
 }
 .color-note {
-    font-size: var(--text-small);
+    font-size: 12px;
     margin-top: -16px;
+}
+.no-color-opt {
+    color: #800000;
+    font-weight: 600;
+    font-size: var(--text-base);
 }
 .color-select {
     display: flex;
