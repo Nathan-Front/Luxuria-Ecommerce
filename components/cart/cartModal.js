@@ -18,6 +18,13 @@ export function hideModalCartHandler() {
     document.getElementById("cart-count").textContent = 1;
   });
 }
+export function viewProductDetails() {
+  const viewBtn = document.querySelector(".view-product-details");
+  viewBtn.onclick = () => {
+    alert("view details not yet available at the moment!");
+  };
+}
+
 export function renderColors(colorArr) {
   const colorCont = document.querySelector(".color-select");
   colorCont.innerHTML = "";

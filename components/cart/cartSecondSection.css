@@ -46,17 +46,17 @@
 }
 /*Chrome, Edge, Safari */
 .cart-summary-list::-webkit-scrollbar {
-  width: 6px;
+    width: 6px;
 }
 .cart-summary-list::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
 .cart-summary-list::-webkit-scrollbar-thumb {
-  background: #C9B58F;
-  border-radius: 10px;
+    background: #C9B58F;
+    border-radius: 10px;
 }
 .cart-summary-list::-webkit-scrollbar-thumb:hover {
-  background: #B5A078;
+    background: #B5A078;
 }
 .storage-zero {
     font-weight: 500;
@@ -80,7 +80,7 @@
     width: 180px;
     max-width: 220px;
     min-width: 100px;
-    border: 1px solid black;
+    border: 1px solid #B5A078;
     border-radius: 0.25rem;
 }
 .summary-article-details {

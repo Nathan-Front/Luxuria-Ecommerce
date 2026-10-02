@@ -9,7 +9,11 @@ import {
   renderCartModalHandler,
   colorInit,
 } from "../cart/cartModal.js";
-import { disableSizeHandler, renderColors } from "../cart/cartModal.js";
+import {
+  disableSizeHandler,
+  renderColors,
+  viewProductDetails,
+} from "../cart/cartModal.js";
 
 let fetchDataArr = [];
 export async function fetchShopHeroCont() {
@@ -79,7 +83,7 @@ export function renderProducts(products) {
         : ""
     }
     <div class="heart-cont">
-      <img src=${likes.includes(item.No) ? "./images/nav/heart-alt-svgrepo-com.svg" : "./images/nav/heart-svgrepo-com.svg"} alt="heart-icon" class="shop-liked-product" />
+      <img src=${likes.includes(item.No) ? "./images/nav/heart-alt-svgrepo-com.svg" : "./images/nav/heart-svgrepo-com.svg"} alt="heart-icon" class="shop-liked-product" loading="lazy" />
     </div>
     <img src="./images/shop/secondSection/${item.articleImg}.webp" alt=${item.articleAlt} class="article-image"/>
     <span class="article-title">${item.article}</span>
@@ -401,4 +405,5 @@ function showCartModal(colorArr) {
   const cartModal = document.querySelector(".cart-modal");
   cartModal.classList.add("cartModal");
   renderColors(colorArr);
+  viewProductDetails();
 }

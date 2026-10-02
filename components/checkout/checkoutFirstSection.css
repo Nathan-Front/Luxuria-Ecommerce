@@ -1,0 +1,313 @@
+.checkout-first-sec {
+    width: 100%;
+    margin-top: calc(var(--nav-height-desk) + var(--nav-height-upper));
+    padding: 40px 0;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+}
+.order-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    margin: 16px;
+    background-color: #F8F5EF;
+    border-radius: 0.5rem;
+}
+.order-summary> h2 {
+    font-size: var(--heading-medium);
+}
+.checkout-quantity {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: var(--text-large);
+}
+.cart-items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 0;
+    border-top: 1px solid #B5A078;
+    border-bottom: 1px solid #B5A078;
+    max-height: 500px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #C9B58F transparent;
+}
+/*Chrome, Edge, Safari */
+.cart-items::-webkit-scrollbar {
+    width: 6px;
+}
+.cart-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+.cart-items::-webkit-scrollbar-thumb {
+    background: #C9B58F;
+    border-radius: 10px;
+}
+.cart-items::-webkit-scrollbar-thumb:hover {
+    background: #B5A078;
+}
+.cart-items> li {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(197, 182, 152, 0.35);
+}
+.checkout-image {
+    width: 120px;
+    aspect-ratio: 1 / 1;
+}
+.cart-items> li> div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.checkout-product-price {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: 800;
+}
+.checkout-product-price> p:last-child {
+    margin-left: auto;
+}
+.checkout-product-price,
+.checkout-color,
+.checkout-size,
+.checkout-count {
+    text-transform: uppercase;
+    font-size: var(--text-base);
+}
+.checkout-size-count {
+    display: flex;
+    gap: 8px;
+}
+
+.checkout-totals {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.checkout-totals> p {
+    width: 100%;
+    display: flex;
+    font-weight: 700;
+    font-size: var(--text-large);
+}
+.checkout-totals> p> span {
+    margin-left: auto;
+}
+.checkout-totals> p:last-child {
+    font-size: var(--heading-small);
+    padding: 16px 0 0 0;
+    border-top: 1px solid #B5A078;
+    
+}
+
+.summary-footer {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.summary-footer> img {
+    width: 30px;
+}
+.free-shipping-cont {
+    border: 1px solid #B5A078;
+    border-radius: 0.25rem;
+    padding: 16px 0;
+    margin: 16px 0;
+}
+.free-shipping-cont> img {
+    margin-left: 16px;
+}
+.summary-footer> div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.summary-footer> div> p {
+    font-size: var(--text-base);
+}
+.summary-footer> div> p:first-child {
+    font-weight: 600;
+}
+
+
+/*Right container*/
+.checkout-right-con {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    margin: 16px;
+}
+.checkout-right-con> h3 {
+    font-weight: 700;
+    font-size: var(--heading-small);
+}
+.checkout-right-con> p {
+    font-size: var(--text-base);
+}
+.checkout-right-con> form {
+    width: 100%;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.user-details-con {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+}
+.form-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.form-header> div {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.form-header> div> img {
+    width: 30px;
+    aspect-ratio: 1 / 1;
+}
+.form-header> div> h4 {
+    font-size: var(--text-large);
+    font-weight: 700;
+}
+.form-header> p {
+    font-size: var(--text-small);
+}
+.user-input-con {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 16px;
+}
+.name-email,
+.contact-address {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    gap: 32px;
+}
+.address-details {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    justify-content: space-between;
+    gap: 32px;
+}
+.address-details> * {
+    min-width: 0;
+}
+.user-input-con> div> div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4px;
+}
+.user-input-con> div> div> input {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+}
+.user-input-con> div> div> input:focus {
+    border-color: #B5A078;
+    outline: none;
+}
+
+/*paypal*/
+.user-payment-con {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.paypal-selection,
+.cod-selection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.cod-selection {
+    margin-top: 16px;
+}
+.paypal-selection> label,
+.cod-selection> label {
+    width: 100%;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #B5A078;
+}
+.paypal-selection> label> input,
+.cod-selection> label> input {
+    margin-left: 8px;
+}
+.payment-card-con {
+    margin-left: auto;
+    margin-right: 8px;
+    display: flex;
+    gap: 8px;
+}
+.payment-card-con> img {
+    width: 40px;
+}
+.paypal-btn-con {
+    margin-top: 16px;
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+        grid-template-rows 0.4s ease,
+        opacity 0.3s ease;
+}
+
+.paypal-btn-con> * {
+    min-height: 0;
+    overflow: hidden;
+}
+
+#paypal-button-container,
+.cod-btn-con> button {
+    width: 100%;
+}
+.cod-btn-con {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+        grid-template-rows 0.4s ease,
+        opacity 0.3s ease;
+}
+.cod-btn-con> button {
+    background-color: aqua;
+    padding: 16px 0;
+    margin-top: 16px;
+    font-size: var(--text-large);
+    border-radius: 0.25rem;
+}
+.showPaypalBtn,
+.showCodBtn {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}

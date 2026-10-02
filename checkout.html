@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/index.css" />
+    <link rel="stylesheet" href="./components/footer/footer.css" />
+    <link rel="stylesheet" href="./components/login-create-form/login.css" />
+    <link
+      rel="stylesheet"
+      href="./components/login-create-form/userWindow.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./components/login-create-form/logoutModal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./components/login-create-form/createAccount.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./components/checkout/checkoutFirstSection.css"
+    />
+    <title>Checkout</title>
+  </head>
+  <body data-page="checkout">
+    <div id="app"></div>
+    <div id="auth-modals" class="auth-overlay"></div>
+  </body>
+  <script type="module" src="./script/index.js" defer></script>
+  <!-- Initialize the JS-SDK -->
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=test&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo,paylater,card"
+    data-sdk-integration-source="developer-studio"
+  ></script>
+  <script type="module" src="./script/app.js"></script>
+</html>

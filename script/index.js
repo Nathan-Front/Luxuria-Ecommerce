@@ -25,6 +25,7 @@ import {
 } from "../components/shop/filters.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
+import { paymentRadioButton } from "../script/app.js";
 
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -114,6 +115,13 @@ async function fetchHTML() {
         ),
       ]);
     }
+    if (page === "checkout") {
+      sections = await Promise.all([
+        fetch("./components/checkout/checkoutFirstSection.html").then((res) =>
+          res.text(),
+        ),
+      ]);
+    }
     body.insertAdjacentHTML("beforebegin", nav);
     /* body.insertAdjacentHTML("beforebegin", cartModal); */
     sections.forEach((sec) => {
@@ -159,6 +167,14 @@ async function fetchHTML() {
   if (page === "cart") {
     fetchCartHeroCont();
     fetchSummaryData();
+  }
+  if (page === "checkout") {
+    paymentRadioButton();
+    document
+      .querySelectorAll('input[name="paymentMethod"]')
+      .forEach((radio) => {
+        radio.addEventListener("change", paymentRadioButton);
+      });
   }
   displayLikedCount();
   restoreCartCount();

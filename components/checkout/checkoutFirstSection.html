@@ -1,0 +1,191 @@
+<section class="checkout-first-sec">
+  <aside class="order-summary">
+    <h2 id="order-summary-title">Order Summary</h2>
+    <span class="checkout-quantity">0 item</span>
+    <ul class="cart-items">
+      <li>
+        <img
+          src="./images/shop/secondSection/blazer_w.webp"
+          alt="image"
+          class="checkout-image"
+        />
+        <div>
+          <div class="checkout-product-price">
+            <p class="checkout-product">Women's blazer</p>
+            <p class="checkout-price">$25.99</p>
+          </div>
+          <p class="checkout-color">Blacl</p>
+          <div class="checkout-size-count">
+            <span class="checkout-size">Xl</span> x
+            <span class="checkout-count">2</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <img
+          src="./images/shop/secondSection/blazer_w.webp"
+          alt="image"
+          class="checkout-image"
+        />
+        <div>
+          <div class="checkout-product-price">
+            <p class="checkout-product">Women's blazer</p>
+            <p class="checkout-price">$25.99</p>
+          </div>
+          <p class="checkout-color">Blacl</p>
+          <div class="checkout-size-count">
+            <span class="checkout-size">Xl</span> x
+            <span class="checkout-count">2</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <img
+          src="./images/shop/secondSection/blazer_w.webp"
+          alt="image"
+          class="checkout-image"
+        />
+        <div>
+          <div class="checkout-product-price">
+            <p class="checkout-product">Women's blazer</p>
+            <p class="checkout-price">$25.99</p>
+          </div>
+          <p class="checkout-color">Blacl</p>
+          <div class="checkout-size-count">
+            <span class="checkout-size">Xl</span> x
+            <span class="checkout-count">2</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="checkout-totals">
+      <p>Subtotal: <span class="checkout-subtotal">00</span></p>
+      <p>Delivery fee: <span class="checkout-del-fee">00</span></p>
+      <p>Estimated tax: <span class="checkout-tax">00</span></p>
+      <p>Grand Total: <span class="checkout-total">00</span></p>
+    </div>
+    <div class="free-shipping-cont summary-footer">
+      <img
+        src="./images/cart/secondSection/delivery-fast.svg"
+        alt="shipping-icon"
+      />
+      <div>
+        <p>Free shipping on orders over $300.00</p>
+        <p>You're <span class="difference">00</span>away from free shipping</p>
+      </div>
+    </div>
+    <div class="summary-footer">
+      <img
+        src="./images/cart/secondSection/secure-shield.svg"
+        alt="shield-icon"
+      />
+      <div>
+        <p>Secure Payment</p>
+        <p>Your information is safe with us</p>
+      </div>
+    </div>
+    <div class="summary-footer">
+      <img
+        src="./images/cart/secondSection/delivery-fast.svg"
+        alt="shipping-icon"
+      />
+      <div>
+        <p>Fast & Reliable Delivery</p>
+        <p>We make sure no time is wasted on your ordered item.</p>
+      </div>
+    </div>
+    <div class="summary-footer">
+      <img src="./images/cart/secondSection/email.svg" alt="shipping-icon" />
+      <div>
+        <p>24/7 Customer Support</p>
+        <p>We're here to help</p>
+      </div>
+    </div>
+  </aside>
+
+  <div class="checkout-right-con">
+    <h3>Checkout</h3>
+    <p>Coplete your purchase by providing your shipping and payment details.</p>
+    <form>
+      <div class="user-details-con">
+        <div class="form-header">
+          <div>
+            <img src="./images/checkout/location-pin.svg" alt="location-icon" />
+            <h4>Shipping Address</h4>
+          </div>
+          <p>Enter your delivery information</p>
+        </div>
+        <div class="user-input-con">
+          <div class="name-email">
+            <div>
+              <label>Full Name</label>
+              <input type="text" />
+            </div>
+            <div>
+              <label>Email Address</label>
+              <input type="email" />
+            </div>
+          </div>
+          <div class="contact-address">
+            <div>
+              <label>Contact Number</label>
+              <input type="text" />
+            </div>
+            <div>
+              <label>Shipping Address</label>
+              <input type="text" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="user-payment-con">
+        <div class="form-header">
+          <div>
+            <img src="./images/checkout/card.svg" alt="card-icon" />
+            <h4>Payment Method</h4>
+          </div>
+          <p>Choose your preferred payment method</p>
+        </div>
+        <div id="payment-message" class="payment-message"></div>
+        <div class="paypal-selection">
+          <label class="payment-option">
+            <input
+              type="radio"
+              name="paymentMethod"
+              id="paypal"
+              value="paypal"
+            />
+            <span>PayPal</span>
+            <div class="payment-card-con">
+              <img src="./images/checkout/paypal.svg" alt="paypal" />
+              <img src="./images/checkout/visa.svg" alt="visa" />
+              <img src="./images/checkout/mastercard.svg" alt="mastercard" />
+            </div>
+          </label>
+          <div class="paypal-btn-con">
+            <div id="paypal-button-container"></div>
+            <p id="result-message"></p>
+          </div>
+        </div>
+        <div class="cod-selection">
+          <label class="payment-option">
+            <input
+              type="radio"
+              name="paymentMethod"
+              id="cashOnDelivery"
+              value="cash-on-delivery"
+            />
+            <span>Cash on Delivery</span>
+            <div class="payment-card-con">
+              <img src="./images/checkout/money-cash.svg" alt="cash" />
+            </div>
+          </label>
+          <div class="cod-btn-con">
+            <button id="place-order-btn" type="button">Place Order</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
