@@ -2,62 +2,11 @@
   <aside class="order-summary">
     <h2 id="order-summary-title">Order Summary</h2>
     <span class="checkout-quantity">0 item</span>
-    <ul class="cart-items">
-      <li>
-        <img
-          src="./images/shop/secondSection/blazer_w.webp"
-          alt="image"
-          class="checkout-image"
-        />
-        <div>
-          <div class="checkout-product-price">
-            <p class="checkout-product">Women's blazer</p>
-            <p class="checkout-price">$25.99</p>
-          </div>
-          <p class="checkout-color">Blacl</p>
-          <div class="checkout-size-count">
-            <span class="checkout-size">Xl</span> x
-            <span class="checkout-count">2</span>
-          </div>
-        </div>
-      </li>
-      <li>
-        <img
-          src="./images/shop/secondSection/blazer_w.webp"
-          alt="image"
-          class="checkout-image"
-        />
-        <div>
-          <div class="checkout-product-price">
-            <p class="checkout-product">Women's blazer</p>
-            <p class="checkout-price">$25.99</p>
-          </div>
-          <p class="checkout-color">Blacl</p>
-          <div class="checkout-size-count">
-            <span class="checkout-size">Xl</span> x
-            <span class="checkout-count">2</span>
-          </div>
-        </div>
-      </li>
-      <li>
-        <img
-          src="./images/shop/secondSection/blazer_w.webp"
-          alt="image"
-          class="checkout-image"
-        />
-        <div>
-          <div class="checkout-product-price">
-            <p class="checkout-product">Women's blazer</p>
-            <p class="checkout-price">$25.99</p>
-          </div>
-          <p class="checkout-color">Blacl</p>
-          <div class="checkout-size-count">
-            <span class="checkout-size">Xl</span> x
-            <span class="checkout-count">2</span>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <div id="loading-product" class="product-loading" hidden>
+      <div class="product-spinner"></div>
+      <p>Retrieving data...</p>
+    </div>
+    <ul class="cart-items"></ul>
 
     <div class="checkout-totals">
       <p>Subtotal: <span class="checkout-subtotal">00</span></p>
@@ -106,7 +55,9 @@
 
   <div class="checkout-right-con">
     <h3>Checkout</h3>
-    <p>Coplete your purchase by providing your shipping and payment details.</p>
+    <p>
+      Complete your purchase by providing your shipping and payment details.
+    </p>
     <form>
       <div class="user-details-con">
         <div class="form-header">

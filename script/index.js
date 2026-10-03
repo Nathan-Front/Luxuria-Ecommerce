@@ -23,9 +23,10 @@ import {
   filterContents,
   displayFiltersTablet,
 } from "../components/shop/filters.js";
+import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
-import { paymentRadioButton } from "../script/app.js";
+import { paymentRadioButton, initPayPal } from "../script/app.js";
 
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -169,6 +170,8 @@ async function fetchHTML() {
     fetchSummaryData();
   }
   if (page === "checkout") {
+    fetchCheckoutData();
+    initPayPal();
     paymentRadioButton();
     document
       .querySelectorAll('input[name="paymentMethod"]')
