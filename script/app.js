@@ -1,5 +1,5 @@
 let paypalButtons = null;
-
+const SERVER_URL = "https://luxuria-ecommerce.onrender.com";
 export function initPayPal() {
   if (!window.paypal) {
     console.error("PayPal SDK has not loaded.");
@@ -22,7 +22,8 @@ export function initPayPal() {
     },
     async createOrder() {
       try {
-        const response = await fetch("http://localhost:8080/api/orders", {
+        //Use the created URL from render
+        const response = await fetch(`${SERVER_URL}/api/orders`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
