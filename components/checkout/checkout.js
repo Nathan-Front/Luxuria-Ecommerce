@@ -5,6 +5,9 @@ import { showSectionError } from "../../script/fetchDataError.js";
 export async function fetchCheckoutData() {
   let fetchDataArr = [];
   const cartList = document.querySelector(".order-summary");
+  const formContainer = document.querySelector(".checkout-right-con");
+  formContainer.classList.add("disableForm");
+
   setSectionLoading(cartList, true);
   try {
     fetchDataArr = await fetchSpecificSheet("shop-articles", "products");
@@ -14,6 +17,7 @@ export async function fetchCheckoutData() {
     showSectionError(cartList);
   } finally {
     setSectionLoading(cartList, false);
+    formContainer.classList.remove("disableForm");
   }
 }
 export function renderCartContent(products) {

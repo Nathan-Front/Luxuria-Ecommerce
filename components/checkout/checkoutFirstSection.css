@@ -154,6 +154,11 @@
     padding: 16px;
     margin: 16px;
 }
+.disableForm {
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+}
 .checkout-right-con> h3 {
     font-weight: 700;
     font-size: var(--heading-small);
