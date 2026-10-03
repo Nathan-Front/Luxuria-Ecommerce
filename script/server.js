@@ -11,7 +11,7 @@ import {
   PaymentsController,
   PaypalExperienceLandingPage,
   PaypalExperienceUserAction,
-  ShippingPreference,
+  //ShippingPreference,
 } from "@paypal/paypal-server-sdk";
 import bodyParser from "body-parser";
 
