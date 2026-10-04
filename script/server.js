@@ -25,7 +25,12 @@ app.use(
 );
 app.use(bodyParser.json());
 
-const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT = 8080 } = process.env;
+const {
+  PAYPAL_CLIENT_ID,
+  PAYPAL_CLIENT_SECRET,
+  GOOGLE_SCRIPT_URL,
+  PORT = 8080,
+} = process.env;
 
 const client = new Client({
   clientCredentialsAuthCredentials: {
@@ -152,11 +157,19 @@ const captureOrder = async (orderID) => {
   }
 };
 
-// captureOrder route
+// captureOrder route for paypal
 app.post("/api/orders/:orderID/capture", async (req, res) => {
   try {
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
+    //10. capture the order details to pass to apps script for order processing
+    const capture = jsonResponse.purchase_units[0].payments.captures[0];
+    //11. build the order data to send to apps script for order processing
+    if (capture.status === "COMPLETED") {
+      console.log("Payment completed");
+      console.log("Customer:", savedOrder.customer);
+      console.log("Cart:", savedOrder.cart);
+    }
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);
@@ -167,3 +180,16 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Node server listening at http://localhost:${PORT}/`);
 });
+
+function buildOrderData({
+  orderID,
+  captureID,
+  status,
+  date,
+  customer,
+  cart,
+  orderCalculation,
+  paymentMethod,
+}) {
+  return {};
+}
