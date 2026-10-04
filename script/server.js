@@ -49,6 +49,22 @@ const paymentsController = new PaymentsController(client);
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
 const createOrder = async (cart) => {
+  //7. Create the order details to send to the PayPal API
+  const items = cart.map((item) => ({
+    name: item.article,
+    unitAmount: {
+      currencyCode: "USD",
+      value: item.articlePrice.toFixed(2),
+    },
+    quantity: item.quantity.toString(),
+    sku: String(item.id),
+  }));
+  //8. Calculate the total amount from the cart items
+  const totalAmount = cart.reduce(
+    (total, item) => total + Number(item.articlePrice) * Number(item.quantity),
+    0,
+  );
+  //9. Create the order request body with the total amount and items
   const collect = {
     body: {
       intent: "CAPTURE",
@@ -56,27 +72,16 @@ const createOrder = async (cart) => {
         {
           amount: {
             currencyCode: "USD",
-            value: "100",
+            value: totalAmount.toFixed(2),
             breakdown: {
               itemTotal: {
                 currencyCode: "USD",
-                value: "100",
+                value: totalAmount.toFixed(2),
               },
             },
           },
           // lookup item details in `cart` from database
-          items: [
-            {
-              name: "T-Shirt",
-              unitAmount: {
-                currencyCode: "USD",
-                value: "100",
-              },
-              quantity: "1",
-              description: "Super Fresh Shirt",
-              sku: "sku01",
-            },
-          ],
+          items,
         },
       ],
     },
@@ -103,8 +108,15 @@ const createOrder = async (cart) => {
 // createOrder route
 app.post("/api/orders", async (req, res) => {
   try {
+    console.log("🔥 Order received from frontend:");
+    console.log(JSON.stringify(req.body, null, 2));
     // use the cart information passed from the front-end to calculate the order amount detals
     const { cart } = req.body;
+    if (!cart || !Array.isArray(cart) || cart.length === 0) {
+      return res.status(400).json({
+        error: "Cart is empty.",
+      });
+    }
     const { jsonResponse, httpStatusCode } = await createOrder(cart);
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {

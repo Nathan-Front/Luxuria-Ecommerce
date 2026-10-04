@@ -26,7 +26,11 @@ import {
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
-import { paymentRadioButton, initPayPal } from "../script/app.js";
+import {
+  paymentRadioButton,
+  initPayPal,
+  fetchCartData,
+} from "../script/app.js";
 
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -170,6 +174,7 @@ async function fetchHTML() {
     fetchSummaryData();
   }
   if (page === "checkout") {
+    fetchCartData();
     fetchCheckoutData();
     initPayPal();
     paymentRadioButton();
@@ -188,7 +193,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwmaJJE1CMXA_yh451Ci0IWX4HRCvfyJg8yN2_sPcmOSaFC07woAL7P6jbIkwZFxZ8C/exec";
+  "https://script.google.com/macros/s/AKfycbzDDJ2anyump6q8M-V9cSiW9wxLBQOUY0vyNksvQA8JcALaXoa1vAAIDOmK78gHnfH0/exec";
 //51st ver
 
 //display/hide authCon on click of user icon

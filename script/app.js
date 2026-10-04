@@ -1,5 +1,55 @@
+import { fetchSpecificSheet } from "./fetchApps.js";
+
 let paypalButtons = null;
 const SERVER_URL = "https://luxuria-ecommerce.onrender.com";
+//3. fetch needed data from google sheet and return the order details here
+export async function fetchCartData() {
+  try {
+    const products = await fetchSpecificSheet("shop-articles", "products");
+    return getOrderDetails(products);
+  } catch (error) {
+    console.log(error);
+  }
+}
+//2. Get order details from the form and local storage
+//*optional data from google sheet if needed
+function getOrderDetails(products) {
+  console.log("Products:", products);
+  const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+  const cartData = storage.map((storageItem) => {
+    const product = products.find(
+      (item) => String(item.No) === String(storageItem.No),
+    );
+    return { ...storageItem, product };
+  });
+  console.log("Cart Data:", cartData);
+  const cart = cartData.map((item) => ({
+    id: item.No,
+    article: item.product.article,
+    color: item.color,
+    size: item.size ? item.size : "N/A",
+    articlePrice: item.product.price,
+    quantity: item.quantity,
+    priceTotal: parseFloat(item.product.price) * item.quantity,
+  }));
+  console.log("Cart:", cart);
+  const name = document.querySelector("#full-name");
+  const email = document.querySelector("#email");
+  const contactNumber = document.querySelector("#contact-number");
+  const shippingAddress = document.querySelector("#shipping-address");
+  return {
+    cart,
+    customer: {
+      name: name.value,
+      email: email.value,
+      contactNumber: contactNumber.value,
+      shippingAddress: shippingAddress.value,
+    },
+    paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')
+      ?.value,
+  };
+}
+
 export function initPayPal() {
   if (!window.paypal) {
     console.error("PayPal SDK has not loaded.");
@@ -21,8 +71,11 @@ export function initPayPal() {
       amount: 100,
     },
     async createOrder() {
+      //4. get the returned order details
+      const orderDetails = await fetchCartData();
+      console.log("Order Details:", orderDetails);
       try {
-        //Use the created URL from render
+        //1.Use the created URL from render server
         const response = await fetch(`${SERVER_URL}/api/orders`, {
           method: "POST",
           headers: {
@@ -30,17 +83,12 @@ export function initPayPal() {
           },
           // use the "body" param to optionally pass additional order information
           // like product ids and quantities
-          body: JSON.stringify({
-            cart: [
-              {
-                id: "YOUR_PRODUCT_ID",
-                quantity: "YOUR_PRODUCT_QUANTITY",
-              },
-            ],
-          }),
+          //5. Send the order details to the server
+          body: JSON.stringify(orderDetails),
         });
 
         const orderData = await response.json();
+        console.log("🔥 PayPal response from server:", orderData);
 
         if (orderData.id) {
           return orderData.id;
@@ -58,19 +106,22 @@ export function initPayPal() {
     },
     async onApprove(data, actions) {
       try {
-        const response = await fetch(`/api/orders/${data.orderID}/capture`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        //6. Approve the order on the server
+        const response = await fetch(
+          `${SERVER_URL}/api/orders/${data.orderID}/capture`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
           },
-        });
+        );
 
         const orderData = await response.json();
         // Three cases to handle:
         //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
         //   (2) Other non-recoverable errors -> Show a failure message
         //   (3) Successful transaction -> Show confirmation or thank you message
-
         const errorDetail = orderData?.details?.[0];
 
         if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
