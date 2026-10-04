@@ -23,6 +23,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+//11. delcare a map to store pending orders for later processing
 const pendingOrders = new Map();
 app.use(bodyParser.json());
 
@@ -117,13 +118,28 @@ app.post("/api/orders", async (req, res) => {
     console.log("🔥 Order received from frontend:");
     console.log(JSON.stringify(req.body, null, 2));
     // use the cart information passed from the front-end to calculate the order amount detals
-    const { cart } = req.body;
+    //10. use the cart information passed from the front-end
+    const { cart, customer, paymentMethod } = req.body;
+    console.log("Cart received:", cart);
+    console.log("Customer received:", customer);
+    console.log("Payment method received:", paymentMethod);
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
       return res.status(400).json({
         error: "Cart is empty.",
       });
     }
     const { jsonResponse, httpStatusCode } = await createOrder(cart);
+    //12. Save the order details in the pendingOrders map for later processing
+    if (!jsonResponse?.id) {
+      throw new Error("PayPal did not return an order ID");
+    }
+    pendingOrders.set(jsonResponse.id, {
+      cart,
+      customer,
+      paymentMethod,
+    });
+    console.log("Saved pending order:", pendingOrders.get(jsonResponse.id));
+
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);
@@ -163,7 +179,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
   try {
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
-    //10. capture the order details to pass to apps script for order processing
+    /* //10. capture the order details to pass to apps script for order processing
     const capture = jsonResponse.purchase_units[0].payments.captures[0];
     //11. build the order data to send to apps script for order processing
     const savedOrder = pendingOrders.get(orderID);
@@ -177,7 +193,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
       console.log("Payment completed");
       console.log("Customer:", savedOrder.customer);
       console.log("Cart:", savedOrder.cart);
-    }
+    } */
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);
