@@ -112,7 +112,7 @@ const createOrder = async (cart) => {
   }
 };
 
-// createOrder route
+// createOrder route for paypal
 app.post("/api/orders", async (req, res) => {
   try {
     console.log("🔥 Order received from frontend:");
@@ -179,9 +179,9 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
   try {
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
-    /* //10. capture the order details to pass to apps script for order processing
+    //13. capture the order details to pass to apps script for order processing
     const capture = jsonResponse.purchase_units[0].payments.captures[0];
-    //11. build the order data to send to apps script for order processing
+    //14. build the order data to send to apps script for order processing
     const savedOrder = pendingOrders.get(orderID);
     if (!savedOrder) {
       return res.status(404).json({
@@ -193,7 +193,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
       console.log("Payment completed");
       console.log("Customer:", savedOrder.customer);
       console.log("Cart:", savedOrder.cart);
-    } */
+    }
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);
