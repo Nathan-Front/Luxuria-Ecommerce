@@ -23,6 +23,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+const pendingOrders = new Map();
 app.use(bodyParser.json());
 
 const {
@@ -165,6 +166,13 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
     //10. capture the order details to pass to apps script for order processing
     const capture = jsonResponse.purchase_units[0].payments.captures[0];
     //11. build the order data to send to apps script for order processing
+    const savedOrder = pendingOrders.get(orderID);
+    if (!savedOrder) {
+      return res.status(404).json({
+        success: false,
+        error: "Order not found.",
+      });
+    }
     if (capture.status === "COMPLETED") {
       console.log("Payment completed");
       console.log("Customer:", savedOrder.customer);
