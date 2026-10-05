@@ -294,7 +294,7 @@ app.listen(PORT, () => {
   console.log(`Node server listening at http://localhost:${PORT}/`);
 });
 
-//20. build the order data to send to apps script for order processing
+//20. build the order data to send to apps script for saving
 function buildOrderData({
   orderID,
   captureID,
