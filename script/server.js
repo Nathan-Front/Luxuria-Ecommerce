@@ -84,7 +84,7 @@ const createOrder = async (cart) => {
       : 0;
 
   const grandTotal = Number((total + taxAmount + deliveryFee).toFixed(2));
-  //11. Create the order request body with the total amount and items
+  //13. Create the order request body with the total amount and items
   const collect = {
     body: {
       intent: "CAPTURE",
@@ -93,10 +93,22 @@ const createOrder = async (cart) => {
           amount: {
             currencyCode: "USD",
             value: grandTotal.toFixed(2),
+
+            //11. Add the breakdown of the total amount to include item total, tax, and shipping
             breakdown: {
               itemTotal: {
                 currencyCode: "USD",
-                value: grandTotal.toFixed(2),
+                value: Number(total).toFixed(2),
+              },
+
+              taxTotal: {
+                currencyCode: "USD",
+                value: Number(taxAmount).toFixed(2),
+              },
+
+              shipping: {
+                currencyCode: "USD",
+                value: Number(deliveryFee).toFixed(2),
               },
             },
           },
@@ -116,6 +128,7 @@ const createOrder = async (cart) => {
     return {
       jsonResponse: JSON.parse(body),
       httpStatusCode: httpResponse.statusCode,
+      //12. return the order calculation details to save in the pendingOrders map for later processing
       orderCalculation: {
         subTotal: total,
         taxRate,
