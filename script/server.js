@@ -270,9 +270,9 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
       console.log("Google Script response:");
       console.log(responseText);
       //const result = await response.json();
-      /*  if (!result.success) {
+      if (!result.success) {
         return res.status(500).json(result);
-      } */
+      }
       //23. return the result from the google script to the front-end
       return res.status(httpStatusCode).json({
         success: true,
