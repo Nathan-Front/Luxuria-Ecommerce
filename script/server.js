@@ -56,6 +56,10 @@ const paymentsController = new PaymentsController(client);
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
 const createOrder = async (cart) => {
+  //9. get settings from google sheet to calculate the total amount and other details
+  const response = await fetch(`${GOOGLE_SCRIPT_URL}?type=paymentSettings`);
+  console.log("Google Script URL:", GOOGLE_SCRIPT_URL);
+  const settings = await response.json();
   //8. Create the order details to send to the PayPal API
   const items = cart.map((item) => ({
     name: item.article,
@@ -66,12 +70,21 @@ const createOrder = async (cart) => {
     quantity: item.quantity.toString(),
     sku: String(item.id),
   }));
-  //9. Calculate the total amount from the cart items
-  const totalAmount = cart.reduce(
+  //10. Calculate the total amount from the cart items
+  const total = cart.reduce(
     (total, item) => total + Number(item.articlePrice) * Number(item.quantity),
     0,
   );
-  //10. Create the order request body with the total amount and items
+  const paymentSettings = settings.settings[0];
+  const taxRate = Number(paymentSettings.taxFee) / 100;
+  const taxAmount = Number((total * taxRate).toFixed(2));
+  const deliveryFee =
+    paymentSettings.shippingFee !== "free"
+      ? Number(paymentSettings.DeliveryFee)
+      : 0;
+
+  const grandTotal = Number((total + taxAmount + deliveryFee).toFixed(2));
+  //11. Create the order request body with the total amount and items
   const collect = {
     body: {
       intent: "CAPTURE",
@@ -79,11 +92,11 @@ const createOrder = async (cart) => {
         {
           amount: {
             currencyCode: "USD",
-            value: totalAmount.toFixed(2),
+            value: grandTotal.toFixed(2),
             breakdown: {
               itemTotal: {
                 currencyCode: "USD",
-                value: totalAmount.toFixed(2),
+                value: grandTotal.toFixed(2),
               },
             },
           },
@@ -189,10 +202,22 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         error: "Order not found.",
       });
     }
+    //16. pass the block of cart and other necessary details needed in google sheet
     if (capture.status === "COMPLETED") {
       console.log("Payment completed");
       console.log("Customer:", savedOrder.customer);
       console.log("Cart:", savedOrder.cart);
+      const orderData = buildOrderData({
+        orderID: jsonResponse.id,
+        captureID: capture.id,
+        date: new Date(capture.create_time)
+          .toISOString()
+          .replace("T", " ")
+          .substring(0, 19),
+        customer: savedOrder.customer,
+        cart: savedOrder.cart,
+        status: jsonResponse.status,
+      });
     }
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
