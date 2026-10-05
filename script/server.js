@@ -23,7 +23,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-//11. delcare a map to store pending orders for later processing
+//12. delcare a map to store pending orders for later processing
 const pendingOrders = new Map();
 app.use(bodyParser.json());
 
@@ -56,7 +56,7 @@ const paymentsController = new PaymentsController(client);
  * @see https://developer.paypal.com/docs/api/orders/v2/#orders_create
  */
 const createOrder = async (cart) => {
-  //7. Create the order details to send to the PayPal API
+  //8. Create the order details to send to the PayPal API
   const items = cart.map((item) => ({
     name: item.article,
     unitAmount: {
@@ -66,12 +66,12 @@ const createOrder = async (cart) => {
     quantity: item.quantity.toString(),
     sku: String(item.id),
   }));
-  //8. Calculate the total amount from the cart items
+  //9. Calculate the total amount from the cart items
   const totalAmount = cart.reduce(
     (total, item) => total + Number(item.articlePrice) * Number(item.quantity),
     0,
   );
-  //9. Create the order request body with the total amount and items
+  //10. Create the order request body with the total amount and items
   const collect = {
     body: {
       intent: "CAPTURE",
@@ -118,7 +118,7 @@ app.post("/api/orders", async (req, res) => {
     console.log("🔥 Order received from frontend:");
     console.log(JSON.stringify(req.body, null, 2));
     // use the cart information passed from the front-end to calculate the order amount detals
-    //10. use the cart information passed from the front-end
+    //11. use the cart information passed from the front-end
     const { cart, customer, paymentMethod } = req.body;
     console.log("Cart received:", cart);
     console.log("Customer received:", customer);
@@ -129,7 +129,7 @@ app.post("/api/orders", async (req, res) => {
       });
     }
     const { jsonResponse, httpStatusCode } = await createOrder(cart);
-    //12. Save the order details in the pendingOrders map for later processing
+    //13. Save the order details in the pendingOrders map for later processing
     if (!jsonResponse?.id) {
       throw new Error("PayPal did not return an order ID");
     }
@@ -179,9 +179,9 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
   try {
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
-    //13. capture the order details to pass to apps script for order processing
+    //14. capture the order details to pass to apps script for order processing
     const capture = jsonResponse.purchase_units[0].payments.captures[0];
-    //14. build the order data to send to apps script for order processing
+    //15. build the order data to send to apps script for order processing
     const savedOrder = pendingOrders.get(orderID);
     if (!savedOrder) {
       return res.status(404).json({

@@ -1,8 +1,9 @@
 import { fetchSpecificSheet } from "./fetchApps.js";
 
 let paypalButtons = null;
+//1. Set the server URL to your deployed server
 const SERVER_URL = "https://luxuria-ecommerce.onrender.com";
-//3. fetch needed data from google sheet and return the order details here
+//4. fetch needed data from google sheet and return the order details here
 export async function fetchCartData() {
   try {
     const products = await fetchSpecificSheet("shop-articles", "products");
@@ -11,7 +12,7 @@ export async function fetchCartData() {
     console.log(error);
   }
 }
-//2. Get order details from the form and local storage
+//3. Get order details from the form and local storage
 //*optional data from google sheet if needed
 function getOrderDetails(products) {
   console.log("Products:", products);
@@ -71,11 +72,11 @@ export function initPayPal() {
       amount: 100,
     },
     async createOrder() {
-      //4. get the returned order details
+      //5. get the returned order details
       const orderDetails = await fetchCartData();
       console.log("Order Details:", orderDetails);
       try {
-        //1.Use the created URL from render server
+        //2.Use the created URL from render server
         const response = await fetch(`${SERVER_URL}/api/orders`, {
           method: "POST",
           headers: {
@@ -83,7 +84,7 @@ export function initPayPal() {
           },
           // use the "body" param to optionally pass additional order information
           // like product ids and quantities
-          //5. Send the order details to the server
+          //6. Send the order details to the server
           body: JSON.stringify(orderDetails),
         });
 
@@ -106,7 +107,7 @@ export function initPayPal() {
     },
     async onApprove(data, actions) {
       try {
-        //6. Approve the order on the server
+        //7. Approve the order on the server
         const response = await fetch(
           `${SERVER_URL}/api/orders/${data.orderID}/capture`,
           {
