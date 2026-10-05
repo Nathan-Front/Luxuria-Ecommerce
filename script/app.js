@@ -42,9 +42,9 @@ function getOrderDetails(products) {
     cart,
     customer: {
       name: name.value,
-      email: email.value,
-      contactNumber: contactNumber.value,
       shippingAddress: shippingAddress.value,
+      contactNumber: contactNumber.value,
+      email: email.value,
     },
     paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')
       ?.value,

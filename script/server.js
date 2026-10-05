@@ -23,7 +23,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-//13. delcare a map to store pending orders for later processing
+//14. delcare a map to store pending orders for later processing
 const pendingOrders = new Map();
 app.use(bodyParser.json());
 
@@ -77,9 +77,6 @@ const createOrder = async (cart) => {
   );
   //variable is from app script`
   const paymentSettings = settings.settingFees[0];
-
-  console.log("🔥 Google payment settings response:", settings);
-  console.log("🔥 settings.settingFees:", settings.settingFees);
   const taxRate = Number(paymentSettings.taxFee);
   const taxAmount = Number((total * taxRate).toFixed(2));
   const deliveryFee =
@@ -88,7 +85,7 @@ const createOrder = async (cart) => {
       : 0;
 
   const grandTotal = Number((total + taxAmount + deliveryFee).toFixed(2));
-  //13. Create the order request body with the total amount and items
+  //11. Create the order request body with the total amount and items
   const collect = {
     body: {
       intent: "CAPTURE",
@@ -98,7 +95,7 @@ const createOrder = async (cart) => {
             currencyCode: "USD",
             value: grandTotal.toFixed(2),
 
-            //11. Add the breakdown of the total amount to include item total, tax, and shipping
+            //12. Add the breakdown of the total amount to include item total, tax, and shipping
             breakdown: {
               itemTotal: {
                 currencyCode: "USD",
@@ -132,7 +129,7 @@ const createOrder = async (cart) => {
     return {
       jsonResponse: JSON.parse(body),
       httpStatusCode: httpResponse.statusCode,
-      //12. return the order calculation details to save in the pendingOrders map for later processing
+      //13. return the order calculation details to save in the pendingOrders map for later processing
       orderCalculation: {
         subTotal: total,
         taxRate,
@@ -155,7 +152,7 @@ app.post("/api/orders", async (req, res) => {
     console.log("🔥 Order received from frontend:");
     console.log(JSON.stringify(req.body, null, 2));
     // use the cart information passed from the front-end to calculate the order amount detals
-    //12. use the cart information passed from the front-end
+    //15. use the cart information passed from the front-end
     const { cart, customer, paymentMethod } = req.body;
     console.log("Cart received:", cart);
     console.log("Customer received:", customer);
@@ -167,7 +164,7 @@ app.post("/api/orders", async (req, res) => {
     }
     const { jsonResponse, httpStatusCode, orderCalculation } =
       await createOrder(cart);
-    //14. Save the order details in the pendingOrders map for later processing
+    //16. Save the order details in the pendingOrders map for later processing
     if (!jsonResponse?.id) {
       throw new Error("PayPal did not return an order ID");
     }
@@ -218,9 +215,9 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
   try {
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
-    //15. capture the order details to pass to apps script for order processing
+    //17. capture the order details to pass to apps script for order processing
     const capture = jsonResponse.purchase_units[0].payments.captures[0];
-    //16. build the order data to send to apps script for order processing
+    //18. build the order data to send to apps script for order processing
     const savedOrder = pendingOrders.get(orderID);
     if (!savedOrder) {
       return res.status(404).json({
@@ -228,7 +225,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         error: "Order not found.",
       });
     }
-    //17. pass the block of cart and other necessary details needed in google sheet
+    //19. pass the block of cart and other necessary details needed in google sheet
     if (capture.status === "COMPLETED") {
       console.log("Payment completed");
       console.log("Customer:", savedOrder.customer);
@@ -243,9 +240,45 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         customer: savedOrder.customer,
         cart: savedOrder.cart,
         status: jsonResponse.status,
+        orderCalculation: {
+          subTotal: savedOrder.orderCalculation.subTotal,
+          taxRate: savedOrder.orderCalculation.taxRate,
+          taxAmount: savedOrder.orderCalculation.taxAmount,
+          deliveryFee: savedOrder.orderCalculation.deliveryFee,
+          grandTotal: savedOrder.orderCalculation.grandTotal,
+        },
+      });
+      console.log("Order data to send to Google Script:", orderData);
+      //21. fetch the google sheet and pass the orderData
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+      //22. get the result from the google script
+      const result = await response.json();
+      if (!result.success) {
+        return res.status(500).json(result);
+      }
+      //23. return the result from the google script to the front-end
+      return res.status(httpStatusCode).json({
+        success: true,
+        type: "paypal",
+        orderID: jsonResponse.id,
+        captureID: capture.id,
+        amount: savedOrder.orderCalculation.grandTotal,
+        status: jsonResponse.status,
+        paymentMethod: savedOrder.paymentMethod,
+        googleScript: result,
+        paypal: jsonResponse,
       });
     }
-    res.status(httpStatusCode).json(jsonResponse);
+    // Fallback if payment wasn't completed
+    return res.status(httpStatusCode).json({
+      paypal: jsonResponse,
+    });
   } catch (error) {
     console.error("Failed to create order:", error);
     res.status(500).json({
@@ -261,6 +294,7 @@ app.listen(PORT, () => {
   console.log(`Node server listening at http://localhost:${PORT}/`);
 });
 
+//20. build the order data to send to apps script for order processing
 function buildOrderData({
   orderID,
   captureID,
@@ -271,5 +305,33 @@ function buildOrderData({
   orderCalculation,
   paymentMethod,
 }) {
-  return {};
+  return {
+    //this formType is declared in apps script to know which function to call in the script
+    formType: "orders",
+    orderID,
+    captureID,
+    date,
+    name: customer.name,
+    address: customer.shippingAddress,
+    phone: customer.contactNumber,
+    email: customer.email,
+    status,
+
+    items: cart.map((item) => ({
+      productId: item.id,
+      product: item.article,
+      price: item.articlePrice,
+      color: item.color,
+      size: item.size,
+      quanity: item.quantity,
+    })),
+
+    deliveryFee: orderCalculation.deliveryFee,
+    taxRate: orderCalculation.taxRate,
+    taxAmount: orderCalculation.taxAmount,
+    subTotal: orderCalculation.subTotal,
+    grandTotal: orderCalculation.grandTotal,
+
+    paymentMethod,
+  };
 }
