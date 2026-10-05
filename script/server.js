@@ -23,7 +23,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-//12. delcare a map to store pending orders for later processing
+//13. delcare a map to store pending orders for later processing
 const pendingOrders = new Map();
 app.use(bodyParser.json());
 
@@ -131,7 +131,7 @@ app.post("/api/orders", async (req, res) => {
     console.log("🔥 Order received from frontend:");
     console.log(JSON.stringify(req.body, null, 2));
     // use the cart information passed from the front-end to calculate the order amount detals
-    //11. use the cart information passed from the front-end
+    //12. use the cart information passed from the front-end
     const { cart, customer, paymentMethod } = req.body;
     console.log("Cart received:", cart);
     console.log("Customer received:", customer);
@@ -142,7 +142,7 @@ app.post("/api/orders", async (req, res) => {
       });
     }
     const { jsonResponse, httpStatusCode } = await createOrder(cart);
-    //13. Save the order details in the pendingOrders map for later processing
+    //14. Save the order details in the pendingOrders map for later processing
     if (!jsonResponse?.id) {
       throw new Error("PayPal did not return an order ID");
     }
@@ -192,9 +192,9 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
   try {
     const { orderID } = req.params;
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
-    //14. capture the order details to pass to apps script for order processing
+    //15. capture the order details to pass to apps script for order processing
     const capture = jsonResponse.purchase_units[0].payments.captures[0];
-    //15. build the order data to send to apps script for order processing
+    //16. build the order data to send to apps script for order processing
     const savedOrder = pendingOrders.get(orderID);
     if (!savedOrder) {
       return res.status(404).json({
@@ -202,7 +202,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         error: "Order not found.",
       });
     }
-    //16. pass the block of cart and other necessary details needed in google sheet
+    //17. pass the block of cart and other necessary details needed in google sheet
     if (capture.status === "COMPLETED") {
       console.log("Payment completed");
       console.log("Customer:", savedOrder.customer);
