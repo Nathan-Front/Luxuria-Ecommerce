@@ -217,7 +217,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
     const { jsonResponse, httpStatusCode } = await captureOrder(orderID);
     //17. capture the order details to pass to apps script for order processing
     const capture = jsonResponse.purchase_units[0].payments.captures[0];
-    //18. build the order data to send to apps script for order processing
+    //18. get the order data to the pending map
     const savedOrder = pendingOrders.get(orderID);
     if (!savedOrder) {
       return res.status(404).json({
