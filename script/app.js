@@ -72,10 +72,10 @@ export function initPayPal() {
       amount: 100,
     },
     async createOrder() {
-      //5. get the returned order details
-      const orderDetails = await fetchCartData();
-      console.log("Order Details:", orderDetails);
       try {
+        //5. get the returned order details
+        const orderDetails = await fetchCartData();
+        console.log("Order Details:", orderDetails);
         //2.Use the created URL from render server
         const response = await fetch(`${SERVER_URL}/api/orders`, {
           method: "POST",
@@ -103,6 +103,7 @@ export function initPayPal() {
       } catch (error) {
         console.error(error);
         // resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`);
+        throw error;
       }
     },
     async onApprove(data, actions) {
