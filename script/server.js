@@ -76,7 +76,7 @@ const createOrder = async (cart) => {
     0,
   );
   const paymentSettings = settings.settings[0];
-  const taxRate = Number(paymentSettings.taxFee) / 100;
+  const taxRate = Number(paymentSettings.taxFee);
   const taxAmount = Number((total * taxRate).toFixed(2));
   const deliveryFee =
     paymentSettings.shippingFee !== "free"
@@ -116,6 +116,13 @@ const createOrder = async (cart) => {
     return {
       jsonResponse: JSON.parse(body),
       httpStatusCode: httpResponse.statusCode,
+      orderCalculation: {
+        subTotal: total,
+        taxRate,
+        taxAmount,
+        deliveryFee,
+        grandTotal,
+      },
     };
   } catch (error) {
     if (error instanceof ApiError) {
@@ -141,7 +148,8 @@ app.post("/api/orders", async (req, res) => {
         error: "Cart is empty.",
       });
     }
-    const { jsonResponse, httpStatusCode } = await createOrder(cart);
+    const { jsonResponse, httpStatusCode, orderCalculation } =
+      await createOrder(cart);
     //14. Save the order details in the pendingOrders map for later processing
     if (!jsonResponse?.id) {
       throw new Error("PayPal did not return an order ID");
@@ -150,6 +158,7 @@ app.post("/api/orders", async (req, res) => {
       cart,
       customer,
       paymentMethod,
+      orderCalculation,
     });
     console.log("Saved pending order:", pendingOrders.get(jsonResponse.id));
 
