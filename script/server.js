@@ -244,7 +244,12 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
     console.error("Failed to create order:", error);
-    res.status(500).json({ error: "Failed to capture order." });
+    res.status(500).json({
+      error: "Failed to capture order.",
+      error: error.message,
+      // temporary debugging
+      stack: error.stack,
+    });
   }
 });
 
