@@ -247,6 +247,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
           deliveryFee: savedOrder.orderCalculation.deliveryFee,
           grandTotal: savedOrder.orderCalculation.grandTotal,
         },
+        paymentMethod: savedOrder.paymentMethod,
       });
       console.log("Order data to send to Google Script:", orderData);
       //21. fetch the google sheet and pass the orderData
@@ -298,10 +299,10 @@ app.listen(PORT, () => {
 function buildOrderData({
   orderID,
   captureID,
-  status,
   date,
   customer,
   cart,
+  status,
   orderCalculation,
   paymentMethod,
 }) {
