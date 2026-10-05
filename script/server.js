@@ -76,6 +76,9 @@ const createOrder = async (cart) => {
     0,
   );
   const paymentSettings = settings.settings[0];
+
+  console.log("🔥 Google payment settings response:", settings);
+  console.log("🔥 settings.settings:", settings.settings);
   const taxRate = Number(paymentSettings.taxFee);
   const taxAmount = Number((total * taxRate).toFixed(2));
   const deliveryFee =
