@@ -259,10 +259,20 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         body: JSON.stringify(orderData),
       });
       //22. get the result from the google script
-      const result = await response.json();
-      if (!result.success) {
+      console.log("Google Script status:", response.status);
+      console.log(
+        "Google Script content type:",
+        response.headers.get("content-type"),
+      );
+
+      const responseText = await response.text();
+
+      console.log("Google Script response:");
+      console.log(responseText);
+      //const result = await response.json();
+      /*  if (!result.success) {
         return res.status(500).json(result);
-      }
+      } */
       //23. return the result from the google script to the front-end
       return res.status(httpStatusCode).json({
         success: true,
@@ -324,7 +334,7 @@ function buildOrderData({
       price: item.articlePrice,
       color: item.color,
       size: item.size,
-      quanity: item.quantity,
+      quantity: item.quantity,
     })),
 
     deliveryFee: orderCalculation.deliveryFee,
