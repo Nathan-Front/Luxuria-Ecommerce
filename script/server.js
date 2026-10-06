@@ -265,11 +265,18 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         response.headers.get("content-type"),
       );
 
-      //const responseText = await response.text();
+      const responseText = await response.text();
+      console.log("Google Script response:");
+      console.log(responseText);
 
-      /* console.log("Google Script response:");
-      console.log(responseText); */
-      const result = await response.json();
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (error) {
+        throw new Error(
+          `Google Script did not return JSON. Response: ${responseText.substring(0, 500)}`,
+        );
+      }
       if (!result.success) {
         return res.status(500).json(result);
       }
