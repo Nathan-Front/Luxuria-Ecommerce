@@ -18,6 +18,7 @@
     margin: 16px;
     background-color: #F8F5EF;
     border-radius: 0.5rem;
+    position: relative;
 }
 .order-summary> h2 {
     font-size: var(--heading-medium);
