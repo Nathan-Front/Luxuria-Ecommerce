@@ -270,6 +270,8 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         return res.status(500).json(result);
       }
       //23. return the result from the google script to the front-end onApprove function
+      //Since we are not returning the original format of order to frontend
+      //be sure to adjust it in onApprove if catching some errors
       return res.status(httpStatusCode).json({
         success: true,
         type: "paypal",

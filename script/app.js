@@ -137,6 +137,8 @@ export function initPayPal() {
           throw new Error(`${errorDetail.description} (${result.debug_id})`);
         }
         //25. Fallback if payment wasn't completed use the result from the server to show the error message
+        //adjust the reulst here since returned data have different format
+        //from the original order details passed to server.js side
         else if (!result.paypal.purchase_units) {
           throw new Error(JSON.stringify(result.paypal));
         } else {
