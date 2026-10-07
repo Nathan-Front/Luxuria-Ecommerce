@@ -269,15 +269,15 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         response.headers.get("content-type"),
       );
 
-      const result = await response.text();
+      /* const result = await response.text();
+      console.log("Google Script response:", result); */
 
-      console.log("Google Script response:", result);
-      //const result = await response.json();
+      const result = await response.json();
       if (!result.success) {
         return res.status(500).json(result);
       }
       //23. return the result from the google script to the front-end
-      /*  return res.status(httpStatusCode).json({
+      return res.status(httpStatusCode).json({
         success: true,
         type: "paypal",
         orderID: jsonResponse.id,
@@ -287,8 +287,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         paymentMethod: savedOrder.paymentMethod,
         googleScript: result,
         paypal: jsonResponse,
-      }); */
-      return res.status(httpStatusCode).json();
+      });
     }
     // Fallback if payment wasn't completed
     return res.status(httpStatusCode).json({
