@@ -135,8 +135,9 @@ export function initPayPal() {
         } else if (errorDetail) {
           // (2) Other non-recoverable errors -> Show a failure message
           throw new Error(`${errorDetail.description} (${result.debug_id})`);
-        } else if (!result.purchase_units) {
-          //25. Fallback if payment wasn't completed use the result from the server to show the error message
+        }
+        //25. Fallback if payment wasn't completed use the result from the server to show the error message
+        else if (!result.paypal.purchase_units) {
           throw new Error(JSON.stringify(result.paypal));
         } else {
           // (3) Successful transaction -> Show confirmation or thank you message
