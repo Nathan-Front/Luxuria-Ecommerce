@@ -119,12 +119,13 @@ export function initPayPal() {
           },
         );
 
-        const orderData = await response.json();
+        //24. return the result from the server to the front-end
+        const result = await response.json();
         // Three cases to handle:
         //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
         //   (2) Other non-recoverable errors -> Show a failure message
         //   (3) Successful transaction -> Show confirmation or thank you message
-        const errorDetail = orderData?.details?.[0];
+        const errorDetail = result?.details?.[0];
 
         if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
           // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
@@ -133,23 +134,26 @@ export function initPayPal() {
           return actions.restart();
         } else if (errorDetail) {
           // (2) Other non-recoverable errors -> Show a failure message
-          throw new Error(`${errorDetail.description} (${orderData.debug_id})`);
-        } else if (!orderData.purchase_units) {
-          throw new Error(JSON.stringify(orderData));
+          throw new Error(`${errorDetail.description} (${result.debug_id})`);
+        } else if (!result.purchase_units) {
+          //25. Fallback if payment wasn't completed use the result from the server to show the error message
+          throw new Error(JSON.stringify(result.paypal));
         } else {
           // (3) Successful transaction -> Show confirmation or thank you message
           // Or go to another URL:  actions.redirect('thank_you.html');
           const transaction =
-            orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
-            orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
+            result?.purchase_units?.[0]?.payments?.captures?.[0] ||
+            result?.purchase_units?.[0]?.payments?.authorizations?.[0];
+          //26. Show a result message to the user for successful transaction
+          //can use the provided HTML but can create own alert or modal to show the result message
           resultMessage(
             `Transaction ${transaction.status}: ${transaction.id}<br>
-          <br>See console for all available details`,
+          <br>Thank you for trying our service!<br>`,
           );
           console.log(
             "Capture result",
-            orderData,
-            JSON.stringify(orderData, null, 2),
+            result,
+            JSON.stringify(result, null, 2),
           );
         }
       } catch (error) {

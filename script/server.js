@@ -269,7 +269,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
       if (!result.success) {
         return res.status(500).json(result);
       }
-      //23. return the result from the google script to the front-end
+      //23. return the result from the google script to the front-end onApprove function
       return res.status(httpStatusCode).json({
         success: true,
         type: "paypal",
