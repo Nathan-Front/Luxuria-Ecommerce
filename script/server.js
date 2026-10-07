@@ -281,7 +281,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         status: jsonResponse.status,
         paymentMethod: savedOrder.paymentMethod,
         googleScript: result,
-        paypal: jsonResponse,
+        paypal: jsonResponse, //use this value to adjust value in onApprove functions
       });
     }
     // Fallback if payment wasn't completed

@@ -145,8 +145,8 @@ export function initPayPal() {
           // (3) Successful transaction -> Show confirmation or thank you message
           // Or go to another URL:  actions.redirect('thank_you.html');
           const transaction =
-            result?.purchase_units?.[0]?.payments?.captures?.[0] ||
-            result?.purchase_units?.[0]?.payments?.authorizations?.[0];
+            result?.paypal?.purchase_units?.[0]?.payments?.captures?.[0] ||
+            result?.paypal?.purchase_units?.[0]?.payments?.authorizations?.[0];
           //26. Show a result message to the user for successful transaction
           //can use the provided HTML but can create own alert or modal to show the result message
           resultMessage(
@@ -155,7 +155,7 @@ export function initPayPal() {
           );
           console.log(
             "Capture result",
-            result,
+            result.paypal,
             JSON.stringify(result, null, 2),
           );
         }
