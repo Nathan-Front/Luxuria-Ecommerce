@@ -264,13 +264,6 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         "Google Script content type:",
         response.headers.get("content-type"),
       );
-      console.log(
-        "Google Script content type:",
-        response.headers.get("content-type"),
-      );
-
-      /* const result = await response.text();
-      console.log("Google Script response:", result); */
 
       const result = await response.json();
       if (!result.success) {
