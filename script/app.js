@@ -146,10 +146,10 @@ export function initPayPal() {
           // Or go to another URL:  actions.redirect('thank_you.html');
           /* 
           if (result.status === "COMPLETED") {
-  resultMessage(
-    `Transaction ${result.status}: ${result.captureID}<br>
-    <br>Thank you for your purchase!<br>`,
-  );
+            resultMessage(
+              `Transaction ${result.status}: ${result.captureID}<br>
+              <br>Thank you for your purchase!<br>`,
+            );
 
   console.log("Payment successful!");
   console.log("Order ID:", result.orderID);
