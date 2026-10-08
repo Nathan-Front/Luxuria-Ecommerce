@@ -153,7 +153,7 @@ export function initPayPal() {
 
             console.log("Payment successful!");
             console.log("Order ID:", result.orderID);
-  console.log("Capture ID:", result.captureID);
+            console.log("Capture ID:", result.captureID);
   console.log("Amount:", result.amount); */
 
           const transaction =
