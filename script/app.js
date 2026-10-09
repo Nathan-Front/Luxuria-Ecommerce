@@ -1,5 +1,5 @@
 import { fetchSpecificSheet } from "./fetchApps.js";
-
+import { validateEmailHandlder } from "../components/checkout/checkout.js";
 let paypalButtons = null;
 //1. Set the server URL to your deployed server
 const SERVER_URL = "https://luxuria-ecommerce.onrender.com";
@@ -38,6 +38,7 @@ function getOrderDetails(products) {
   const email = document.querySelector("#email");
   const contactNumber = document.querySelector("#contact-number");
   const shippingAddress = document.querySelector("#shipping-address");
+
   return {
     cart,
     customer: {
@@ -70,6 +71,30 @@ export function initPayPal() {
     },
     message: {
       amount: 100,
+    },
+    //This is for enabling the payment selection
+    onInit(data, actions) {
+      const inputs = document.querySelectorAll(".paypal-init");
+      const paymentSelections = document.querySelector(".user-payment-con");
+      function validateForm() {
+        const allValid = [...inputs].every((input) => {
+          return input.checkValidity() && input.value.trim() !== "";
+        });
+        if (allValid) {
+          actions.enable();
+          paymentSelections.classList.remove("disableForm");
+        } else {
+          actions.disable();
+          paymentSelections.classList.add("disableForm");
+        }
+      }
+      // Check whenever the user types or changes an input
+      inputs.forEach((input) => {
+        input.addEventListener("input", validateForm);
+        input.addEventListener("change", validateForm);
+      });
+      // Initially check all inputs
+      validateForm();
     },
     async createOrder() {
       try {

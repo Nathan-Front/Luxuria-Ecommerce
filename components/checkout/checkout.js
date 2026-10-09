@@ -2,42 +2,45 @@ import { fetchSpecificSheet } from "../../script/fetchApps.js";
 import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
+import { validateEmail } from "../../script/emailValidator.js";
 
 export async function fetchCheckoutData() {
   let fetchDataArr = [];
   const cartList = document.querySelector(".order-summary");
   const formContainer = document.querySelector(".checkout-right-con");
+  const paymentSelections = document.querySelector(".user-payment-con");
   formContainer.classList.add("disableForm");
-
+  paymentSelections.classList.add("disableForm");
   setSectionLoading(cartList, true);
   try {
     fetchDataArr = await fetchSpecificSheet("shop-articles", "products");
     renderCartContent([...fetchDataArr]);
     await fetchSettingFees([...fetchDataArr]);
+    formContainer.classList.remove("disableForm");
   } catch (error) {
     console.log(error);
     showSectionError(cartList);
   } finally {
     setSectionLoading(cartList, false);
-    formContainer.classList.remove("disableForm");
   }
 }
 export async function fetchSettingFees(products) {
   let fetchDataArr = [];
   const cartList = document.querySelector(".order-summary");
   const formContainer = document.querySelector(".checkout-right-con");
+  const paymentSelections = document.querySelector(".user-payment-con");
   formContainer.classList.add("disableForm");
-
+  paymentSelections.classList.add("disableForm");
   setSectionLoading(cartList, true);
   try {
     fetchDataArr = await fetchSpecificSheet("paymentSettings", "settingFees");
     renderCheckoutTotals(products, fetchDataArr);
+    formContainer.classList.remove("disableForm");
   } catch (error) {
     console.log(error);
     showSectionError(cartList);
   } finally {
     setSectionLoading(cartList, false);
-    formContainer.classList.remove("disableForm");
   }
 }
 
