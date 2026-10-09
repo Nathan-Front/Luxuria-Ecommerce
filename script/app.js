@@ -229,11 +229,13 @@ function resultMessage(message) {
   container.innerHTML = message;
 }
 
+// createOrder for COD
 export async function createCODOrder() {
   try {
     const orderDetails = await fetchCartData();
     console.log("Order Details for COD:", orderDetails);
-    const response = await fetch(`${SERVER_URL}/api/orders`, {
+    //add cod at the end and use this as reference in server.js when creating order for COD
+    const response = await fetch(`${SERVER_URL}/api/orders/cod`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

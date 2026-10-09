@@ -346,6 +346,7 @@ function buildOrderData({
 }
 
 // captureOrder route for COD
+//add cod to refer to the frontend route
 app.post("/api/orders/cod", async (req, res) => {
   try {
     //1 get the cart from frontend
