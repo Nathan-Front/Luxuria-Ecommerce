@@ -423,7 +423,6 @@ app.post("/api/orders/cod", async (req, res) => {
       amount: grandTotal,
       status: "Pending Payment",
       paymentMethod,
-      googleScript: result,
     });
   } catch (error) {
     console.error("Failed to create order:", error);
