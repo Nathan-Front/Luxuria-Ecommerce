@@ -244,7 +244,6 @@ export async function createCODOrder() {
       throw new Error("Failed to place COD order.");
     }
     const result = await response.json();
-
     return result;
   } catch (error) {
     console.error("Failed to place COD order:", error);
@@ -263,9 +262,7 @@ export function placeCODOrder() {
       console.log(error);
       alert("Oops looks like we encountered a problem.\nPlease try again.");
     } finally {
-      hideLoadingOverlay();
-      placeOrderBtn.disabled = false;
-      placeOrderBtn.textContent = "Place Order";
+      codBtn.textContent = "Place Order";
     }
   });
 }
