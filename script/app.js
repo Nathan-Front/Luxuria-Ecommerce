@@ -228,3 +228,44 @@ function resultMessage(message) {
   const container = document.querySelector("#result-message");
   container.innerHTML = message;
 }
+
+export async function createCODOrder() {
+  try {
+    const orderDetails = await fetchCartData();
+    console.log("Order Details for COD:", orderDetails);
+    const response = await fetch(`${SERVER_URL}/api/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderDetails),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to place COD order.");
+    }
+    const result = await response.json();
+
+    return result;
+  } catch (error) {
+    console.error("Failed to place COD order:", error);
+    throw error; //Throw back the error to be handled in the calling function
+  }
+}
+
+export function placeCODOrder() {
+  const codBtn = document.querySelector("#place-order-btn");
+  codBtn.addEventListener("click", async () => {
+    codBtn.textContent = "Placing your order....";
+    try {
+      const result = await createCODOrder();
+      console.log("COD result", result);
+    } catch (error) {
+      console.log(error);
+      alert("Oops looks like we encountered a problem.\nPlease try again.");
+    } finally {
+      hideLoadingOverlay();
+      placeOrderBtn.disabled = false;
+      placeOrderBtn.textContent = "Place Order";
+    }
+  });
+}

@@ -30,6 +30,7 @@ import {
   paymentRadioButton,
   initPayPal,
   fetchCartData,
+  placeCODOrder,
 } from "../script/app.js";
 
 async function fetchHTML() {
@@ -183,6 +184,7 @@ async function fetchHTML() {
       .forEach((radio) => {
         radio.addEventListener("change", paymentRadioButton);
       });
+    placeCODOrder();
   }
   displayLikedCount();
   restoreCartCount();

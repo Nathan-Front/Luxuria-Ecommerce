@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import "dotenv/config";
 import cors from "cors";
 import {
@@ -344,3 +344,90 @@ function buildOrderData({
     paymentMethod,
   };
 }
+
+// captureOrder route for COD
+app.post("/api/orders/cod", async (req, res) => {
+  try {
+    //1 get the cart from frontend
+    const { cart, customer, paymentMethod } = req.body;
+    //2 get the payment setting from google sheet
+    const scriptResponse = await fetch(
+      `${GOOGLE_SCRIPT_URL}?type=paymentSettings`,
+    );
+    const settings = await scriptResponse.json();
+    //3 get/compute necessary data to pass to apps script
+    const total = cart.reduce(
+      (total, item) =>
+        total + Number(item.articlePrice) * Number(item.quantity),
+      0,
+    );
+    const paymentSettings = settings.settingFees[0];
+    const taxRate = Number(paymentSettings.taxFee);
+    const taxAmount = Number((total * taxRate).toFixed(2));
+    const deliveryFee =
+      paymentSettings.shippingFee !== "free"
+        ? Number(paymentSettings.DeliveryFee)
+        : 0;
+    const grandTotal = Number((total + taxAmount + deliveryFee).toFixed(2));
+    //create COD ID
+    const orderID = `COD-${now.getFullYear()}${String(
+      now.getMonth() + 1,
+    ).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${Math.floor(
+      Math.random() * 9000 + 1000,
+    )}`;
+
+    //4 do same format before passing the calculation data like in paypal
+    const orderCalculation = {
+      total,
+      taxRate,
+      taxAmount,
+      deliveryFee,
+      grandTotal,
+    };
+
+    //5 pass the data to builder function
+    const orderData = buildOrderData({
+      orderID,
+      captureID: null,
+      date: new Date().toISOString().replace("T", " ").substring(0, 19),
+      customer,
+      cart,
+      status: "Pending delivery",
+      orderCalculation,
+      paymentMethod,
+    });
+    console.log("COD order data to send to Google Script:", orderData);
+
+    //6 pass the built data to apps script
+    const sheetResponse = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    });
+    console.log("Google Script status:", sheetResponse.status);
+    //7 capture the response
+    const response = await sheetResponse.json();
+    if (!response.success) {
+      return res.status(500).json(response);
+    }
+    //8 return the response to frontend for UI updating
+    res.json({
+      success: true,
+      type: "cod",
+      orderID,
+      captureID: null,
+      amount: grandTotal,
+      status: "Pending Payment",
+      paymentMethod,
+      googleScript: result,
+    });
+  } catch (error) {
+    console.error("Failed to create order:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
