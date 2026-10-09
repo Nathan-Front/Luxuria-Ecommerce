@@ -1,5 +1,5 @@
 import { fetchSpecificSheet } from "./fetchApps.js";
-import { validateEmailHandlder } from "../components/checkout/checkout.js";
+
 let paypalButtons = null;
 //1. Set the server URL to your deployed server
 const SERVER_URL = "https://luxuria-ecommerce.onrender.com";
