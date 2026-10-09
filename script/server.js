@@ -371,6 +371,7 @@ app.post("/api/orders/cod", async (req, res) => {
         : 0;
     const grandTotal = Number((total + taxAmount + deliveryFee).toFixed(2));
     //create COD ID
+    const now = new Date();
     const orderID = `COD-${now.getFullYear()}${String(
       now.getMonth() + 1,
     ).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${Math.floor(
