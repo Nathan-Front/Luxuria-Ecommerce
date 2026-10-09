@@ -193,7 +193,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzlItmrVgmkOgcW5Gsk8dVqf3RMwis086HGeGOd6F-xDkANfNT4ff9ClaTG_cdxhBwd/exec";
+  "https://script.google.com/macros/s/AKfycbxmZ8mcNm7688GGfuJ7e0iNWzHviIkCKQklYMxTlFHNBO9Lk7FUqU2GgmpfvFF_CGYZ/exec";
 //51st ver
 
 //display/hide authCon on click of user icon
