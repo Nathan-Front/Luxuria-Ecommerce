@@ -1,0 +1,71 @@
+.cod-loader {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    z-index: 999;
+    color: black;
+    background-color: #fff;
+    padding: 32px;
+    gap: 16px;
+    border-radius: 0.5rem;
+    visibility: hidden;
+    opacity: 0;
+}
+.showCODloader {
+    visibility: visible;
+    opacity: 1;
+}
+.cod-loader> h2 {
+    font-size: var(--heading-small);
+    font-weight: 900;
+}
+.cod-status,
+.payment-method,
+.cod-transaction-id,
+.cod-grand-price,
+.cod-payment-total {
+    font-weight: 600;
+}
+.cod-loader> button {
+    font-size: var(--text-large);
+    font-weight: 700;
+    padding: 4px 0;
+    border: 1px solid #B5A078;
+    border-radius: 0.25rem;
+}
+
+.payment-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 3rem;
+    gap: 1rem;
+    color: #d4af37;
+    visibility: hidden;
+    opacity: 0;
+}
+.showPaymentLoading {
+    visibility: visible;
+    opacity: 1;
+}
+.payment-loading-spinner {
+    width: 45px;
+    height: 45px;
+    border: 5px solid #ddd;
+    border-top-color: #d4af37;
+    border-radius: 50%;
+    animation: productLoading .8s linear infinite;
+}
+.payment-loading-message {
+    font-size: var(--text-large);
+    font-weight: 700;
+}

@@ -4,6 +4,7 @@
     padding: 40px 0;
     display: grid;
     grid-template-columns: 1fr 1.5fr;
+    position: relative;
 }
 @media only screen and (max-width: 640px) {
     .checkout-first-sec {

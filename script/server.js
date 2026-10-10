@@ -410,9 +410,9 @@ app.post("/api/orders/cod", async (req, res) => {
     });
     console.log("Google Script status:", sheetResponse.status);
     //7 capture the response
-    const response = await sheetResponse.json();
-    if (!response.success) {
-      return res.status(500).json(response);
+    const result = await sheetResponse.json();
+    if (!result.success) {
+      return res.status(500).json(result);
     }
     //8 return the result to frontend for UI updating
     res.json({
@@ -423,6 +423,8 @@ app.post("/api/orders/cod", async (req, res) => {
       amount: grandTotal,
       status: "Pending Payment",
       paymentMethod,
+      googleScript: result,
+      paypal: null,
     });
   } catch (error) {
     console.error("Failed to create COD order:", error);

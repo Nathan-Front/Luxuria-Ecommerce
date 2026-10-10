@@ -54,6 +54,8 @@ async function fetchHTML() {
       logoutModal,
       createAccount,
       cartModal,
+      codLoader,
+      processingLoader,
     ] = await Promise.all([
       fetch("./components/navigation/nav.html").then((res) => {
         if (!res.ok) throw new Error("Navigation fetch failed");
@@ -81,6 +83,14 @@ async function fetchHTML() {
       }),
       fetch("./components/cart/cartModal.html").then((res) => {
         if (!res.ok) throw new Error("Cart modal fetch failed");
+        return res.text();
+      }),
+      fetch("./components/checkout/codLoader.html").then((res) => {
+        if (!res.ok) throw new Error("COD loader fetch failed");
+        return res.text();
+      }),
+      fetch("./components/checkout/processingLoader.html").then((res) => {
+        if (!res.ok) throw new Error("Processing loader fetch failed");
         return res.text();
       }),
     ]);
@@ -126,6 +136,7 @@ async function fetchHTML() {
         fetch("./components/checkout/checkoutFirstSection.html").then((res) =>
           res.text(),
         ),
+        fetch("./components/checkout/codLoader.html").then((res) => res.text()),
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
@@ -136,7 +147,13 @@ async function fetchHTML() {
     body.insertAdjacentHTML("beforeend", foot);
     authContainer.insertAdjacentHTML(
       "beforeend",
-      login + userWindow + logoutModal + createAccount + cartModal,
+      login +
+        userWindow +
+        logoutModal +
+        createAccount +
+        cartModal +
+        codLoader +
+        processingLoader,
     );
     app.innerHTML = "";
   } catch (error) {

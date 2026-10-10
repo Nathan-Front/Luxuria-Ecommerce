@@ -1,4 +1,5 @@
 import { fetchSpecificSheet } from "./fetchApps.js";
+import { showAuthCon, hideAuthCon } from "./index.js";
 
 let paypalButtons = null;
 //1. Set the server URL to your deployed server
@@ -146,6 +147,7 @@ export function initPayPal() {
 
         //24. return the result from the server to the front-end
         const result = await response.json();
+        codLoaderHandler(result);
         // Three cases to handle:
         //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
         //   (2) Other non-recoverable errors -> Show a failure message
@@ -245,6 +247,7 @@ export async function createCODOrder() {
     if (!response.ok) {
       throw new Error("Failed to place COD order.");
     }
+    //receive the passed data from server.js
     const result = await response.json();
     return result;
   } catch (error) {
@@ -256,15 +259,61 @@ export async function createCODOrder() {
 export function placeCODOrder() {
   const codBtn = document.querySelector("#place-order-btn");
   codBtn.addEventListener("click", async () => {
-    codBtn.textContent = "Placing your order....";
+    codBtn.disabled = true;
+    codBtn.textContent = "Processing your order....";
+    showProcessLoading();
+    showAuthCon();
     try {
+      //receive and pass the order details to the UI handler
       const result = await createCODOrder();
       console.log("COD result", result);
+      codLoaderHandler(result);
+      hideProcessLoading();
+      hideAuthCon();
     } catch (error) {
       console.log(error);
       alert("Oops looks like we encountered a problem.\nPlease try again.");
+      return;
     } finally {
       codBtn.textContent = "Place Order";
+      codBtn.disabled = false;
     }
   });
+}
+
+function codLoaderHandler(result) {
+  const itemID = document.querySelector(".cod-order-id");
+  const status = document.querySelector(".cod-status");
+  const paymentMethod = document.querySelector(".payment-method");
+  const transactionID = document.querySelector(".cod-transaction-id");
+  const priceDue = document.querySelector(".payment-method-con");
+  status.textContent = result.status;
+  paymentMethod.textContent =
+    result.paymentMethod === "paypal" ? "Card" : "COD";
+  transactionID.textContent = result.orderID;
+  //priceDue.textContent = result.amount;
+
+  console.log("UI", result);
+
+  {
+    result.type === "paypal"
+      ? (priceDue.innerHTML = `<p>Amount Paid: $<span class="cod-grand-price">${result.amount}</span></p>`)
+      : (priceDue.innerHTML = `
+      <p>Payment will be collected upon delivery.</p>
+      <p>Amount Due: $<span class="cod-payment-total">${result.amount}</span></p>
+     `);
+  }
+}
+
+function showProcessLoading() {
+  const loader = document.querySelector(".payment-loading");
+  if (loader) {
+    loader.classList.add("showPaymentLoading");
+  }
+}
+function hideProcessLoading() {
+  const loader = document.querySelector(".payment-loading");
+  if (loader) {
+    loader.classList.remove("showPaymentLoading");
+  }
 }
