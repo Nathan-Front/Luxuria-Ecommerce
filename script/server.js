@@ -414,7 +414,7 @@ app.post("/api/orders/cod", async (req, res) => {
     if (!response.success) {
       return res.status(500).json(response);
     }
-    //8 return the response to frontend for UI updating
+    //8 return the result to frontend for UI updating
     res.json({
       success: true,
       type: "cod",
@@ -425,7 +425,7 @@ app.post("/api/orders/cod", async (req, res) => {
       paymentMethod,
     });
   } catch (error) {
-    console.error("Failed to create order:", error);
+    console.error("Failed to create COD order:", error);
     res.status(500).json({
       success: false,
       error: error.message,
