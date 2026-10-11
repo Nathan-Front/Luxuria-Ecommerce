@@ -183,15 +183,16 @@ export function initPayPal() {
             console.log("Capture ID:", result.captureID);
             console.log("Amount:", result.amount); */
           showCODloader();
+          showAuthCon();
           const transaction =
             result?.paypal?.purchase_units?.[0]?.payments?.captures?.[0] ||
             result?.paypal?.purchase_units?.[0]?.payments?.authorizations?.[0];
-          //26. Show a result message to the user for successful transaction
+          //26. Show a result message to the user for successful transaction *optional
           //can use the provided HTML but can create own alert or modal to show the result message
-          resultMessage(
+          /* resultMessage(
             `Transaction ${transaction.status}: ${transaction.id}<br>
           <br>Thank you for trying our service!<br>`,
-          );
+          ); */
           console.log(
             "Capture result",
             result.paypal,
@@ -200,9 +201,9 @@ export function initPayPal() {
         }
       } catch (error) {
         console.error(error);
-        resultMessage(
+        /* resultMessage(
           `Sorry, your transaction could not be processed...<br><br>${error}`,
-        );
+        ); */
       }
     },
   });
@@ -226,10 +227,10 @@ export function paymentRadioButton() {
   }
 }
 // Example function to show a result to the user. Your site's UI library can be used instead.
-function resultMessage(message) {
+/* function resultMessage(message) {
   const container = document.querySelector("#result-message");
   container.innerHTML = message;
-}
+} */
 
 // createOrder for COD
 export async function createCODOrder() {

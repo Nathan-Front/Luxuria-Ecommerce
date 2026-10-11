@@ -9,6 +9,7 @@
 @media only screen and (max-width: 640px) {
     .checkout-first-sec {
         grid-template-columns: 1fr;
+        padding: 0;
     }
 }
 .order-summary {
@@ -82,6 +83,11 @@
 }
 .checkout-product-price> p:last-child {
     margin-left: auto;
+}
+@media (min-width:641px) and (max-width: 990px) {
+    .checkout-product-price> p:last-child {
+        margin: 0;
+    }
 }
 .checkout-product-price,
 .checkout-color,
@@ -175,6 +181,11 @@
     flex-direction: column;
     gap: 16px;
 }
+@media only screen and (max-width: 640px) {
+    .checkout-right-con> form {
+        margin-top: 0;
+    }
+}
 .user-details-con {
     display: flex;
     flex-direction: column;
@@ -216,6 +227,13 @@
     grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
     gap: 32px;
 }
+@media only screen and (max-width: 640px) {
+    .user-input-con,
+    .name-email,
+    .contact-address {
+        gap: 16px;
+    }
+}
 .address-details {
     width: 100%;
     display: grid;
@@ -232,6 +250,9 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 4px;
+}
+.user-input-con> div> div> label {
+    font-size: var(--text-base);
 }
 .user-input-con> div> div> input {
     padding: 8px 16px;
