@@ -80,9 +80,7 @@ const createOrder = async (cart) => {
   const taxRate = Number(paymentSettings.taxFee);
   const taxAmount = Number((total * taxRate).toFixed(2));
   const deliveryFee =
-    paymentSettings.shippingFee !== "free"
-      ? Number(paymentSettings.DeliveryFee)
-      : 0;
+    paymentSettings.shippingFee !== 0 ? Number(paymentSettings.DeliveryFee) : 0;
 
   const grandTotal = Number((total + taxAmount + deliveryFee).toFixed(2));
   //11. Create the order request body with the total amount and items
