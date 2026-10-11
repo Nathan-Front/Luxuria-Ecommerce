@@ -311,7 +311,7 @@ export function codLoaderHandler(result) {
   }
   closeLoader();
 }
-
+//modals
 function loggedUserChecker() {
   const loggedUser = JSON.parse(localStorage.getItem("loggedIn")) || [];
   if (loggedUser) {
