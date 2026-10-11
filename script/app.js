@@ -217,11 +217,20 @@ export function paymentRadioButton() {
     'input[name="paymentMethod"]:checked',
   )?.value;
   if (!paypalButtonContainer || !codButtonContainer) return;
+  const loggedUser = loggedUserChecker();
   if (radio === "paypal") {
+    if (!loggedUser.loggedIn) {
+      alert("must be logged in to continue");
+      return;
+    }
     paypalButtonContainer.classList.add("showPaypalBtn");
     codButtonContainer.classList.remove("showCodBtn");
   }
   if (radio === "cash-on-delivery") {
+    if (!loggedUser.loggedIn) {
+      alert("must be logged in to continue");
+      return;
+    }
     codButtonContainer.classList.add("showCodBtn");
     paypalButtonContainer.classList.remove("showPaypalBtn");
   }
@@ -290,12 +299,8 @@ export function codLoaderHandler(result) {
   const priceDue = document.querySelector(".payment-method-con");
   status.textContent = result.status;
   paymentMethod.textContent =
-    result.paymentMethod === "paypal" ? "Card" : "COD";
+    result.paymentMethod === "paypal" ? "Credit card" : "COD";
   transactionID.textContent = result.orderID;
-  //priceDue.textContent = result.amount;
-
-  console.log("UI", result);
-
   {
     result.type === "paypal"
       ? (priceDue.innerHTML = `<p>Amount Paid: $<span class="cod-grand-price">${result.amount}</span></p>`)
@@ -307,6 +312,12 @@ export function codLoaderHandler(result) {
   closeLoader();
 }
 
+function loggedUserChecker() {
+  const loggedUser = JSON.parse(localStorage.getItem("loggedIn")) || [];
+  if (loggedUser) {
+    return loggedUser;
+  }
+}
 function closeLoader() {
   const closeBtn = document.querySelector("#close-order-success-modal");
   closeBtn.addEventListener("click", () => {

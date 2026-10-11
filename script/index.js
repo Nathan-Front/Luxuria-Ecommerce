@@ -345,6 +345,7 @@ function loginHandler() {
       hideLoginForm();
       hideAuthCon();
       form.reset();
+      window.location.reload();
     } catch (error) {
       console.log(error);
       alert("An error occurred while logging in. Please try again.");
@@ -529,6 +530,7 @@ function displayLogoutModal() {
       hideAuthCon();
       restoreLoggedUser(); //update icon
       avatar.src = "./images/index/secondSection/mens.webp";
+      window.location.reload();
     });
   }
   if (cancel) {
