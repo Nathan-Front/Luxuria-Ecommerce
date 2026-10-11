@@ -181,8 +181,8 @@ export function initPayPal() {
             console.log("Payment successful!");
             console.log("Order ID:", result.orderID);
             console.log("Capture ID:", result.captureID);
-  console.log("Amount:", result.amount); */
-
+            console.log("Amount:", result.amount); */
+          showCODloader();
           const transaction =
             result?.paypal?.purchase_units?.[0]?.payments?.captures?.[0] ||
             result?.paypal?.purchase_units?.[0]?.payments?.authorizations?.[0];
@@ -269,7 +269,7 @@ export function placeCODOrder() {
       console.log("COD result", result);
       codLoaderHandler(result);
       hideProcessLoading();
-      hideAuthCon();
+      showCODloader();
     } catch (error) {
       console.log(error);
       alert("Oops looks like we encountered a problem.\nPlease try again.");
@@ -281,7 +281,7 @@ export function placeCODOrder() {
   });
 }
 
-function codLoaderHandler(result) {
+export function codLoaderHandler(result) {
   const itemID = document.querySelector(".cod-order-id");
   const status = document.querySelector(".cod-status");
   const paymentMethod = document.querySelector(".payment-method");
@@ -303,8 +303,28 @@ function codLoaderHandler(result) {
       <p>Amount Due: $<span class="cod-payment-total">${result.amount}</span></p>
      `);
   }
+  closeLoader();
 }
 
+function closeLoader() {
+  const closeBtn = document.querySelector("#close-order-success-modal");
+  closeBtn.addEventListener("click", () => {
+    hideCODloader();
+    hideAuthCon();
+  });
+}
+function showCODloader() {
+  const codLoader = document.querySelector(".cod-loader");
+  if (codLoader) {
+    codLoader.classList.add("showCODloader");
+  }
+}
+function hideCODloader() {
+  const codLoader = document.querySelector(".cod-loader");
+  if (codLoader) {
+    codLoader.classList.remove("showCODloader");
+  }
+}
 function showProcessLoading() {
   const loader = document.querySelector(".payment-loading");
   if (loader) {
