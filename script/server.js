@@ -128,7 +128,7 @@ const createOrder = async (cart) => {
       httpStatusCode: httpResponse.statusCode,
       //13. return the order calculation details to save in the pendingOrders map for later processing
       orderCalculation: {
-        subTotal: total,
+        subTotal: total.toFixed(2),
         taxRate,
         taxAmount,
         deliveryFee,
@@ -352,36 +352,81 @@ app.post("/api/orders/cod", async (req, res) => {
     const scriptResponse = await fetch(
       `${GOOGLE_SCRIPT_URL}?type=paymentSettings`,
     );
-    const settings = await scriptResponse.json();
+    /* const settings = await scriptResponse.json();
     //3 get/compute necessary data to pass to apps script
     const total = cart.reduce(
       (total, item) =>
         total + Number(item.articlePrice) * Number(item.quantity),
       0,
     );
+
     const paymentSettings = settings.settingFees[0];
     const taxRate = Number(paymentSettings.taxFee);
     const taxAmount = Number((total * taxRate).toFixed(2));
-    const deliveryFee =
-      paymentSettings.shippingFee !== "free"
-        ? Number(paymentSettings.DeliveryFee)
-        : 0;
+    const deliveryFee = Number(paymentSettings.shippingFee ?? 0);
     const grandTotal = Number((total + taxAmount + deliveryFee).toFixed(2));
+    console.log("cod paymentSettings", paymentSettings);
+    console.log("cod subtotal", total);
+    console.log("cod shipping", deliveryFee);
+    console.log("cod grandtotal", grandTotal);
     //create COD ID
     const now = new Date();
     const orderID = `COD-${now.getFullYear()}${String(
       now.getMonth() + 1,
     ).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${Math.floor(
       Math.random() * 9000 + 1000,
-    )}`;
+    )}`; */
+    const settings = await scriptResponse.json();
 
-    //4 do same format before passing the calculation data like in paypal
-    const orderCalculation = {
+    console.log("Settings response:", settings);
+
+    const paymentSettings = settings.settingFees?.[0];
+
+    if (!paymentSettings) {
+      throw new Error("Payment settings not found in Google Script response");
+    }
+
+    const total = cart.reduce((sum, item) => {
+      const price = Number(item.articlePrice);
+      const quantity = Number(item.quantity);
+
+      console.log("Cart item:", {
+        articlePrice: item.articlePrice,
+        quantity: item.quantity,
+        price,
+        quantityValid: Number.isFinite(quantity),
+        priceValid: Number.isFinite(price),
+      });
+
+      return sum + price * quantity;
+    }, 0);
+
+    const taxRate = Number(paymentSettings.taxFee);
+    const taxAmount = Number((total * taxRate).toFixed(2));
+    const deliveryFee = Number(paymentSettings.shippingFee ?? 0);
+
+    console.log("Calculation inputs:", {
       total,
       taxRate,
       taxAmount,
       deliveryFee,
-      grandTotal,
+    });
+
+    if (
+      !Number.isFinite(total) ||
+      !Number.isFinite(taxRate) ||
+      !Number.isFinite(taxAmount) ||
+      !Number.isFinite(deliveryFee)
+    ) {
+      throw new Error("Invalid COD calculation values");
+    }
+    //4 do same format before passing the calculation data like in paypal
+    const orderCalculation = {
+      subTotal: total,
+      taxRate: taxRate,
+      taxAmount: taxAmount,
+      deliveryFee: deliveryFee,
+      grandTotal: grandTotal,
     };
 
     //5 pass the data to builder function
@@ -417,7 +462,7 @@ app.post("/api/orders/cod", async (req, res) => {
       type: "cod",
       orderID,
       captureID: null,
-      amount: grandTotal,
+      amount: orderCalculation.grandTotal,
       status: "Pending Payment",
       paymentMethod,
       googleScript: result,
