@@ -405,7 +405,6 @@ app.post("/api/orders/cod", async (req, res) => {
       paymentMethod,
     });
     console.log("COD order data to send to Google Script:", orderData);
-
     //6 pass the built data to apps script
     const sheetResponse = await fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
