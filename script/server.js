@@ -368,14 +368,14 @@ app.post("/api/orders/cod", async (req, res) => {
     console.log("cod paymentSettings", paymentSettings);
     console.log("cod subtotal", total);
     console.log("cod shipping", deliveryFee);
-    console.log("cod grandtotal", grandTotal);
+    console.log("cod grandtotal", grandTotal);*/
     //create COD ID
     const now = new Date();
     const orderID = `COD-${now.getFullYear()}${String(
       now.getMonth() + 1,
     ).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${Math.floor(
       Math.random() * 9000 + 1000,
-    )}`; */
+    )}`;
     const settings = await scriptResponse.json();
 
     console.log("Settings response:", settings);
