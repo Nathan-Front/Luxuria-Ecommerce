@@ -405,11 +405,13 @@ app.post("/api/orders/cod", async (req, res) => {
     const taxAmount = Number((total * taxRate).toFixed(2));
     const deliveryFee = Number(paymentSettings.shippingFee ?? 0);
 
-    console.log("Calculation inputs:", {
-      total,
-      taxRate,
+    const grandTotal = Number((total + taxAmount + deliveryFee).toFixed(2));
+
+    console.log("COD final calculation:", {
+      subTotal: total,
       taxAmount,
       deliveryFee,
+      grandTotal,
     });
 
     if (
