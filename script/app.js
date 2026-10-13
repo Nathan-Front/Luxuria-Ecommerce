@@ -158,7 +158,13 @@ export function initPayPal() {
           // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
           // recoverable state, per
           // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
-          return actions.restart();
+          //return actions.restart();
+          if (!data.card) {
+            return actions.restart();
+          }
+          throw new Error(
+            "Your card was declined. Please try another payment method.",
+          );
         } else if (errorDetail) {
           // (2) Other non-recoverable errors -> Show a failure message
           throw new Error(`${errorDetail.description} (${result.debug_id})`);
@@ -182,7 +188,7 @@ export function initPayPal() {
             console.log("Order ID:", result.orderID);
             console.log("Capture ID:", result.captureID);
             console.log("Amount:", result.amount); */
-          if (result.googleScript.success && result.googleScript.emailSent) {
+          if (result.googleScript.success) {
             showCODloader();
             showAuthCon();
             const inputElems = document.querySelectorAll(".paypal-init");
@@ -284,7 +290,7 @@ export function placeCODOrder() {
       //receive and pass the order details to the UI handler
       const result = await createCODOrder();
       console.log("COD result", result);
-      if (result.googleScript.success && result.googleScript.emailSent) {
+      if (result.googleScript.success) {
         codLoaderHandler(result);
         hideProcessLoading();
         showCODloader();
