@@ -375,7 +375,7 @@ app.post("/api/orders/cod", async (req, res) => {
     ).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}-${Math.floor(
       Math.random() * 9000 + 1000,
     )}`;
-    //valication for calculation
+    //validation for calculation
     if (
       !Number.isFinite(total) ||
       !Number.isFinite(taxRate) ||

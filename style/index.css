@@ -453,7 +453,7 @@ nav {
     align-items: center;
     justify-content: center;
     padding: 1rem;
-    background: rgb(0 0 0 / 0.6);
+    background: rgb(0 0 0 / 0.7);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;

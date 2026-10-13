@@ -16,7 +16,7 @@ export async function fetchCartData() {
 //3. Get order details from the form and local storage
 //*optional data from google sheet if needed
 function getOrderDetails(products) {
-  console.log("Products:", products);
+  //console.log("Products:", products);
   const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
   const cartData = storage.map((storageItem) => {
     const product = products.find(
@@ -24,7 +24,7 @@ function getOrderDetails(products) {
     );
     return { ...storageItem, product };
   });
-  console.log("Cart Data:", cartData);
+  //console.log("Cart Data:", cartData);
   const cart = cartData.map((item) => ({
     id: item.No,
     article: item.product.article,
@@ -34,7 +34,7 @@ function getOrderDetails(products) {
     quantity: item.quantity,
     priceTotal: parseFloat(item.product.price) * item.quantity,
   }));
-  console.log("Cart:", cart);
+  //console.log("Cart:", cart);
   const name = document.querySelector("#full-name");
   const email = document.querySelector("#email");
   const contactNumber = document.querySelector("#contact-number");
@@ -182,8 +182,15 @@ export function initPayPal() {
             console.log("Order ID:", result.orderID);
             console.log("Capture ID:", result.captureID);
             console.log("Amount:", result.amount); */
-          showCODloader();
-          showAuthCon();
+          if (result.googleScript.success && result.googleScript.emailSent) {
+            showCODloader();
+            showAuthCon();
+            const inputElems = document.querySelectorAll(".paypal-init");
+            inputElems.forEach((input) => {
+              input.value = "";
+            });
+            localStorage.removeItem("luxuriaTemp");
+          }
           const transaction =
             result?.paypal?.purchase_units?.[0]?.payments?.captures?.[0] ||
             result?.paypal?.purchase_units?.[0]?.payments?.authorizations?.[0];
@@ -270,16 +277,23 @@ export function placeCODOrder() {
   const codBtn = document.querySelector("#place-order-btn");
   codBtn.addEventListener("click", async () => {
     codBtn.disabled = true;
-    codBtn.textContent = "Processing your order....";
+    codBtn.textContent = "Processing....";
     showProcessLoading();
     showAuthCon();
     try {
       //receive and pass the order details to the UI handler
       const result = await createCODOrder();
       console.log("COD result", result);
-      codLoaderHandler(result);
-      hideProcessLoading();
-      showCODloader();
+      if (result.googleScript.success && result.googleScript.emailSent) {
+        codLoaderHandler(result);
+        hideProcessLoading();
+        showCODloader();
+        const inputElems = document.querySelectorAll(".paypal-init");
+        inputElems.forEach((input) => {
+          input.value = "";
+        });
+        localStorage.removeItem("luxuriaTemp");
+      }
     } catch (error) {
       console.log(error);
       alert("Oops looks like we encountered a problem.\nPlease try again.");
@@ -292,7 +306,6 @@ export function placeCODOrder() {
 }
 
 export function codLoaderHandler(result) {
-  const itemID = document.querySelector(".cod-order-id");
   const status = document.querySelector(".cod-status");
   const paymentMethod = document.querySelector(".payment-method");
   const transactionID = document.querySelector(".cod-transaction-id");
@@ -323,6 +336,7 @@ function closeLoader() {
   closeBtn.addEventListener("click", () => {
     hideCODloader();
     hideAuthCon();
+    window.location.href = "./index.html";
   });
 }
 function showCODloader() {
