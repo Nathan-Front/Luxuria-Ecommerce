@@ -3,7 +3,7 @@ import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { displayLikedCount } from "../../script/navigation.js";
-import { showAuthCon } from "../../script/index.js";
+import { openGlobalAuth } from "../../script/globalAuth.js";
 import {
   hideModalCartHandler,
   renderCartModalHandler,
@@ -388,7 +388,7 @@ function addToCart(products) {
             String(item.category) === "accessory"),
       );
       disableSizeHandler(noSize);
-      showAuthCon();
+      openGlobalAuth();
 
       hideModalCartHandler();
       let colorArr = addItem.color

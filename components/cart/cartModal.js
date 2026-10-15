@@ -1,6 +1,6 @@
-import { hideAuthCon } from "../../script/index.js";
 import { displayCartCount } from "../../script/navigation.js";
 import { colorOptions } from "../../script/colors.js";
+import { hideGlobalAuth } from "../../script/globalAuth.js";
 
 function hideCartModal() {
   const cartModal = document.querySelector(".cart-modal");
@@ -12,7 +12,7 @@ export function hideModalCartHandler() {
   close.addEventListener("click", () => {
     document.querySelector(".product-color").textContent = "";
     hideCartModal();
-    hideAuthCon();
+    hideGlobalAuth();
     //document.querySelector("#black").checked = true;
     document.querySelector('input[name="size"][value="m"]').checked = true;
     document.getElementById("cart-count").textContent = 1;
@@ -203,6 +203,6 @@ function saveToCartHandler(articleSelected) {
     localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
     displayCartCount();
     hideCartModal();
-    hideAuthCon();
+    hideGlobalAuth();
   };
 }

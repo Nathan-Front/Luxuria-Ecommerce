@@ -26,12 +26,14 @@ import {
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
+import { likedItemsModal } from "../components/navigation/likedList.js";
 import {
   paymentRadioButton,
   initPayPal,
   fetchCartData,
   placeCODOrder,
 } from "../script/app.js";
+import { openGlobalAuth, hideGlobalAuth } from "./globalAuth.js";
 
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -56,6 +58,7 @@ async function fetchHTML() {
       cartModal,
       codLoader,
       processingLoader,
+      likedModal,
     ] = await Promise.all([
       fetch("./components/navigation/nav.html").then((res) => {
         if (!res.ok) throw new Error("Navigation fetch failed");
@@ -91,6 +94,10 @@ async function fetchHTML() {
       }),
       fetch("./components/checkout/processingLoader.html").then((res) => {
         if (!res.ok) throw new Error("Processing loader fetch failed");
+        return res.text();
+      }),
+      fetch("./components/navigation/likedModal.html").then((res) => {
+        if (!res.ok) throw new Error("Liked modal fetch failed");
         return res.text();
       }),
     ]);
@@ -140,7 +147,6 @@ async function fetchHTML() {
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
-    /* body.insertAdjacentHTML("beforebegin", cartModal); */
     sections.forEach((sec) => {
       app.insertAdjacentHTML("beforebegin", sec);
     });
@@ -153,7 +159,8 @@ async function fetchHTML() {
         createAccount +
         cartModal +
         codLoader +
-        processingLoader,
+        processingLoader +
+        likedModal,
     );
     app.innerHTML = "";
   } catch (error) {
@@ -207,6 +214,7 @@ async function fetchHTML() {
   restoreCartCount();
   displayLoginForm();
   restoreLoggedUser();
+  likedItemsModal();
 }
 
 document.addEventListener("DOMContentLoaded", fetchHTML);
@@ -214,18 +222,6 @@ document.addEventListener("DOMContentLoaded", fetchHTML);
 export const GOOGLE_APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxmZ8mcNm7688GGfuJ7e0iNWzHviIkCKQklYMxTlFHNBO9Lk7FUqU2GgmpfvFF_CGYZ/exec";
 //51st ver
-
-//display/hide authCon on click of user icon
-export function showAuthCon() {
-  const authCon = document.querySelector(".auth-overlay");
-  authCon.classList.add("authOpen");
-  document.body.classList.add("no-scroll");
-}
-export function hideAuthCon() {
-  const authCon = document.querySelector(".auth-overlay");
-  authCon.classList.remove("authOpen");
-  document.body.classList.remove("no-scroll");
-}
 
 //To cart summary page
 function goToCartSummary() {
@@ -252,9 +248,9 @@ function displayLoginForm() {
       const loggedIn = JSON.parse(localStorage.getItem("loggedIn"));
       if (!loggedIn || !loggedIn.loggedIn) {
         showLoginForm();
-        showAuthCon();
+        openGlobalAuth();
       } else {
-        showAuthCon();
+        openGlobalAuth();
         displayUserWindow(loggedIn);
         restoreLoggedUser();
       }
@@ -264,7 +260,7 @@ function displayLoginForm() {
   const closeLoginForm = document.querySelector(".close-login");
   closeLoginForm.addEventListener("click", () => {
     hideLoginForm();
-    hideAuthCon();
+    hideGlobalAuth();
   });
   openCreateAccountModal();
   loginHandler();
@@ -343,7 +339,7 @@ function loginHandler() {
       alert(result.message);
       hideSpinner();
       hideLoginForm();
-      hideAuthCon();
+      hideGlobalAuth();
       form.reset();
       window.location.reload();
     } catch (error) {
@@ -391,18 +387,18 @@ function openCreateAccountModal() {
   const createAccountBtn = document.querySelector(".create-account-btn");
   createAccountBtn.addEventListener("click", () => {
     showCreateAccountForm();
-    showAuthCon();
+    openGlobalAuth();
   });
 
   const closeCreateAccount = document.querySelector(".close-create-account");
   closeCreateAccount.addEventListener("click", () => {
-    hideAuthCon();
+    hideGlobalAuth();
     hideCreateAccountForm();
   });
 
   const returnToSignIn = document.querySelector(".return-to-sign-in");
   returnToSignIn.addEventListener("click", () => {
-    showAuthCon();
+    openGlobalAuth();
     hideCreateAccountForm();
   });
 
@@ -504,7 +500,7 @@ function displayUserWindow(loggedInUser) {
   const closeUserWindow = document.querySelector(".close-userWindow");
   closeUserWindow.addEventListener("click", () => {
     hideUserWindow();
-    hideAuthCon();
+    hideGlobalAuth();
   });
   displayLogoutModal();
   avatarUpload();
@@ -527,7 +523,7 @@ function displayLogoutModal() {
       logoutModal.classList.remove("logoutModal");
       localStorage.removeItem("loggedIn");
       localStorage.removeItem("savedUser");
-      hideAuthCon();
+      hideGlobalAuth();
       restoreLoggedUser(); //update icon
       avatar.src = "./images/index/secondSection/mens.webp";
       window.location.reload();
@@ -536,7 +532,7 @@ function displayLogoutModal() {
   if (cancel) {
     cancel.addEventListener("click", () => {
       logoutModal.classList.remove("logoutModal");
-      hideAuthCon();
+      hideGlobalAuth();
     });
   }
 }

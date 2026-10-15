@@ -1,5 +1,5 @@
 import { fetchSpecificSheet } from "./fetchApps.js";
-import { showAuthCon, hideAuthCon } from "./index.js";
+import { openGlobalAuth, hideGlobalAuth } from "./globalAuth.js";
 
 let paypalButtons = null;
 //1. Set the server URL to your deployed server
@@ -177,20 +177,10 @@ export function initPayPal() {
         } else {
           // (3) Successful transaction -> Show confirmation or thank you message
           // Or go to another URL:  actions.redirect('thank_you.html');
-          /* 
-          if (result.status === "COMPLETED") {
-            resultMessage(
-              `Transaction ${result.status}: ${result.captureID}<br>
-              <br>Thank you for your purchase!<br>`,
-            );
 
-            console.log("Payment successful!");
-            console.log("Order ID:", result.orderID);
-            console.log("Capture ID:", result.captureID);
-            console.log("Amount:", result.amount); */
           if (result.googleScript.success) {
             showCODloader();
-            showAuthCon();
+            openGlobalAuth();
             const inputElems = document.querySelectorAll(".paypal-init");
             inputElems.forEach((input) => {
               input.value = "";
@@ -217,6 +207,7 @@ export function initPayPal() {
         /* resultMessage(
           `Sorry, your transaction could not be processed...<br><br>${error}`,
         ); */
+        console.log("PayPal checkout error:", JSON.stringify(error, null, 2));
       }
     },
   });
@@ -285,7 +276,7 @@ export function placeCODOrder() {
     codBtn.disabled = true;
     codBtn.textContent = "Processing....";
     showProcessLoading();
-    showAuthCon();
+    openGlobalAuth();
     try {
       //receive and pass the order details to the UI handler
       const result = await createCODOrder();
@@ -341,7 +332,7 @@ function closeLoader() {
   const closeBtn = document.querySelector("#close-order-success-modal");
   closeBtn.addEventListener("click", () => {
     hideCODloader();
-    hideAuthCon();
+    hideGlobalAuth();
     window.location.href = "./index.html";
   });
 }
