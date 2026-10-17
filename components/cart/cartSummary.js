@@ -22,12 +22,14 @@ export async function fetchSummaryData() {
 export function renderTemporaryCart(products) {
   const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
   const summaryList = document.querySelector(".cart-summary-list");
+  const toCheckoutBtn = document.querySelector(".to-checkout");
   if (!summaryList) return;
   if (storage.length === 0) {
     const p = document.createElement("p");
     p.classList.add("storage-zero");
     p.textContent = "You don't have item in your cart.";
     summaryList.appendChild(p);
+    toCheckoutBtn.classList.remove("enableCheckout");
     return;
   }
 
@@ -69,7 +71,10 @@ export function renderTemporaryCart(products) {
         </div>
     `;
     summaryList.appendChild(li);
+    //enable checkout button
+    toCheckoutBtn.classList.add("enableCheckout");
   });
+
   increaseDecreaseQuantity(products);
   renderTotalCosts(products);
   deleteItemHandler(products);

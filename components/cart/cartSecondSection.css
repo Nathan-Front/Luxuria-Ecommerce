@@ -265,10 +265,16 @@
     background-position: 100% 0;
     border: 1px solid #1a1a1a;
     transition: background-position 0.15s ease;
+    opacity: 0.5;
+    pointer-events: none;
 }
 .to-checkout:hover {
     background-position: 0 0;
     color: #1a1a1a;
+}
+.enableCheckout {
+    opacity: 1;
+    pointer-events: auto;
 }
 .continue-shopping {
     width: 60%;
