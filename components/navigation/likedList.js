@@ -70,7 +70,7 @@ function addToCarLikedItem() {
     btn.addEventListener("click", (e) => {
       const item = e.currentTarget.closest("li");
       const productId = item.dataset.productId;
-      console.log(productId);
+      window.location.href = `./shop.html?addProduct=${productId}`;
     });
   });
 }

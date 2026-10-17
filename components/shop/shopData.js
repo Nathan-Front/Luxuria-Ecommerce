@@ -1,6 +1,3 @@
-import { fetchSpecificSheet } from "../../script/fetchApps.js";
-import { setSectionLoading } from "../../script/loadingSpinner.js";
-import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { openGlobalAuth } from "../../script/globalAuth.js";
@@ -353,7 +350,7 @@ function likeProductToggle() {
 }
 
 /*Add to cart modal*/
-function addToCart(products) {
+/* function addToCart(products) {
   const addToCartBtn = document.querySelectorAll(".add-to-cart");
   addToCartBtn.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -379,6 +376,62 @@ function addToCart(products) {
       renderCartModalHandler(addItem);
     });
   });
+} */
+
+//reusable existing size/color selection modal
+function openCartOptionsModal(addItem, products) {
+  if (!addItem) return;
+  const noSize = products.find(
+    (item) =>
+      Number(item.No) === Number(addItem.No) &&
+      (String(item.category) === "bags" ||
+        String(item.category) === "accessory"),
+  );
+  disableSizeHandler(noSize);
+  openGlobalAuth();
+  hideModalCartHandler();
+  const colorArr = addItem.color
+    .split(",")
+    .map((color) => color.trim().replaceAll('"', ""));
+  showCartModal(colorArr);
+  colorInit();
+  renderCartModalHandler(addItem);
+}
+
+//Add to cart modal
+function addToCart(products) {
+  //open cart modal by add to cart button of shop page
+  const addToCartBtn = document.querySelectorAll(".add-to-cart");
+  addToCartBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const productId = btn.closest("li").dataset.productId;
+      const addItem = [...products]
+        .reverse()
+        .find((item) => Number(item.No) === Number(productId));
+      openCartOptionsModal(addItem, products);
+    });
+  });
+  //open cart modal from liked modal's add to cart button
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get("addProduct");
+  if (productId) {
+    const addItem = [...products]
+      .reverse()
+      .find((item) => Number(item.No) === Number(productId));
+
+    if (addItem) {
+      openCartOptionsModal(addItem, products);
+    }
+    //Remove only addProduct, preserving any other query parameters
+    params.delete("addProduct");
+    const query = params.toString();
+    const newUrl =
+      window.location.pathname +
+      (query ? `?${query}` : "") +
+      window.location.hash;
+
+    window.history.replaceState({}, "", newUrl);
+  }
 }
 
 function showCartModal(colorArr) {
