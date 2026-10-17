@@ -3,20 +3,18 @@ import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { displayLikedCount } from "../../script/navigation.js";
+import { fetchProductData } from "../../script/fetchProducts.js";
 
 let fetchDataArr = [];
 export async function fetchHeroContent() {
-  const firstSection = document.querySelector(".index-first-sect");
-  setSectionLoading(firstSection, true); //pass true
-  try {
-    fetchDataArr = await fetchSpecificSheet("hero", "heroContent");
-    renderHero(fetchDataArr);
-  } catch (error) {
-    console.log(error);
-    showSectionError(firstSection);
-  } finally {
-    setSectionLoading(firstSection, false);
-  }
+  const container = document.querySelector(".index-first-sect");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "hero",
+    dataKey: "heroContent",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderHero(fetchDataArr);
 }
 
 function renderHero(heroContent) {
@@ -33,17 +31,14 @@ function renderHero(heroContent) {
 }
 
 export async function fetchIndexFilterContent() {
-  const secondSection = document.querySelector(".index-second-sect");
-  setSectionLoading(secondSection, true);
-  try {
-    fetchDataArr = await fetchSpecificSheet("indexFilter", "indexFilters");
-    renderIndexFilter(fetchDataArr);
-  } catch (error) {
-    console.log(error);
-    showSectionError(secondSection);
-  } finally {
-    setSectionLoading(secondSection, false);
-  }
+  const container = document.querySelector(".index-second-sect");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "indexFilter",
+    dataKey: "indexFilters",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderIndexFilter(fetchDataArr);
 }
 
 function renderIndexFilter(filterContent) {
@@ -62,17 +57,14 @@ function renderIndexFilter(filterContent) {
 }
 
 export async function fetchIndexNewArrivals() {
-  const thirdSection = document.querySelector(".index-third-sect");
-  setSectionLoading(thirdSection, true);
-  try {
-    fetchDataArr = await fetchSpecificSheet("shop-articles", "products");
-    renderNewArrivals(fetchDataArr);
-  } catch (error) {
-    console.log(error);
-    showSectionError(thirdSection);
-  } finally {
-    setSectionLoading(thirdSection, false);
-  }
+  const container = document.querySelector(".index-third-sect");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "shop-articles",
+    dataKey: "products",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderNewArrivals(fetchDataArr);
 }
 
 export function renderNewArrivals(newArrivals) {
@@ -143,17 +135,14 @@ function restoreLikedProducts() {
 }
 
 export async function fetchIndexPromo() {
-  const fourthSection = document.querySelector(".index-fourth-sect");
-  setSectionLoading(fourthSection, true);
-  try {
-    fetchDataArr = await fetchSpecificSheet("indexPromo", "promo");
-    renderPromo(fetchDataArr);
-  } catch (error) {
-    console.log(error);
-    showSectionError(fourthSection);
-  } finally {
-    setSectionLoading(fourthSection, false);
-  }
+  const container = document.querySelector(".index-fourth-sect");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "indexPromo",
+    dataKey: "promo",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderPromo(fetchDataArr);
 }
 function renderPromo(promo) {
   const promoContainer = document.querySelector(".fourth-upper-con");
