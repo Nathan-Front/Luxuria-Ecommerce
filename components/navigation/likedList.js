@@ -1,6 +1,7 @@
 import { fetchProductData } from "../../script/fetchProducts.js";
 import { openGlobalAuth, hideGlobalAuth } from "../../script/globalAuth.js";
 import { formatPrice } from "../../script/priceFormat.js";
+import { displayLikedCount } from "../../script/navigation.js";
 
 //get product data from reusable fetch function
 export async function likedItemsModal() {
@@ -46,17 +47,28 @@ function showLikedItemModal(products) {
     `;
       listContainer.appendChild(li);
     });
+    //attach after rendering
+    removeLikedItem();
   });
   closeLikedModal();
-  removeLikedItem();
 }
 
 function removeLikedItem() {
   const removeBtn = document.querySelectorAll(".liked-remove-button");
   removeBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      const item = e.target.closest("li");
-      console.log(item.dataset);
+      //get the dataset of its container
+      const item = e.currentTarget.closest("li");
+      const productId = item.dataset.productId;
+      let likedArr = JSON.parse(localStorage.getItem("likedProducts")) || [];
+
+      //filter it out from the storage list
+      likedArr = likedArr.filter((id) => String(id) !== String(productId));
+      //update storage
+      localStorage.setItem("likedProducts", JSON.stringify(likedArr));
+      //remove its container
+      item.remove();
+      displayLikedCount();
     });
   });
 }
