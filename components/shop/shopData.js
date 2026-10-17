@@ -14,22 +14,19 @@ import {
   renderColors,
   viewProductDetails,
 } from "../cart/cartModal.js";
+import { fetchProductData } from "../../script/fetchProducts.js";
 
 let fetchDataArr = [];
 export async function fetchShopHeroCont() {
-  const shopFirstSection = document.querySelector(".shop-first-sec");
-  setSectionLoading(shopFirstSection, true);
-  try {
-    fetchDataArr = await fetchSpecificSheet("shopHero", "shopHero");
-    renderShopCont(fetchDataArr);
-  } catch (error) {
-    console.log(error);
-    showSectionError(shopFirstSection);
-  } finally {
-    setSectionLoading(shopFirstSection, false);
-  }
+  const container = document.querySelector(".shop-first-sec");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "shopHero",
+    dataKey: "shopHero",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderShopCont(fetchDataArr);
 }
-
 function renderShopCont(shopHeroCon) {
   const shopHeroSection = document.querySelector(".shop-first-sec");
   const shopMainTitle = shopHeroSection.querySelector("h2");
@@ -42,22 +39,19 @@ function renderShopCont(shopHeroCon) {
   shopHeroImg.src = `./images/shop/firstSection/${shopHeroCon[0].heroImg}.webp`;
   shopHeroImg.alt = shopHeroCon[0].heroImgAlt;
 }
+
 let productArray = [];
 export async function fetchProducts() {
-  const shopSecondSection = document.querySelector(".shop-second-sec");
-  setSectionLoading(shopSecondSection, true);
-  try {
-    fetchDataArr = await fetchSpecificSheet("shop-articles", "products");
-    productArray = [...fetchDataArr].reverse();
-
-    createPagination(fetchDataArr);
-    displayPage(1);
-  } catch (error) {
-    console.log(error);
-    showSectionError(shopSecondSection);
-  } finally {
-    setSectionLoading(shopSecondSection, false);
-  }
+  const container = document.querySelector(".shop-second-sec");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "shop-articles",
+    dataKey: "products",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  productArray = [...fetchDataArr].reverse();
+  createPagination(fetchDataArr);
+  displayPage(1);
 }
 export function renderProducts(products) {
   const productCon = document.querySelector(".products-lists");
@@ -146,20 +140,6 @@ function createPagination(productArr) {
     });
     pagination.appendChild(button);
   });
-  /* for (let i = 1; i <= totalPage; i++) {
-    const button = document.createElement("button");
-    button.textContent = i;
-    button.classList.add("page-btn");
-    button.addEventListener("click", () => {
-      currentPage = i;
-      displayPage(currentPage);
-      document.querySelector(".shop-second-sec").scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    });
-    pagination.append(button);
-  } */
   const nextBtn = document.createElement("button");
   nextBtn.classList.add("next-btn");
   nextBtn.innerHTML = ">";
