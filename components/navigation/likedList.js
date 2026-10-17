@@ -29,8 +29,8 @@ function showLikedItemModal(products) {
     //this remove duplication when modal is open again
     listContainer.innerHTML = "";
     openGlobalAuth();
-    //render the searched up products
-    likedItems.forEach((product) => {
+    //render the searched up products from latest liked to oldest
+    likedItems.reverse().forEach((product) => {
       container.classList.add("openLikedModal");
       const li = document.createElement("li");
       li.dataset.productId = product.No;
@@ -43,16 +43,36 @@ function showLikedItemModal(products) {
       />
       <span class="liked-product-title">${product.article}</span>
       <p class="liked-product-price">${formatPrice(product.price)}</p>
-      <button class="liked-remove-button">Remove from list</button>
+      <div>
+        <button class="liked-add-button">
+          <img src="./images/shop/secondSection/cart-bag.svg" alt="cart" />
+          <span class="tooltip">Add to cart</span>
+        </button>
+        <button class="liked-remove-button">
+          <img src="./images/cart/secondSection/delete.svg" alt="delete-button"/>
+          <span class="tooltip">Remove item</span>
+        </button>
+      </div>
     `;
       listContainer.appendChild(li);
     });
     //attach after rendering
+    addToCarLikedItem();
     removeLikedItem();
   });
   closeLikedModal();
 }
 
+function addToCarLikedItem() {
+  const addToCartBtn = document.querySelectorAll(".liked-add-button");
+  addToCartBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const item = e.currentTarget.closest("li");
+      const productId = item.dataset.productId;
+      console.log(productId);
+    });
+  });
+}
 function removeLikedItem() {
   const removeBtn = document.querySelectorAll(".liked-remove-button");
   removeBtn.forEach((btn) => {

@@ -24,6 +24,7 @@
 .liked-modal> div {
     width: 100%;
     position: relative;
+    padding: 8px 0;
 }
 .liked-modal> div> h2 {
     width: 100%;
@@ -80,6 +81,9 @@
     flex-direction: column;
     justify-content: center;
     gap: 8px;
+    padding: 8px;
+    border-radius: 0.25rem;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.45);
 }
 .like-item-details> img {
     width: 100%;
@@ -90,17 +94,42 @@
     font-size: var(--text-base);
     font-weight: 600;
 }
-.liked-remove-button {
+.like-item-details> div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 8px;
+}
+.like-item-details> div> button {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--text-base);
     font-weight: 600;
-    padding: 4px;
-    border: 1px solid #B5A078;
     border-radius: 0.25rem;
     color: #B5A078;
-    transition: border 0.3s ease, color 0.4s ease, transform 0.3s ease;
+    position: relative;
 }
-.liked-remove-button:hover {
-    border: 1px solid #1a1a1a;
-    color: #1a1a1a;
-    transform: translateY(-2px);
+.like-item-details> div> button> img {
+    width: 40%;
+}
+.tooltip {
+    width: 100%;
+    position: absolute;
+    top: -16px;
+    left: 0;
+    opacity: 0;
+    display: block;
+    font-size: 12px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 0.25rem;
+    padding: 2px;
+    transition: opacity 0.4s ease;
+}
+.liked-add-button:hover .tooltip,
+.liked-remove-button:hover .tooltip {
+    opacity: 1;
 }
