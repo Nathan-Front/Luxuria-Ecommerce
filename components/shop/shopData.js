@@ -418,7 +418,6 @@ function addToCart(products) {
     const addItem = [...products]
       .reverse()
       .find((item) => Number(item.No) === Number(productId));
-
     if (addItem) {
       openCartOptionsModal(addItem, products);
     }
@@ -429,7 +428,6 @@ function addToCart(products) {
       window.location.pathname +
       (query ? `?${query}` : "") +
       window.location.hash;
-
     window.history.replaceState({}, "", newUrl);
   }
 }

@@ -146,6 +146,13 @@ async function fetchHTML() {
         fetch("./components/checkout/codLoader.html").then((res) => res.text()),
       ]);
     }
+    if (page === "style") {
+      sections = await Promise.all([
+        fetch("./components/styles/stylesFirstSection.html").then((res) =>
+          res.text(),
+        ),
+      ]);
+    }
     body.insertAdjacentHTML("beforebegin", nav);
     sections.forEach((sec) => {
       app.insertAdjacentHTML("beforebegin", sec);

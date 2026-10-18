@@ -24,7 +24,10 @@ function showLikedItemModal(products) {
   const likedBtn = document.querySelector(".show-liked-items");
   likedBtn.addEventListener("click", () => {
     const likedArr = JSON.parse(localStorage.getItem("likedProducts")) || [];
-    if (likedArr.length === 0) return;
+    if (likedArr.length === 0) {
+      alert("No liked item in the list");
+      return;
+    }
     //search up the liked product ID from fetched list of products
     const likedItems = products.filter((product) =>
       likedArr.includes(String(product.No)),

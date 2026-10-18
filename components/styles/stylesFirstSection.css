@@ -1,0 +1,41 @@
+.styles-first-sec {
+    width:  100%;
+    min-height: clamp(350px, 40vw, 600px);
+    margin-top: var(--nav-height-desk);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+.styles-first-sec> *:not(:last-child) {
+    margin-left: clamp(16px, 5vw, 80px);
+}
+.styles-first-sec> span {
+    font-size: var(--text-large);
+    text-transform: uppercase;
+    margin-top: var(--nav-height-desk);
+    color: #B5A078;
+}
+.styles-first-sec> h2 {
+    font-size: var(--heading-medium);
+}
+.styles-first-sec> p {
+    font-size: var(--text-base);
+    margin-top: 32px;
+    width: 60%;
+}
+.styles-first-sec> p> span {
+    display: block;
+}
+.styles-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    object-fit: cover;
+    object-position: 65% center;
+    height: 100%;
+    z-index: -1;
+}
