@@ -74,6 +74,7 @@ export function renderNewArrivals(newArrivals) {
     .filter((item) => item.condition === "new")
     .reverse();
   //newProducts.map((item) => { //use this if next line is confusing
+  newArrivalContainer.innerHTML = "";
   for (const item of newProducts) {
     const li = document.createElement("li");
     li.dataset.productId = item.No;

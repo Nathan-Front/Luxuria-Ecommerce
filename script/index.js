@@ -177,7 +177,7 @@ async function fetchHTML() {
   }
   goToCartSummary();
   burgerMenuhandler();
-
+  likedItemsModal();
   if (page === "home") {
     fetchHeroContent();
     fetchIndexFilterContent();
@@ -214,7 +214,6 @@ async function fetchHTML() {
   restoreCartCount();
   displayLoginForm();
   restoreLoggedUser();
-  likedItemsModal();
 }
 
 document.addEventListener("DOMContentLoaded", fetchHTML);

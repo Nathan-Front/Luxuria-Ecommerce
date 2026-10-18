@@ -2,6 +2,8 @@ import { fetchProductData } from "../../script/fetchProducts.js";
 import { openGlobalAuth, hideGlobalAuth } from "../../script/globalAuth.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { displayLikedCount } from "../../script/navigation.js";
+import { renderProducts } from "../shop/shopData.js";
+import { renderNewArrivals } from "../index/indexData.js";
 
 //get product data from reusable fetch function
 export async function likedItemsModal() {
@@ -59,7 +61,7 @@ function showLikedItemModal(products) {
     });
     //attach after rendering
     addToCarLikedItem();
-    removeLikedItem();
+    removeLikedItem(products);
   });
   closeLikedModal();
 }
@@ -71,30 +73,40 @@ function addToCarLikedItem() {
       const item = e.currentTarget.closest("li");
       const productId = item.dataset.productId;
       window.location.href = `./shop.html?addProduct=${productId}`;
+      sharedDeleteLikedItem(productId);
+      //remove its container
+      item.remove();
     });
   });
 }
-function removeLikedItem() {
+
+function removeLikedItem(products) {
   const removeBtn = document.querySelectorAll(".liked-remove-button");
   removeBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       //get the dataset of its container
       const item = e.currentTarget.closest("li");
       const productId = item.dataset.productId;
-      let likedArr = JSON.parse(localStorage.getItem("likedProducts")) || [];
-
-      //filter it out from the storage list
-      likedArr = likedArr.filter((id) => String(id) !== String(productId));
-      //update storage
-      localStorage.setItem("likedProducts", JSON.stringify(likedArr));
+      sharedDeleteLikedItem(productId);
       //remove its container
       item.remove();
-      displayLikedCount();
-      if (likedArr.length === 0) {
-        hideGlobalAuth();
-      }
+      renderProducts([...products]);
+      renderNewArrivals(products);
     });
   });
+}
+//reusable delete liked items from storage
+function sharedDeleteLikedItem(productId) {
+  let likedArr = JSON.parse(localStorage.getItem("likedProducts")) || [];
+  //filter it out from the storage list
+  likedArr = likedArr.filter((id) => String(id) !== String(productId));
+  //update storage
+  localStorage.setItem("likedProducts", JSON.stringify(likedArr));
+
+  displayLikedCount();
+  if (likedArr.length === 0) {
+    hideGlobalAuth();
+  }
 }
 
 function closeLikedModal() {
