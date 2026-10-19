@@ -49,8 +49,8 @@ function renderStyleOccasion(styleOccasion) {
       const imageCon = document.querySelector(".occasion-lists");
       const li = document.createElement("li");
       li.innerHTML = `
-            <img src="./images/styles/secondSection/${item.heroImg}.webp" alt="" />
-            <span>Casual</span>
+            <img src="./images/styles/secondSection/${item.heroImg}.webp" alt=${item.heroImgAlt} />
+            <span>${item.heroImg}</span>
         `;
       imageCon.append(li);
     }
