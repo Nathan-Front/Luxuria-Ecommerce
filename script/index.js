@@ -23,6 +23,10 @@ import {
   filterContents,
   displayFiltersTablet,
 } from "../components/shop/filters.js";
+import {
+  fetchStylesHeroCont,
+  fetchStylesOccasionCont,
+} from "../components/styles/styles.js";
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
@@ -151,6 +155,9 @@ async function fetchHTML() {
         fetch("./components/styles/stylesFirstSection.html").then((res) =>
           res.text(),
         ),
+        fetch("./components/styles/stylesSecondSection.html").then((res) =>
+          res.text(),
+        ),
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
@@ -217,6 +224,10 @@ async function fetchHTML() {
       });
     placeCODOrder();
   }
+  if (page === "style") {
+    fetchStylesHeroCont();
+    fetchStylesOccasionCont();
+  }
   displayLikedCount();
   restoreCartCount();
   displayLoginForm();
@@ -226,7 +237,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxmZ8mcNm7688GGfuJ7e0iNWzHviIkCKQklYMxTlFHNBO9Lk7FUqU2GgmpfvFF_CGYZ/exec";
+  "https://script.google.com/macros/s/AKfycbz4BYpZz9ztulNJvYrUkggGxROc_0I4U25smqDf3wtZ2y5Bfwj4bwKoI4dwL9sMpUOH/exec";
 //51st ver
 
 //To cart summary page

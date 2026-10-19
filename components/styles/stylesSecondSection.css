@@ -1,0 +1,95 @@
+.styles-second-sec {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    padding: 80px 0;
+    gap: 8px;
+    position: relative;
+}
+@media only screen and (max-width: 640px) {
+   .styles-second-sec {
+    flex-direction: column;
+   } 
+}
+.styles-second-details {
+    flex: 0.5;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+.styles-second-details> span {
+    font-size: var(--text-small);
+    text-transform: uppercase;
+    color: #B5A078;
+    font-weight: 700;
+    margin-top: 8px;
+}
+.styles-second-details> h3 {
+    font-size: var(--heading-small);
+    font-weight: 900;
+}
+.styles-second-details> p {
+    font-size: var(--text-base);
+}
+.styles-second-details> a {
+    font-size: var(--text-large);
+    font-weight: 800;
+    width: fit-content;
+    color: #B5A078;
+    margin: auto 0 8px 0;
+    position: relative;
+    background: linear-gradient(
+        to right,
+        #1a1a1a 50%,
+        #B5A078 50%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0.4s ease;
+}
+.styles-second-details> a:hover {
+    background-position: 0, 0;
+}
+.styles-second-details> a::before {
+    content: "";
+    width: 60px;
+    height: 2px;
+    background-color: #B5A078;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+}
+.styles-second-images {
+    flex: 1;
+    padding: 24px;
+}
+.occasion-lists {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+}
+.occasion-lists> li {
+    display: flex;
+    position: relative;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+.occasion-lists> li> img {
+    width: 100%;
+}
+.occasion-lists> li> span {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+}
