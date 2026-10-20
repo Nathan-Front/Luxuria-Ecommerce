@@ -26,6 +26,8 @@ import {
 import {
   fetchStylesHeroCont,
   fetchStylesOccasionCont,
+  fetchStylesGuidesCont,
+  fetchStylesShopNowCont,
 } from "../components/styles/styles.js";
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
@@ -158,6 +160,12 @@ async function fetchHTML() {
         fetch("./components/styles/stylesSecondSection.html").then((res) =>
           res.text(),
         ),
+        fetch("./components/styles/stylesThirdSection.html").then((res) =>
+          res.text(),
+        ),
+        fetch("./components/styles/stylesFourthSection.html").then((res) =>
+          res.text(),
+        ),
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
@@ -227,6 +235,8 @@ async function fetchHTML() {
   if (page === "style") {
     fetchStylesHeroCont();
     fetchStylesOccasionCont();
+    fetchStylesGuidesCont();
+    fetchStylesShopNowCont();
   }
   displayLikedCount();
   restoreCartCount();
@@ -237,7 +247,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbz4BYpZz9ztulNJvYrUkggGxROc_0I4U25smqDf3wtZ2y5Bfwj4bwKoI4dwL9sMpUOH/exec";
+  "https://script.google.com/macros/s/AKfycbzvGlZYyRuCvQ0Y0ftK2oYF3IVEuGepb50tW0n-o-RZ3tGox8wifoK2wq_gFxYUk8KV/exec";
 //51st ver
 
 //To cart summary page

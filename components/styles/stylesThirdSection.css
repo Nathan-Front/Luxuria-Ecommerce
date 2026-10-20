@@ -1,0 +1,107 @@
+.styles-third-sec {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    padding: 80px 0;
+    gap: 8px;
+    background-color:#EEE6DA;
+    position: relative;
+}
+@media only screen and (max-width: 640px) {
+   .styles-third-sec {
+    flex-direction: column;
+   } 
+}
+.styles-third-details {
+    flex: 0.5;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+.styles-third-details> span {
+    font-size: var(--text-small);
+    text-transform: uppercase;
+    color: #B5A078;
+    font-weight: 700;
+    margin-top: 8px;
+}
+.styles-third-details> h3 {
+    font-size: var(--heading-small);
+    font-weight: 900;
+}
+.styles-third-details> p {
+    font-size: var(--text-base);
+}
+.styles-third-details> a {
+    font-size: var(--text-large);
+    font-weight: 800;
+    width: fit-content;
+    color: #B5A078;
+    margin: auto 0 8px 0;
+    position: relative;
+    background: linear-gradient(
+        to right,
+        #1a1a1a 50%,
+        #B5A078 50%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0.4s ease;
+}
+.styles-third-details> a:hover {
+    background-position: 0, 0;
+}
+.styles-third-details> a::before {
+    content: "";
+    width: 60px;
+    height: 2px;
+    background-color: #B5A078;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+}
+.styles-third-images {
+    flex: 1;
+    padding: 24px;
+}
+.guides-lists {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+}
+.guides-lists> li {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    background-color: #fff;
+}
+.guides-lists> li> button {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+.guides-lists> li> button> img {
+    width: 100%;
+    transition: 0.4s ease;
+}
+.guides-lists> li> button> img:hover {
+    transform: scale(1.1);
+}
+.guides-lists> li> span {
+    padding: 16px;
+    color: #B5A078;
+    font-size: var(--text-small);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
