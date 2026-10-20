@@ -60,16 +60,7 @@
 .styles-fourth-details> a:hover {
     background-position: 0, 0;
 }
-/* .styles-fourth-details> a::before {
-    content: "";
-    width: 60px;
-    height: 100%;
-    background-color: #fff;
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-} */
-.shop-now-image{
+.shop-now-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -77,4 +68,18 @@
     height: 100%;
     object-fit: cover;
     z-index: -1;
+}
+@media only screen and (max-width: 450px) {
+    .styles-fourth-details {
+        flex: 1;
+    }
+    .styles-fourth-details> a {
+        position: unset;
+        margin: 32px 0 8px 0;
+    }
+}
+@media (min-width: 451px) and (max-width: 640px) {
+    .styles-fourth-details> a {
+        right: 10%;
+    }
 }
