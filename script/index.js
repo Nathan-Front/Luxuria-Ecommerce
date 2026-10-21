@@ -270,7 +270,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbx0bihbVWss_hK8tPoPeSD3Q29z2MTAZ77wYEMu-TTzzq99Xb7ZbXMQsfyYa6D0tV-k/exec";
+  "https://script.google.com/macros/s/AKfycbywXMQtFAVmWAtQ2maqgqNrxxL2dxyxLVH2TGs9kN-2960IQKAJhsPeqf_cmx3vFTDS/exec";
 //51st ver
 
 //To cart summary page
