@@ -1,0 +1,43 @@
+.occasions-first-sec {
+    width:  100%;
+    min-height: clamp(350px, 40vw, 600px);
+    margin-top: var(--nav-height-desk);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+}
+.occasions-first-sec> span {
+    font-size: var(--text-large);
+    font-weight: 800;
+    text-transform: uppercase;
+    
+    letter-spacing: 1px;
+}
+.occasions-first-sec> h2 {
+    font-size: var(--heading-medium);
+    font-weight: 900;
+    
+}
+.occasions-first-sec> p {
+    font-size: var(--text-base);
+    margin-top: 40px;
+    text-align: center;
+    width: fit-content;
+    text-transform: uppercase;
+    font-weight: 800;
+   background-color: rgba(0, 0, 0, 0.1);
+}
+.occasions-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    object-fit: fill;
+    object-position: 65% center;
+    height: 100%;
+    z-index: -1;
+}
