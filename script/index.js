@@ -29,7 +29,13 @@ import {
   fetchStylesGuidesCont,
   fetchStylesShopNowCont,
 } from "../components/styles/styles.js";
-import { fetchOccasionssHeroCont } from "../components/occasions/occasions.js";
+import {
+  fetchOccasionssHeroCont,
+  fetchOccasionssCasualCont,
+  fetchOccasionssBusinessCont,
+  fetchOccasionssEveningCont,
+  fetchOccasionsTravelCont,
+} from "../components/occasions/occasions.js";
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
@@ -260,6 +266,10 @@ async function fetchHTML() {
   }
   if (page === "occasions") {
     fetchOccasionssHeroCont();
+    fetchOccasionssCasualCont();
+    fetchOccasionssBusinessCont();
+    fetchOccasionssEveningCont();
+    fetchOccasionsTravelCont();
   }
   displayLikedCount();
   restoreCartCount();
@@ -270,7 +280,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbywXMQtFAVmWAtQ2maqgqNrxxL2dxyxLVH2TGs9kN-2960IQKAJhsPeqf_cmx3vFTDS/exec";
+  "https://script.google.com/macros/s/AKfycbwPu_B4RzNMgk7gmytpS1tXjHizdgjrfXx0u2aNf7hVXoOqd5POrHGzgj8eIJ6izHRY/exec";
 //51st ver
 
 //To cart summary page

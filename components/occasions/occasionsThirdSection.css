@@ -1,0 +1,27 @@
+.occasions-third-sec {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0;
+    gap: 8px;
+    position: relative;
+}
+.occasions-third-sec> h3 {
+    font-size: var(--heading-large);
+    text-align: center;
+}
+.occasions-third-sec> ul {
+    width: 90%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+.occasions-third-sec> ul> li {
+    width: 100%;
+}
+.occasions-third-sec> ul> li> img {
+    width: 100%;
+}
