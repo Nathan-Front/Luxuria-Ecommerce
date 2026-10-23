@@ -1,5 +1,6 @@
 .occasions-first-sec {
     width:  100%;
+    height: 100dvh;
     min-height: clamp(350px, 40vw, 600px);
     margin-top: var(--nav-height-desk);
     display: flex;
@@ -29,7 +30,7 @@
     width: fit-content;
     text-transform: uppercase;
     font-weight: 800;
-   background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 .occasions-hero-background {
     position: absolute;
@@ -40,4 +41,9 @@
     object-position: 65% center;
     height: 100%;
     z-index: -1;
+}
+@media only screen and (max-width: 640px) {
+    .occasions-first-sec> p {
+        width: 80%;
+    }
 }

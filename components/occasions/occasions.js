@@ -35,9 +35,16 @@ export async function fetchOccasionssCasualCont() {
 function renderOccasionsCasual(casual) {
   const listCont = document.querySelector(".occasions-casual-list");
   const title = document.querySelector(".section-casual-title");
+  const titleText = document.querySelector(".casual-title-text");
+  const casualText = document.querySelector(".casual-text");
+  const titleImg = document.querySelector(".casual-title-image");
   casual.map((item) => {
     if (item.No === 1) {
       title.textContent = item.category;
+      titleText.textContent = item.title;
+      casualText.textContent = item.text;
+      titleImg.src = `./images/occasions/secondSection/${item.background}.webp`;
+      titleImg.alt = `${item.category}-image`;
     }
     if (item.No === 2) {
       const li = document.createElement("li");
@@ -62,14 +69,21 @@ export async function fetchOccasionssBusinessCont() {
 function renderOccasionsBusiness(business) {
   const listCont = document.querySelector(".occasions-business-list");
   const title = document.querySelector(".section-business-title");
+  const titleText = document.querySelector(".business-title-text");
+  const businessText = document.querySelector(".business-text");
+  const titleImg = document.querySelector(".business-title-image");
   business.map((item) => {
     if (item.No === 1) {
       title.textContent = item.category;
+      titleText.textContent = item.title;
+      businessText.textContent = item.text;
+      titleImg.src = `./images/occasions/thirdSection/${item.background}.webp`;
+      titleImg.alt = `${item.category}-image`;
     }
     if (item.No === 2) {
       const li = document.createElement("li");
       li.innerHTML = `
-    <img src ="./images/occasions/thirdSection/${item.businessImg}.webp" alt="" />
+    <img src="./images/occasions/thirdSection/${item.businessImg}.webp" alt="" />
     `;
       listCont.append(li);
     }
@@ -89,9 +103,16 @@ export async function fetchOccasionssEveningCont() {
 function renderOccasionsEvening(evening) {
   const listCont = document.querySelector(".occasions-evening-list");
   const title = document.querySelector(".section-evening-title");
+  const titleText = document.querySelector(".evening-title-text");
+  const eveningText = document.querySelector(".evening-text");
+  const titleImg = document.querySelector(".evening-title-image");
   evening.map((item) => {
     if (item.No === 1) {
       title.textContent = item.category;
+      titleText.textContent = item.title;
+      eveningText.textContent = item.text;
+      titleImg.src = `./images/occasions/fourthSection/${item.background}.webp`;
+      titleImg.alt = `${item.category}-image`;
     }
     if (item.No === 2) {
       const li = document.createElement("li");
@@ -116,9 +137,16 @@ export async function fetchOccasionsTravelCont() {
 function renderOccasionsTravel(travel) {
   const listCont = document.querySelector(".occasions-travel-list");
   const title = document.querySelector(".section-travel-title");
+  const titleText = document.querySelector(".travel-title-text");
+  const travelText = document.querySelector(".travel-text");
+  const titleImg = document.querySelector(".travel-title-image");
   travel.map((item) => {
     if (item.No === 1) {
       title.textContent = item.category;
+      titleText.textContent = item.title;
+      travelText.textContent = item.text;
+      titleImg.src = `./images/occasions/fifthSection/${item.background}.webp`;
+      titleImg.alt = `${item.category}-image`;
     }
     if (item.No === 2) {
       const li = document.createElement("li");
