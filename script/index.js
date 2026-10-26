@@ -36,6 +36,10 @@ import {
   fetchOccasionssEveningCont,
   fetchOccasionsTravelCont,
 } from "../components/occasions/occasions.js";
+import {
+  fetchGuidesHeroCont,
+  fetchGuidesCont,
+} from "../components/guides/guides.js";
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
@@ -194,6 +198,16 @@ async function fetchHTML() {
         ),
       ]);
     }
+    if (page === "guides") {
+      sections = await Promise.all([
+        fetch("./components/guides/guidesFirstSection.html").then((res) =>
+          res.text(),
+        ),
+        fetch("./components/guides/guidesSecondSection.html").then((res) =>
+          res.text(),
+        ),
+      ]);
+    }
     body.insertAdjacentHTML("beforebegin", nav);
     sections.forEach((sec) => {
       app.insertAdjacentHTML("beforebegin", sec);
@@ -271,6 +285,10 @@ async function fetchHTML() {
     fetchOccasionssEveningCont();
     fetchOccasionsTravelCont();
   }
+  if (page === "guides") {
+    fetchGuidesHeroCont();
+    fetchGuidesCont();
+  }
   displayLikedCount();
   restoreCartCount();
   displayLoginForm();
@@ -280,7 +298,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzMLTxl2RFu3ChYGyjA3Z4aJc-qPAAYtLW1h3ceCLNhe9agZuTAllbiMyOYvZ6bRa4x/exec";
+  "https://script.google.com/macros/s/AKfycbyvKLqGaJubR__pGHOyQ6zhgUhbkMxxxgtDETvp95gp53kG90MOMOIk2jiqCVMLBoRS/exec";
 //51st ver
 
 //To cart summary page

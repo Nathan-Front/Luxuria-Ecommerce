@@ -82,10 +82,7 @@ function renderStyleGuides(styleOccasion) {
       const imageCon = document.querySelector(".guides-lists");
       const li = document.createElement("li");
       li.innerHTML = `
-      <button>
             <img src="./images/styles/thirdSection/${item.occasionImg}.webp" alt=${item.occasionImgAlt} />
-            
-            </button>
             <span>${item.imageTexts}</span>
         `;
       imageCon.append(li);

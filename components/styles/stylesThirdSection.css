@@ -84,16 +84,11 @@
     overflow: hidden;
     background-color: #fff;
 }
-.guides-lists> li> button {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-}
-.guides-lists> li> button> img {
+.guides-lists> li> img {
     width: 100%;
     transition: 0.4s ease;
 }
-.guides-lists> li> button> img:hover {
+.guides-lists> li> img:hover {
     transform: scale(1.1);
 }
 .guides-lists> li> span {
