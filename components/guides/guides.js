@@ -88,130 +88,94 @@ function renderGuidesCont({ fetchCategory, fetchContents }) {
   console.log("content", fetchContents);
   const guideList = document.querySelector(".guide-lists");
   guideList.innerHTML = "";
-  fetchCategory.map((item) => {
-    const li = document.createElement("li");
+
+  fetchCategory.forEach((item) => {
+    //match all data where they belong to
+    const matchedContents = fetchContents.filter(
+      (content) => String(content.contentID) === String(item.contentID),
+    );
     //skip empty entries
-    if (!item.introduction) return "";
-    li.innerHTML = `
-        <div class="guides-images-con">
-          <img src="" alt="image 1" />
-          <img src="" alt="image 2" />
-          <img src="" alt="image 3" />
-          <img src="" alt="image 4" />
-        </div>
-        <div class="guides-content-con">
+    if (!item.introduction) return;
+    const li = document.createElement("li");
+    //list all images folders per type
+    const imageFolders = {
+      elegance: "elegance",
+      wardrobe: "wardrobe",
+      business: "business",
+      evening: "evening",
+      season: "season",
+    };
+    //filter images
+    const imageContents = matchedContents.filter(
+      (content) => imageFolders[content.contentType],
+    );
+    //Render all images inside one container
+    const imagesHTML = imageContents
+      .map(
+        (content) => `
+        <img
+          src="./images/guides/secondSection/${imageFolders[content.contentType]}/${content.sectionTitle}.webp"
+          alt="${content.sectionTitle}"
+          loading="lazy"
+        />
+      `,
+      )
+      .join("");
+
+    //render sections, tips, and other guide content
+    const guideContentHTML = matchedContents
+      .filter((content) => !imageFolders[content.contentType])
+      .map(
+        (content) => `
+        <div class="guides">
           ${
-            item.contentID
+            content.sectionTitle &&
+            (content.contentType === "section" || content.contentType === "tip")
               ? `
-                <h3>${item.title ? item.title : ""}</h3>
-                <p>${item.introduction ? item.introduction : ""}</p>
+                <h4 class="${
+                  content.contentType === "section"
+                    ? "section-title"
+                    : "section-title-tips"
+                }">
+                  ${
+                    content.contentType === "tip"
+                      ? `<strong>${content.sectionTitle}</strong>`
+                      : content.sectionTitle
+                  }
+                </h4>
+                <span class="section-title-text">
+                  ${content.sectionText || ""}
+                </span>
               `
               : ""
           }
-           <div class="guides">
-            ${fetchContents
-              .filter(
-                (content) =>
-                  String(content.contentID) === String(item.contentID),
-              )
-              .map(
-                (content) => `
-                ${
-                  (content.sectionTitle && content.contentType === "section") ||
-                  (content.sectionTitle && content.contentType === "tip")
-                    ? `
-                      
-                      ${
-                        content.contentType === "section"
-                          ? `
-                          <h4>${content.sectionTitle}</h4>
-                        `
-                          : `
-                          <h4><strong>${content.sectionTitle}</strong></h4>
-                        `
-                      }
-                      <span>${content.sectionText}</span>
-                    `
-                    : ""
-                }
-                <div class=guides-text>
-                    ${content.contentTitle ? `<strong>${content.contentTitle}</strong>` : ""}
-                    ${content.contentText ? `<span>${content.contentText}</span>` : ""}
-                </div>
-               `,
-              )
-              .join("")}
-           </div>
+          <div class="guides-text">
+            ${
+              content.contentTitle
+                ? `<strong>${content.contentTitle}</strong>`
+                : ""
+            }
+            ${content.contentText ? `<span>${content.contentText}</span>` : ""}
+          </div>
         </div>
-      `;
+      `,
+      )
+      .join("");
+
+    //Combine the image and content containers here
+    //This will be the html
+    li.innerHTML = `
+    <div class="guides-images-con">
+      ${imagesHTML}
+    </div>
+
+    <div class="guides-content-con">
+      <h3>${item.title || ""}</h3>
+      <p>${item.introduction || ""}</p>
+
+      ${guideContentHTML}
+    </div>
+  `;
     guideList.append(li);
   });
-  /* const guideList = document.querySelector(".guide-lists");
-  guideList.innerHTML = "";
-  guides.map((item) => {
-    const li = document.createElement("li");
-
-    li.innerHTML = `
-          <li>
-      <div class="guides-images-con">
-        <img src="" alt="image 1" />
-        <img src="" alt="image 2" />
-        <img src="" alt="image 3" />
-        <img src="" alt="image 4" />
-      </div>
-      <div class="guides-content-con">
-      ${
-        item.contentNum
-          ? `
-        <h3>${item.title}</h3>
-        <p>${item.outline}</p>
-        `
-          : ""
-      }
-        <div class="guides">
-        ${item.subTitle.map(
-          (sub) =>
-            `
-              <h4>${sub}</h4>
-              ${item.sections
-                .map((section) =>
-                  section.title
-                    .map((title, index) => {
-                      const outline = section.outline[index];
-
-                      //skip empty entries
-                      if (!title && !outline) return "";
-
-                      return `
-                    <p>
-                      ${title ? `<strong>${title}</strong>` : ""}
-                      ${outline ? `<span>${outline}</span>` : ""}
-                    </p>
-                  `;
-                    })
-                    .join(""),
-                )
-                .join("")}
-            `,
-        )}
-          
-          
-        </div>
-
-        ${item.tips
-          .map(
-            (tip) =>
-              `
-            <p>
-              <strong>${tip}</strong>
-            </p>
-            `,
-          )
-          .join("")}
-        
-      </div>
-    </li>
-      `;
-    guideList.append(li);
-  }); */
 }
