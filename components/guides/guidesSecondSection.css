@@ -24,6 +24,13 @@
     display: flex;
     gap: 8px;
 }
+.guides-second-sec> ul> li:nth-child(even) {
+    flex-direction: row-reverse;
+}
+.guides-second-sec> ul> li> div {
+    flex: 1;
+    padding: 16px;
+}
 @media only screen and (max-width: 768px) {
     .guides-second-sec> ul> li {
         flex-direction: column;
@@ -31,13 +38,11 @@
     .guides-second-sec> ul> li:nth-child(even) {
         flex-direction: column !important;
     }
-}
-.guides-second-sec> ul> li:nth-child(even) {
-    flex-direction: row-reverse;
-}
-.guides-second-sec> ul> li> div {
-    flex: 1;
-    padding: 16px;
+    .guides-second-sec> ul> li> div {
+        padding: 0;
+        width: 90%;
+        margin: 0 auto;
+    }
 }
 .guides-images-con {
     display: grid;

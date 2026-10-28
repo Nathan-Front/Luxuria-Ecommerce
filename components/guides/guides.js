@@ -23,7 +23,7 @@ function renderGuidesHero(guidesHero) {
 }
 
 export async function fetchGuidesCont() {
-  const container = document.querySelector(".guides-first-sec");
+  const container = document.querySelector(".guides-second-sec");
   const fetchCategory = await fetchProductData({
     sheetName: "guidesCategory",
     dataKey: "guideCategory",
@@ -32,57 +32,11 @@ export async function fetchGuidesCont() {
   const fetchContents = await fetchProductData({
     sheetName: "guidesContents",
     dataKey: "guideContents",
-    container: "",
+    container: container,
   });
-  //if (fetchDataArr.length === 0) return;
-  fixDataArray({ fetchCategory, fetchContents });
-}
-function fixDataArray({ fetchCategory, fetchContents }) {
-  /*  const guides = new Map();
-  fetchData.forEach((item) => {
-    if (!guides.has(item.contentNum)) {
-      guides.set(item.contentNum, {
-        contentNum: item.contentNum,
-        title: "",
-        outline: "",
-        subTitle: [],
-        sections: [],
-        tips: [],
-      });
-    }
-
-    const guide = guides.get(item.contentNum);
-
-    // Main guide information
-    if (item.contentID === 1) {
-      guide.title = item.title;
-      guide.outline = item.outline;
-      guide.subTitle.push([
-        item.guideOne,
-        item.guideTwo,
-        item.guideThree,
-        item.guideFour,
-      ]);
-    }
-    if (item.tips?.trim()) {
-      guide.tips.push(item.tips.trim());
-    }
-    // Individual guide sections
-    if (item.contentID === 2 && item.guideOne) {
-      guide.sections.push({
-        title: [item.guideOne, item.guideTwo, item.guideThree, item.guideFour],
-        outline: [
-          item.guideOneOutline,
-          item.guideTwoOutline,
-          item.guideThreeOutline,
-          item.guideFourOutline,
-        ],
-      });
-    }
-  }); */
   renderGuidesCont({ fetchCategory, fetchContents });
-  //return [...guides.values()];
 }
+
 function renderGuidesCont({ fetchCategory, fetchContents }) {
   console.log("category", fetchCategory);
   console.log("content", fetchContents);
