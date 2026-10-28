@@ -30,16 +30,17 @@ import {
   fetchStylesShopNowCont,
 } from "../components/styles/styles.js";
 import {
-  fetchOccasionssHeroCont,
-  fetchOccasionssCasualCont,
-  fetchOccasionssBusinessCont,
-  fetchOccasionssEveningCont,
+  fetchOccasionsHeroCont,
+  fetchOccasionsCasualCont,
+  fetchOccasionsBusinessCont,
+  fetchOccasionsEveningCont,
   fetchOccasionsTravelCont,
 } from "../components/occasions/occasions.js";
 import {
   fetchGuidesHeroCont,
   fetchGuidesCont,
 } from "../components/guides/guides.js";
+import { fetchAboutHeroCont } from "../components/about/about.js";
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
@@ -208,6 +209,13 @@ async function fetchHTML() {
         ),
       ]);
     }
+    if (page === "about") {
+      sections = await Promise.all([
+        fetch("./components/about/aboutFirstSection.html").then((res) =>
+          res.text(),
+        ),
+      ]);
+    }
     body.insertAdjacentHTML("beforebegin", nav);
     sections.forEach((sec) => {
       app.insertAdjacentHTML("beforebegin", sec);
@@ -279,15 +287,18 @@ async function fetchHTML() {
     fetchStylesShopNowCont();
   }
   if (page === "occasions") {
-    fetchOccasionssHeroCont();
-    fetchOccasionssCasualCont();
-    fetchOccasionssBusinessCont();
-    fetchOccasionssEveningCont();
+    fetchOccasionsHeroCont();
+    fetchOccasionsCasualCont();
+    fetchOccasionsBusinessCont();
+    fetchOccasionsEveningCont();
     fetchOccasionsTravelCont();
   }
   if (page === "guides") {
     fetchGuidesHeroCont();
     fetchGuidesCont();
+  }
+  if (page === "about") {
+    fetchAboutHeroCont();
   }
   displayLikedCount();
   restoreCartCount();
@@ -298,7 +309,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyvKLqGaJubR__pGHOyQ6zhgUhbkMxxxgtDETvp95gp53kG90MOMOIk2jiqCVMLBoRS/exec";
+  "https://script.google.com/macros/s/AKfycbwrClkVpvnks3HRBs7AqlpXDTA8xC5-NpkBXmS05Z8gG99ABCP0UoMjscTSjbvnZ3mN/exec";
 //51st ver
 
 //To cart summary page

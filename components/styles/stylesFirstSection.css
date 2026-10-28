@@ -17,17 +17,21 @@
     text-transform: uppercase;
     margin-top: var(--nav-height-desk);
     color: #B5A078;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
 .styles-first-sec> h2 {
     font-size: var(--heading-medium);
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
 .styles-first-sec> p {
     font-size: var(--text-base);
     margin-top: 32px;
     width: 60%;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
 .styles-first-sec> p> span {
     display: block;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
 .styles-hero-background {
     position: absolute;

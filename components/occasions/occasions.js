@@ -1,6 +1,6 @@
 import { fetchProductData } from "../../script/fetchProducts.js";
 
-export async function fetchOccasionssHeroCont() {
+export async function fetchOccasionsHeroCont() {
   const container = document.querySelector(".occasions-first-sec");
   const fetchDataArr = await fetchProductData({
     sheetName: "occasionsHero",
@@ -22,7 +22,7 @@ function renderOccasionsHero(occasionsHero) {
   hero.src = `./images/occasions/firstSection/${occasionsHero[0].heroImg}.webp`;
 }
 
-export async function fetchOccasionssCasualCont() {
+export async function fetchOccasionsCasualCont() {
   const container = document.querySelector(".occasions-second-sec");
   const fetchDataArr = await fetchProductData({
     sheetName: "occasionsCasual",
@@ -56,7 +56,7 @@ function renderOccasionsCasual(casual) {
   });
 }
 
-export async function fetchOccasionssBusinessCont() {
+export async function fetchOccasionsBusinessCont() {
   const container = document.querySelector(".occasions-second-sec");
   const fetchDataArr = await fetchProductData({
     sheetName: "occasionsBusiness",
@@ -90,7 +90,7 @@ function renderOccasionsBusiness(business) {
   });
 }
 
-export async function fetchOccasionssEveningCont() {
+export async function fetchOccasionsEveningCont() {
   const container = document.querySelector(".occasions-fourth-sec");
   const fetchDataArr = await fetchProductData({
     sheetName: "occasionsEvening",
