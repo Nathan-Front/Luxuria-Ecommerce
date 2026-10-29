@@ -40,7 +40,10 @@ import {
   fetchGuidesHeroCont,
   fetchGuidesCont,
 } from "../components/guides/guides.js";
-import { fetchAboutHeroCont } from "../components/about/about.js";
+import {
+  fetchAboutHeroCont,
+  fetchAboutStoryCont,
+} from "../components/about/about.js";
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
 import { avatarUpload } from "../components/login-create-form/uploadAvatar.js";
@@ -214,6 +217,9 @@ async function fetchHTML() {
         fetch("./components/about/aboutFirstSection.html").then((res) =>
           res.text(),
         ),
+        fetch("./components/about/aboutSecondSection.html").then((res) =>
+          res.text(),
+        ),
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
@@ -299,6 +305,7 @@ async function fetchHTML() {
   }
   if (page === "about") {
     fetchAboutHeroCont();
+    fetchAboutStoryCont();
   }
   displayLikedCount();
   restoreCartCount();
@@ -309,7 +316,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwrClkVpvnks3HRBs7AqlpXDTA8xC5-NpkBXmS05Z8gG99ABCP0UoMjscTSjbvnZ3mN/exec";
+  "https://script.google.com/macros/s/AKfycbwrjT3HQ_s0pW4tbuMPV-Zc009_Mr01_1E93Lxoab2eWQA2MEAQKEz_pfEGVqhwzoj3/exec";
 //51st ver
 
 //To cart summary page

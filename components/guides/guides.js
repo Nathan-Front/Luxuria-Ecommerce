@@ -38,8 +38,6 @@ export async function fetchGuidesCont() {
 }
 
 function renderGuidesCont({ fetchCategory, fetchContents }) {
-  console.log("category", fetchCategory);
-  console.log("content", fetchContents);
   const guideList = document.querySelector(".guide-lists");
   guideList.innerHTML = "";
 
