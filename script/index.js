@@ -255,9 +255,7 @@ async function fetchHTML() {
             </div>
         `;
   }
-  goToCartSummary();
-  burgerMenuhandler();
-  likedItemsModal();
+
   if (page === "home") {
     fetchHeroContent();
     fetchIndexFilterContent();
@@ -312,6 +310,10 @@ async function fetchHTML() {
     fetchAboutStoryCont();
     fetchAboutJourneyCont();
   }
+  goToCartSummary();
+  burgerMenuhandler();
+  likedItemsModal();
+
   displayLikedCount();
   restoreCartCount();
   displayLoginForm();

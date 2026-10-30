@@ -13,7 +13,6 @@ import {
 } from "../cart/cartModal.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
 
-let fetchDataArr = [];
 export async function fetchShopHeroCont() {
   const container = document.querySelector(".shop-first-sec");
   const fetchDataArr = await fetchProductData({
@@ -38,6 +37,7 @@ function renderShopCont(shopHeroCon) {
 }
 
 let productArray = [];
+let originalProducts = [];
 export async function fetchProducts() {
   const container = document.querySelector(".shop-second-sec");
   const fetchDataArr = await fetchProductData({
@@ -47,10 +47,13 @@ export async function fetchProducts() {
   });
   if (fetchDataArr.length === 0) return;
   productArray = [...fetchDataArr].reverse();
+  originalProducts = [...fetchDataArr].reverse();
   createPagination(fetchDataArr);
+  renderProducts(fetchDataArr);
   displayPage(1);
 }
 export function renderProducts(products) {
+  console.log("products", products);
   const productCon = document.querySelector(".products-lists");
   if (!productCon) return;
   productCon.innerHTML = "";
@@ -195,7 +198,7 @@ export function filtersHandler() {
     ...document.querySelectorAll('input[name="category"]:checked'),
   ].map((input) => input.value);
 
-  let filtered = [...fetchDataArr].reverse();
+  let filtered = [...originalProducts];
   //category filter
   if (checkedCategories.length > 0) {
     filtered = filtered.filter((item) =>
@@ -267,11 +270,12 @@ export function resetFiltersHandler() {
     minSlider.value = minSlider.defaultValue;
     maxSlider.value = maxSlider.defaultValue;
     features.value = "";
-    productArray = [...fetchDataArr].reverse();
+
     currentPage = 1;
     renderProducts(productArray);
     createPagination(productArray);
     displayPage(currentPage);
+    filtersHandler();
     const url = new URL(window.location.href);
     url.searchParams.delete("category");
     window.history.replaceState({}, "", url);
