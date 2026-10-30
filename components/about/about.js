@@ -39,8 +39,6 @@ export async function fetchAboutStoryCont() {
 }
 
 function renderAboutStory({ fetchStory, fetchValue }) {
-  console.log("story", fetchStory);
-  console.log("value", fetchValue);
   const title = document.querySelector(".story-main-title");
   const subTitle = document.querySelector(".story-sub-title");
   const text = document.querySelector(".story-text");
@@ -70,4 +68,36 @@ function renderAboutStory({ fetchStory, fetchValue }) {
     `;
     storyList.append(li);
   });
+}
+
+export async function fetchAboutJourneyCont() {
+  const container = document.querySelector(".about-third-sec");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "aboutJourneys",
+    dataKey: "aboutJourney",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderAboutJourney(fetchDataArr);
+}
+
+function renderAboutJourney(journey) {
+  const title = document.querySelector(".journey-main-title");
+  const subTitle = document.querySelector(".journey-sub-title");
+  const text = document.querySelector(".journey-text");
+  if (journey[0].No === 1) {
+    title.textContent = journey[0].mainTitle;
+    subTitle.textContent = journey[0].subTitle;
+    text.textContent = journey[0].text;
+  }
+  if (journey.mainImg !== "") {
+    const imagesList = document.querySelector(".journey-images-list");
+    journey.map((img) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <img src="./images/about/thirdSection/${img.mainImg}.webp" alt="${img.mainImg}-image" />
+      `;
+      imagesList.append(li);
+    });
+  }
 }

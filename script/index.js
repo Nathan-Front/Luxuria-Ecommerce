@@ -43,6 +43,7 @@ import {
 import {
   fetchAboutHeroCont,
   fetchAboutStoryCont,
+  fetchAboutJourneyCont,
 } from "../components/about/about.js";
 import { fetchCheckoutData } from "../components/checkout/checkout.js";
 import { validateEmail } from "./emailValidator.js";
@@ -220,6 +221,9 @@ async function fetchHTML() {
         fetch("./components/about/aboutSecondSection.html").then((res) =>
           res.text(),
         ),
+        fetch("./components/about/aboutThirdSection.html").then((res) =>
+          res.text(),
+        ),
       ]);
     }
     body.insertAdjacentHTML("beforebegin", nav);
@@ -306,6 +310,7 @@ async function fetchHTML() {
   if (page === "about") {
     fetchAboutHeroCont();
     fetchAboutStoryCont();
+    fetchAboutJourneyCont();
   }
   displayLikedCount();
   restoreCartCount();
@@ -316,7 +321,7 @@ async function fetchHTML() {
 document.addEventListener("DOMContentLoaded", fetchHTML);
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwrjT3HQ_s0pW4tbuMPV-Zc009_Mr01_1E93Lxoab2eWQA2MEAQKEz_pfEGVqhwzoj3/exec";
+  "https://script.google.com/macros/s/AKfycbxFjO54ZN5Tpn-aCqE8fAbFkhSxj2YvC-eHU3R0qBZ2pLPGgV4zZmazxhmGGbX9HS9-/exec";
 //51st ver
 
 //To cart summary page

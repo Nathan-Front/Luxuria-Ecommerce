@@ -12,7 +12,6 @@
 .about-first-sec> *:not(:last-child) {
     margin-left: clamp(16px, 15vw, 150px);
 }
-
 .about-first-sec> h2 {
     font-size: var(--heading-large);
     font-weight: 900;
@@ -46,9 +45,17 @@
     .about-first-sec {
         margin-top: var(--nav-height-mobile);
         overflow: hidden;
+        gap: 32px;
     }
     .about-hero-background {
         filter: blur(2px);
         z-index: -1;
+    }
+    .about-first-sec> *:not(:last-child) {
+        margin:  0 auto;
+    }
+    .about-first-sec> p {
+        width: 90%;
+        text-align: center;
     }
 }
