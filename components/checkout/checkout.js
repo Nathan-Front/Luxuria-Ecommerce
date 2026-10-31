@@ -2,7 +2,6 @@ import { fetchSpecificSheet } from "../../script/fetchApps.js";
 import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
-import { validateEmail } from "../../script/emailValidator.js";
 
 export async function fetchCheckoutData() {
   let fetchDataArr = [];
@@ -53,11 +52,12 @@ export function renderCartContent(products) {
     const product = products.find(
       (item) => String(item.No) === String(storageItem.No),
     );
+    console.log("products", storageItem);
     if (product) {
       const li = document.createElement("li");
       li.innerHTML = `
       <img
-        src="./images/shop/secondSection/articleOptions/${storageItem.articleImg}"
+        src="./images/shop/secondSection/articleOptions/${storageItem.articleImg.endsWith(".webp") ? storageItem.articleImg : `${storageItem.articleImg}.webp`}"
         alt="${storageItem.articleName}"
         class="checkout-image"
       />
@@ -76,6 +76,9 @@ export function renderCartContent(products) {
       cartCon.appendChild(li);
     }
   });
+  const counter = document.querySelector(".checkout-quantity");
+  counter.textContent =
+    `${storage.length} item${storage.length > 1 ? "s" : ""}` || "0 item";
 }
 
 function renderCheckoutTotals(products, settingFees) {
