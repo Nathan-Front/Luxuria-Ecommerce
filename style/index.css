@@ -478,3 +478,31 @@ nav {
     visibility: hidden;
 }   
  
+/*shared intersection*/
+.intersect-first {
+    transform: translateY(100px);
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.intersect-first.intersect {
+    transform: translateY(0);
+    opacity: 1;
+}
+.intersect-left {
+    transform: translate(-100px);
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.intersect-left.intersect-second {
+    transform: translate(0);
+    opacity: 1;
+}
+.intersect-right {
+    transform: translate(100px);
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.intersect-right.intersect-third {
+    transform: translate(0);
+    opacity: 1;
+}

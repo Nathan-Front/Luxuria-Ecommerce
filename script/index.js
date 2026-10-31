@@ -55,6 +55,11 @@ import {
   fetchCartData,
   placeCODOrder,
 } from "../script/app.js";
+import {
+  sectionsInterSections,
+  sectionsInterSectionsSecond,
+  sectionsInterSectionsThird,
+} from "./intersections.js";
 import { openGlobalAuth, hideGlobalAuth } from "./globalAuth.js";
 
 async function fetchHTML() {
@@ -318,6 +323,10 @@ async function fetchHTML() {
   restoreCartCount();
   displayLoginForm();
   restoreLoggedUser();
+
+  sectionsInterSections();
+  sectionsInterSectionsSecond();
+  sectionsInterSectionsThird();
 }
 
 document.addEventListener("DOMContentLoaded", fetchHTML);

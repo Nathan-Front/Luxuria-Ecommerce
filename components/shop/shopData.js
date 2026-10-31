@@ -53,7 +53,6 @@ export async function fetchProducts() {
   displayPage(1);
 }
 export function renderProducts(products) {
-  console.log("products", products);
   const productCon = document.querySelector(".products-lists");
   if (!productCon) return;
   productCon.innerHTML = "";

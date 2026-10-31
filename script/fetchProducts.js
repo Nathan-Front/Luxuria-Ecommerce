@@ -1,6 +1,7 @@
 import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { fetchSpecificSheet } from "./fetchApps.js";
+
 export async function fetchProductData({ sheetName, dataKey, container }) {
   setSectionLoading(container, true);
   try {

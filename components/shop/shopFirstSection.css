@@ -27,6 +27,8 @@
     font-size: var(--text-base);
     margin-top: 32px;
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+    letter-spacing: 1px;
+    line-height: 1.5;
 }
 .shop-hero-background {
     position: absolute;

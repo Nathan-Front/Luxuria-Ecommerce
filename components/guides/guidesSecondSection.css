@@ -66,6 +66,7 @@
 }
 .guides-content-con> p {
     font-size: var(--text-base);
+    letter-spacing: 1px;
 }
 .guides {
     width: 100%;
@@ -84,6 +85,7 @@
 .section-title-text {
     margin-bottom: 8px;
     font-size: var(--text-base);
+    letter-spacing: 1px;
 }
 .section-title-tips {
     font-size: var(--heading-small);
@@ -91,4 +93,5 @@
 .guides-text> strong,
 .guides-text> span {
     font-size: var(--text-base);
+    letter-spacing: 1px;
 }

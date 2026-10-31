@@ -5,6 +5,7 @@
     padding: 40px 0;
     display: flex;
     gap: 16px;
+    overflow: hidden;
 }
 .about-us-story {
     flex: 1.5;

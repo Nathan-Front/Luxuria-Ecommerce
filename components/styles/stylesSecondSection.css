@@ -6,6 +6,7 @@
     padding: 80px 0;
     gap: 8px;
     position: relative;
+    overflow: hidden;
 }
 @media only screen and (max-width: 640px) {
    .styles-second-sec {
@@ -26,6 +27,7 @@
     color: #B5A078;
     font-weight: 700;
     margin-top: 8px;
+    letter-spacing: 1px;
 }
 .styles-second-details> h3 {
     font-size: var(--heading-small);
@@ -33,6 +35,8 @@
 }
 .styles-second-details> p {
     font-size: var(--text-base);
+    letter-spacing: 1px;
+    line-height: 1.5;
 }
 .styles-second-details> a {
     font-size: var(--text-large);

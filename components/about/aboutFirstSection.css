@@ -30,6 +30,8 @@
     margin-top: 8px;
     width: 60%;
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+    letter-spacing: 1px;
+    line-height: 1.5;
 }
 .about-hero-background {
     position: absolute;

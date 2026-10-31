@@ -21,6 +21,8 @@
 .index-first-sect> p {
     font-size: var(--text-base);
     margin-top: 32px;
+    letter-spacing: 1px;
+    line-height: 1.5;
 }
 .cta-btn {
     font-size: var(--heading-small);

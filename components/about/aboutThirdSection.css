@@ -5,6 +5,7 @@
     padding: 40px 0;
     display: flex;
     gap: 16px;
+    overflow: hidden;
 }
 @media only screen and (max-width: 768px) {
     .about-third-sec {
