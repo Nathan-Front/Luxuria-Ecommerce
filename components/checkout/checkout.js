@@ -95,9 +95,9 @@ function renderCheckoutTotals(products, settingFees) {
   }, 0);
   subtotal.innerHTML = `${formatPrice(subtotalValue)}`;
   if (storage.length !== 0) {
-    shipping.innerHTML = `${settingFees[0].shippingFee !== 0 ? formatPrice(settingFees[0].shippingFee) : formatPrice(0)}`;
-    tax.innerHTML = `${settingFees[0].taxFee !== 0 ? formatPrice(settingFees[0].taxFee * subtotalValue) : formatPrice(0)}`;
-    grandTotal.innerHTML = `${formatPrice(subtotalValue + (settingFees[0].shippingFee !== 0 ? parseFloat(settingFees[0].shippingFee) : 0) + (settingFees[0].taxFee !== 0 ? parseFloat(settingFees[0].taxFee * subtotalValue) : 0))}`;
+    shipping.innerHTML = `${subtotalValue > Number(settingFees[0].difference) ? formatPrice(0) : formatPrice(settingFees[0].shippingFee)}`;
+    tax.innerHTML = `${formatPrice(settingFees[0].taxFee * subtotalValue)}`;
+    grandTotal.innerHTML = `${formatPrice(subtotalValue + (subtotalValue > Number(settingFees[0].difference) ? 0 : parseFloat(settingFees[0].shippingFee)) + (settingFees[0].taxFee !== 0 ? parseFloat(settingFees[0].taxFee * subtotalValue) : 0))}`;
   } else {
     shipping.innerHTML = formatPrice(0);
     tax.innerHTML = formatPrice(0);

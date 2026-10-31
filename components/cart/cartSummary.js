@@ -105,6 +105,7 @@ function increaseDecreaseQuantity(products) {
         localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
       }
       renderTemporaryCart(products);
+      renderTotalCosts(products);
       displayCartCount();
     });
   });
@@ -129,6 +130,7 @@ function increaseDecreaseQuantity(products) {
         localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
       }
       renderTemporaryCart(products);
+      renderTotalCosts(products);
       displayCartCount();
     });
   });
@@ -160,7 +162,21 @@ function deleteItemHandler(products) {
   });
 }
 
-function renderTotalCosts(products) {
+export async function fetchSettings() {
+  try {
+    const fetchDataArr = await fetchSpecificSheet(
+      "paymentSettings",
+      "settingFees",
+    );
+    return fetchDataArr;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+async function renderTotalCosts(products) {
+  const setting = await fetchSettings();
   const subTotal = document.querySelector(".summary-subtotal");
   const delFee = document.querySelector(".summary-del-fee");
   const tax = document.querySelector(".summary-tax");
@@ -175,9 +191,18 @@ function renderTotalCosts(products) {
   }, 0);
 
   subTotal.innerHTML = formatPrice(subtotal);
-  delFee.textContent = Number(0).toFixed(2);
-  tax.textContent = Number(0).toFixed(2);
+  delFee.innerHTML =
+    Number(subtotal) > Number(setting[0].difference)
+      ? formatPrice(0)
+      : formatPrice(setting[0].shippingFee);
+  tax.innerHTML = formatPrice(Number(setting[0].taxFee) * subtotal);
   grandTotal.innerHTML = formatPrice(
-    Number(subtotal) + Number(delFee.textContent) + Number(tax.textContent),
+    Number(subtotal) +
+      Number(setting[0].taxFee * subtotal) +
+      Number(
+        subtotal > Number(setting[0].difference)
+          ? 0
+          : Number(setting[0].shippingFee),
+      ),
   );
 }
