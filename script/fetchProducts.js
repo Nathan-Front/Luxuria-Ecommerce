@@ -1,5 +1,5 @@
-import { setSectionLoading } from "./script/loadingSpinner.js";
-import { showSectionError } from "./script/fetchDataError.js";
+import { setSectionLoading } from "./loadingSpinner.js";
+import { showSectionError } from "./fetchDataError.js";
 import { fetchSpecificSheet } from "./fetchApps.js";
 
 export async function fetchProductData({ sheetName, dataKey, container }) {
