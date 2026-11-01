@@ -9,7 +9,6 @@ import {
   fetchIndexFilterContent,
   fetchIndexNewArrivals,
   fetchIndexPromo,
-  changeLanguage,
 } from "../components/index/indexData.js";
 import {
   fetchShopHeroCont,
@@ -64,6 +63,7 @@ import {
 } from "./intersections.js";
 import { openGlobalAuth, hideGlobalAuth } from "./globalAuth.js";
 import { translateContent, initializeLanguage } from "./translation.js";
+import { changeLanguage } from "./changeLanguage.js";
 
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -269,7 +269,6 @@ async function fetchHTML() {
     fetchIndexFilterContent();
     fetchIndexNewArrivals();
     fetchIndexPromo();
-    changeLanguage();
   }
   if (page === "shop") {
     fetchShopHeroCont();
@@ -322,6 +321,7 @@ async function fetchHTML() {
 
   translateContent();
   initializeLanguage();
+  changeLanguage();
 
   goToCartSummary();
   burgerMenuhandler();

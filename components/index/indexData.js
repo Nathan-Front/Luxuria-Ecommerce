@@ -1,7 +1,6 @@
 import { formatPrice } from "../../script/priceFormat.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
-import { languages } from "../../script/translation.js";
 
 let fetchDataArr = [];
 export async function fetchHeroContent() {
@@ -38,19 +37,6 @@ function renderHero(heroContent) {
   }
 }
 
-export function changeLanguage() {
-  const language = localStorage.getItem("language") || "en";
-  const selectedLanguage = languages[language];
-  if (!selectedLanguage) return;
-  document.querySelectorAll("[data-i18n]").forEach((element) => {
-    const key = element.dataset.i18n;
-    if (selectedLanguage[key]) {
-      element.textContent = selectedLanguage[key];
-    }
-  });
-  document.documentElement.lang = language;
-}
-
 export async function fetchIndexFilterContent() {
   const container = document.querySelector(".index-second-sect");
   const fetchDataArr = await fetchProductData({
@@ -64,14 +50,6 @@ export async function fetchIndexFilterContent() {
 
 function renderIndexFilter(filterContent) {
   const changeLanguage = localStorage.getItem("language") || "en";
-  const shopByCategoryTitle = document.querySelector(
-    "h3[data-i18n='shopByCategory']",
-  );
-  if (changeLanguage === "en") {
-    shopByCategoryTitle.textContent = languages.en.shopByCategory;
-  } else {
-    shopByCategoryTitle.textContent = languages.ja.shopByCategory;
-  }
   const filterContainer = document.querySelector(".second-sect-lower");
   filterContent.map((item) => {
     const li = document.createElement("li");
@@ -98,15 +76,6 @@ export async function fetchIndexNewArrivals() {
 }
 
 export function renderNewArrivals(newArrivals) {
-  const changeLanguage = localStorage.getItem("language") || "en";
-  const shopByCategoryTitle = document.querySelector(
-    "h3[data-i18n='newArrivals']",
-  );
-  if (changeLanguage === "en") {
-    shopByCategoryTitle.textContent = languages.en.newArrivals;
-  } else {
-    shopByCategoryTitle.textContent = languages.ja.newArrivals;
-  }
   const newArrivalContainer = document.querySelector(".new-product-list");
   //used reverse since in db new item are at the bottom of the list
   const newProducts = newArrivals
@@ -186,6 +155,7 @@ export async function fetchIndexPromo() {
   renderPromo(fetchDataArr);
 }
 function renderPromo(promo) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const promoContainer = document.querySelector(".fourth-upper-con");
   promo.map((item) => {
     const div = document.createElement("div");
