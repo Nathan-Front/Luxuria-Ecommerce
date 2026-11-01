@@ -3,11 +3,13 @@ import {
   displayLikedCount,
   restoreCartCount,
 } from "./navigation.js";
+
 import {
   fetchHeroContent,
   fetchIndexFilterContent,
   fetchIndexNewArrivals,
   fetchIndexPromo,
+  changeLanguage,
 } from "../components/index/indexData.js";
 import {
   fetchShopHeroCont,
@@ -61,6 +63,7 @@ import {
   sectionsInterSectionsThird,
 } from "./intersections.js";
 import { openGlobalAuth, hideGlobalAuth } from "./globalAuth.js";
+import { translateContent, initializeLanguage } from "./translation.js";
 
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -266,6 +269,7 @@ async function fetchHTML() {
     fetchIndexFilterContent();
     fetchIndexNewArrivals();
     fetchIndexPromo();
+    changeLanguage();
   }
   if (page === "shop") {
     fetchShopHeroCont();
@@ -315,6 +319,10 @@ async function fetchHTML() {
     fetchAboutStoryCont();
     fetchAboutJourneyCont();
   }
+
+  translateContent();
+  initializeLanguage();
+
   goToCartSummary();
   burgerMenuhandler();
   likedItemsModal();

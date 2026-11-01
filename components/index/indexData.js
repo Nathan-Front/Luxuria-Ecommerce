@@ -1,9 +1,7 @@
-import { fetchSpecificSheet } from "../../script/fetchApps.js";
-import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { formatPrice } from "../../script/priceFormat.js";
-import { showSectionError } from "../../script/fetchDataError.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
+import { languages } from "../../script/translation.js";
 
 let fetchDataArr = [];
 export async function fetchHeroContent() {
@@ -18,16 +16,39 @@ export async function fetchHeroContent() {
 }
 
 function renderHero(heroContent) {
+  const changeLanguage = localStorage.getItem("language") || "en";
+
   const heroSection = document.querySelector(".index-first-sect");
   const mainTitle = heroSection.querySelector("h2");
   const subTitle = heroSection.querySelector("span");
   const heroText = heroSection.querySelector(".hero-text");
   const heroImg = heroSection.querySelector("img");
-  mainTitle.textContent = heroContent[0].mainTitle;
-  subTitle.textContent = heroContent[0].subTitle;
-  heroText.textContent = heroContent[0].text;
-  heroImg.src = `./images/index/firstSection/${heroContent[0].heroImg}.webp`;
-  heroImg.alt = heroContent[0].heroImgAlt;
+  if (changeLanguage === "en") {
+    mainTitle.textContent = heroContent[0].mainTitle;
+    subTitle.textContent = heroContent[0].subTitle;
+    heroText.textContent = heroContent[0].text;
+    heroImg.src = `./images/index/firstSection/${heroContent[0].heroImg}.webp`;
+    heroImg.alt = heroContent[0].heroImgAlt;
+  } else {
+    mainTitle.textContent = heroContent[1].mainTitle;
+    subTitle.textContent = heroContent[1].subTitle;
+    heroText.textContent = heroContent[1].text;
+    heroImg.src = `./images/index/firstSection/${heroContent[1].heroImg}.webp`;
+    heroImg.alt = heroContent[1].heroImgAlt;
+  }
+}
+
+export function changeLanguage() {
+  const language = localStorage.getItem("language") || "en";
+  const selectedLanguage = languages[language];
+  if (!selectedLanguage) return;
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.dataset.i18n;
+    if (selectedLanguage[key]) {
+      element.textContent = selectedLanguage[key];
+    }
+  });
+  document.documentElement.lang = language;
 }
 
 export async function fetchIndexFilterContent() {
@@ -42,6 +63,15 @@ export async function fetchIndexFilterContent() {
 }
 
 function renderIndexFilter(filterContent) {
+  const changeLanguage = localStorage.getItem("language") || "en";
+  const shopByCategoryTitle = document.querySelector(
+    "h3[data-i18n='shopByCategory']",
+  );
+  if (changeLanguage === "en") {
+    shopByCategoryTitle.textContent = languages.en.shopByCategory;
+  } else {
+    shopByCategoryTitle.textContent = languages.ja.shopByCategory;
+  }
   const filterContainer = document.querySelector(".second-sect-lower");
   filterContent.map((item) => {
     const li = document.createElement("li");
@@ -50,7 +80,7 @@ function renderIndexFilter(filterContent) {
       <a href="./shop.html?category=${item.category}" data-category=${item.category}
         ><img src="./images/index/secondSection/${item.filterImg}.webp" alt="${item.filterImgAlt}" loading="lazy"
       /></a>
-      <span>${item.filterTitle}</span>
+      <span>${changeLanguage === "en" ? item.filterTitle : item.filterTitleJA}</span>
     `;
     filterContainer.append(li);
   });
@@ -68,6 +98,15 @@ export async function fetchIndexNewArrivals() {
 }
 
 export function renderNewArrivals(newArrivals) {
+  const changeLanguage = localStorage.getItem("language") || "en";
+  const shopByCategoryTitle = document.querySelector(
+    "h3[data-i18n='newArrivals']",
+  );
+  if (changeLanguage === "en") {
+    shopByCategoryTitle.textContent = languages.en.newArrivals;
+  } else {
+    shopByCategoryTitle.textContent = languages.ja.newArrivals;
+  }
   const newArrivalContainer = document.querySelector(".new-product-list");
   //used reverse since in db new item are at the bottom of the list
   const newProducts = newArrivals
@@ -136,6 +175,7 @@ function restoreLikedProducts() {
 }
 
 export async function fetchIndexPromo() {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const container = document.querySelector(".index-fourth-sect");
   const fetchDataArr = await fetchProductData({
     sheetName: "indexPromo",
@@ -150,10 +190,10 @@ function renderPromo(promo) {
   promo.map((item) => {
     const div = document.createElement("div");
     div.innerHTML = `
-      <span>${item.subTitle}</span>
-      <h3>${item.mainTitle}</h3>
-      <p>${item.text}</p>
-      <a href=${item.link}.html>${item.buttons}</a>
+      <span>${changeLanguage === "en" ? item.subTitle : item.subTitleJA}</span>
+      <h3>${changeLanguage === "en" ? item.mainTitle : item.mainTitleJA}</h3>
+      <p>${changeLanguage === "en" ? item.text : item.textJA}</p>
+      <a href=${item.link}.html>${changeLanguage === "en" ? item.buttons : item.buttonsJA}</a>
       <img src="./images/index/fourthSection/${item.promoImg}.webp" alt="${item.promoImgAlt}" loading="lazy" />
     `;
     promoContainer.append(div);
