@@ -103,7 +103,7 @@ export const languages = {
 
   ja: {
     /* Upper Navigation */
-    upperNavText: "300ドル以上のご注文で送料無料",
+    upperNavText: "以上ご注文で送料無料",
     help: "ヘルプ",
     trackOrder: "注文追跡",
     english: "英語",
@@ -115,7 +115,7 @@ export const languages = {
     navigationAbout: "私たちについて",
     /* Index Second Section */
     shipping: "送料無料",
-    shippingText: "300ドル以上の注文で",
+    shippingText: "以上の注文",
     return: "簡単返品",
     returnText: "14日間返品ポリシー",
     secure: "安全な支払い",

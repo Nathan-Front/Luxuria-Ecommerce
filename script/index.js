@@ -9,6 +9,7 @@ import {
   fetchIndexFilterContent,
   fetchIndexNewArrivals,
   fetchIndexPromo,
+  renderSecondUpperContent,
 } from "../components/index/indexData.js";
 import {
   fetchShopHeroCont,
@@ -25,6 +26,7 @@ import {
   displayFiltersTablet,
   fetchExchangeRates,
   updatePriceDisplay,
+  formatCurrency,
 } from "../components/shop/filters.js";
 import {
   fetchStylesHeroCont,
@@ -66,6 +68,7 @@ import {
 import { openGlobalAuth, hideGlobalAuth } from "./globalAuth.js";
 import { translateContent, initializeLanguage } from "./translation.js";
 import { changeLanguage } from "./changeLanguage.js";
+import { fetchProductData } from "./fetchProducts.js";
 
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -322,7 +325,7 @@ async function fetchHTML() {
     fetchAboutStoryCont();
     fetchAboutJourneyCont();
   }
-
+  FetchSettings();
   translateContent();
   initializeLanguage();
   changeLanguage();
@@ -700,4 +703,35 @@ function restoreLoggedUser() {
   if (userData?.loggedIn && userData.avatar) {
     userAvatar.src = `https://drive.google.com/thumbnail?id=${userData.avatar}&sz=w200`;
   }
+}
+
+//get settings for reference, like currency and language
+export async function FetchSettings() {
+  const container = document.querySelector(".liked-modal");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "paymentSettings",
+    dataKey: "settingFees",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderNavUpperContent(fetchDataArr);
+  renderSecondUpperContent(fetchDataArr);
+}
+
+import { languages } from "./translation.js";
+function renderNavUpperContent(settings) {
+  const language = localStorage.getItem("language") || "en";
+  const freeShippingPrice = document.querySelector(".upper-nav-text");
+  if (!freeShippingPrice) return;
+  if (language === "en") {
+    freeShippingPrice.innerHTML = `
+     <span>${languages.en.upperNavText}</span>
+    `;
+  } else {
+    freeShippingPrice.innerHTML = `
+    <span data-original-price="${settings[0].difference}">${formatCurrency(Number(settings[0].difference), language === "ja" ? "JPY" : "USD", language === "ja" ? "ja-JP" : "en-US")}</span>
+     <span>${languages.ja.upperNavText}</span>
+    `;
+  }
+  updatePriceDisplay();
 }

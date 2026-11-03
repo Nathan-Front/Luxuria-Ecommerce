@@ -1,4 +1,8 @@
-import { formatPrice } from "../../script/priceFormat.js";
+import { languages } from "../../script/translation.js";
+import {
+  formatCurrency,
+  updatePriceDisplay,
+} from "../../components/shop/filters.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
 
@@ -47,7 +51,21 @@ export async function fetchIndexFilterContent() {
   if (fetchDataArr.length === 0) return;
   renderIndexFilter(fetchDataArr);
 }
-
+//get settings for reference, like currency and language
+export function renderSecondUpperContent(settingFees) {
+  const changeLanguage = localStorage.getItem("language") || "en";
+  const freeShippingPrice = document.querySelector(".shipping-free-text");
+  if (changeLanguage === "en") {
+    freeShippingPrice.innerHTML = languages.en.shippingText;
+  } else {
+    freeShippingPrice.innerHTML = `
+    <small data-original-price="${settingFees[0].difference}">${formatCurrency(Number(settingFees[0].difference), changeLanguage === "ja" ? "JPY" : "USD", changeLanguage === "ja" ? "ja-JP" : "en-US")}"></small>
+      <small>${languages.ja.shippingText}</small>
+    
+    `;
+  }
+  updatePriceDisplay();
+}
 function renderIndexFilter(filterContent) {
   const changeLanguage = localStorage.getItem("language") || "en";
   const filterContainer = document.querySelector(".second-sect-lower");
@@ -76,6 +94,7 @@ export async function fetchIndexNewArrivals() {
 }
 
 export function renderNewArrivals(newArrivals) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const newArrivalContainer = document.querySelector(".new-product-list");
   //used reverse since in db new item are at the bottom of the list
   const newProducts = newArrivals
@@ -99,13 +118,14 @@ export function renderNewArrivals(newArrivals) {
         alt="${item.articleAlt}"
         loading="lazy"
       />
-      <span class="product-title">${item.article}</span>
-      <p class="product-price">${formatPrice(item.price)}</p> 
+      <span class="${changeLanguage === "en" ? "product-title" : "product-title-jp"}">${changeLanguage === "en" ? item.article : item.articleJA}</span>
+      <p class="product-price" data-original-price="${item.price}">${formatCurrency(item.price, changeLanguage === "ja" ? "JPY" : "USD", changeLanguage === "ja" ? "ja-JP" : "en-US")}</p> 
     `;
     newArrivalContainer.append(li);
   }
   restoreLikedProducts();
   productLikeToggle();
+  updatePriceDisplay();
 }
 
 function productLikeToggle() {
