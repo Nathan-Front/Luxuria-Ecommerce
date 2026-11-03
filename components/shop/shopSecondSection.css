@@ -388,6 +388,20 @@ article> p {
    font-size: var(--text-large);
    margin-left: 8px;
 }
+.article-title-jp {
+   margin: 0 2px;
+   font-family: "Bodoni Moda", serif;
+   font-weight: 600;
+   font-size: var(--text-base);
+   margin-left: 8px;
+}
+.article-price-jp {
+   margin: 0 2px;
+   font-family: "Bodoni Moda", serif;
+   font-weight: 600;
+   font-size: var(--text-base);
+   margin-left: 8px;
+}
 .next-btn,
 .previous-btn {
     font-size: 20px;

@@ -23,6 +23,8 @@ import { fetchSummaryData } from "../components/cart/cartSummary.js";
 import {
   filterContents,
   displayFiltersTablet,
+  fetchExchangeRates,
+  updatePriceDisplay,
 } from "../components/shop/filters.js";
 import {
   fetchStylesHeroCont,
@@ -274,6 +276,8 @@ async function fetchHTML() {
     fetchShopHeroCont();
     filterContents();
     displayFiltersTablet();
+    //fetchExchangeRates();
+    updatePriceDisplay();
     await fetchProducts();
     resetFiltersHandler();
     inputElemInit();

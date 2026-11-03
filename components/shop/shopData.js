@@ -1,4 +1,5 @@
 import { formatPrice } from "../../script/priceFormat.js";
+import { formatCurrency } from "./filters.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { openGlobalAuth } from "../../script/globalAuth.js";
 import {
@@ -12,6 +13,7 @@ import {
   viewProductDetails,
 } from "../cart/cartModal.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
+import { updatePriceDisplay } from "../../components/shop/filters.js";
 
 export async function fetchShopHeroCont() {
   const container = document.querySelector(".shop-first-sec");
@@ -24,16 +26,24 @@ export async function fetchShopHeroCont() {
   renderShopCont(fetchDataArr);
 }
 function renderShopCont(shopHeroCon) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const shopHeroSection = document.querySelector(".shop-first-sec");
   const shopMainTitle = shopHeroSection.querySelector("h2");
   const shopSubTitle = shopHeroSection.querySelector("span");
   const shopHeroText = shopHeroSection.querySelector(".shop-hero-text");
   const shopHeroImg = shopHeroSection.querySelector("img");
-  shopMainTitle.textContent = shopHeroCon[0].mainTitle;
-  shopSubTitle.textContent = shopHeroCon[0].subTitle;
-  shopHeroText.textContent = shopHeroCon[0].text;
+  if (changeLanguage === "en") {
+    shopMainTitle.textContent = shopHeroCon[0].mainTitle;
+    shopSubTitle.textContent = shopHeroCon[0].subTitle;
+    shopHeroText.textContent = shopHeroCon[0].text;
+    shopHeroImg.alt = shopHeroCon[0].heroImgAlt;
+  } else {
+    shopMainTitle.textContent = shopHeroCon[0].mainTitleJA;
+    shopSubTitle.textContent = shopHeroCon[0].subTitleJA;
+    shopHeroText.textContent = shopHeroCon[0].textJA;
+    shopHeroImg.alt = shopHeroCon[0].heroImgAltJA;
+  }
   shopHeroImg.src = `./images/shop/firstSection/${shopHeroCon[0].heroImg}.webp`;
-  shopHeroImg.alt = shopHeroCon[0].heroImgAlt;
 }
 
 let productArray = [];
@@ -53,8 +63,10 @@ export async function fetchProducts() {
   displayPage(1);
 }
 export function renderProducts(products) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const productCon = document.querySelector(".products-lists");
   if (!productCon) return;
+
   productCon.innerHTML = "";
   if (products.length === 0) {
     const noProducts = document.createElement("p");
@@ -79,8 +91,8 @@ export function renderProducts(products) {
       <img src=${likes.includes(item.No) ? "./images/nav/heart-alt-svgrepo-com.svg" : "./images/nav/heart-svgrepo-com.svg"} alt="heart-icon" class="shop-liked-product" loading="lazy" />
     </div>
     <img src="./images/shop/secondSection/${item.articleImg}.webp" alt=${item.articleAlt} class="article-image"/>
-    <span class="article-title">${item.article}</span>
-    <span class="article-price">${formatPrice(item.price)}</span>
+    <span class="${changeLanguage === "en" ? "article-title" : "article-title-jp"}">${changeLanguage === "en" ? item.article : item.articleJA}</span>
+    <span class="${changeLanguage === "en" ? "article-price" : "article-price-jp"}" data-original-price=${item.price}>${formatCurrency(item.price, changeLanguage === "ja" ? "JPY" : "USD", changeLanguage === "ja" ? "ja-JP" : "en-US")}</span>
     <button type="button" class="add-to-cart"><img src="./images/shop/secondSection/cart-bag.svg" alt="cart" /></button>
   `;
     productCon.append(li);
@@ -91,6 +103,7 @@ export function renderProducts(products) {
   priceSliderHandler();
   likeProductToggle();
   addToCart(products);
+  updatePriceDisplay();
 }
 
 let currentPage = 1;
