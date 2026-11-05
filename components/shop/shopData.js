@@ -1,5 +1,10 @@
 import { formatPrice } from "../../script/priceFormat.js";
-import { formatCurrency } from "./filters.js";
+import {
+  formatCurrency,
+  getExchangeRates,
+  convertCurrency,
+  formatWholeCurrency,
+} from "./filters.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { openGlobalAuth } from "../../script/globalAuth.js";
 import {
@@ -59,8 +64,8 @@ export async function fetchProducts() {
   productArray = [...fetchDataArr].reverse();
   originalProducts = [...fetchDataArr].reverse();
   createPagination(fetchDataArr);
-  renderProducts(fetchDataArr);
   displayPage(1);
+  priceSliderHandler();
 }
 export function renderProducts(products) {
   const changeLanguage = localStorage.getItem("language") || "en";
@@ -79,6 +84,14 @@ export function renderProducts(products) {
   const likes = likedProduct();
   //used reverse since in db new item are at the bottom of the list
   [...products].reverse().map((item, index) => {
+    const rates = getExchangeRates();
+    const currency = changeLanguage === "ja" ? "JPY" : "USD";
+    const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+    const displayPrice = rates
+      ? convertCurrency(Number(item.price), currency, rates)
+      : Number(item.price);
+    const displayCurrency = rates ? currency : "USD";
+    const displayLocale = rates ? locale : "en-US";
     const li = document.createElement("li");
     li.dataset.productId = item.No;
     li.innerHTML = `
@@ -92,7 +105,7 @@ export function renderProducts(products) {
     </div>
     <img src="./images/shop/secondSection/${item.articleImg}.webp" alt=${item.articleAlt} class="article-image"/>
     <span class="${changeLanguage === "en" ? "article-title" : "article-title-jp"}">${changeLanguage === "en" ? item.article : item.articleJA}</span>
-    <span class="${changeLanguage === "en" ? "article-price" : "article-price-jp"}" data-original-price=${item.price}>${formatCurrency(item.price, changeLanguage === "ja" ? "JPY" : "USD", changeLanguage === "ja" ? "ja-JP" : "en-US")}</span>
+    <span class="${changeLanguage === "en" ? "article-price" : "article-price-jp"}" data-original-price=${item.price}>${formatCurrency(displayPrice, displayCurrency, displayLocale)}</span>
     <button type="button" class="add-to-cart"><img src="./images/shop/secondSection/cart-bag.svg" alt="cart" /></button>
   `;
     productCon.append(li);
@@ -100,7 +113,6 @@ export function renderProducts(products) {
       li.style.animationDelay = `${index * 0.05}s`;
     });
   });
-  priceSliderHandler();
   likeProductToggle();
   addToCart(products);
   updatePriceDisplay();
@@ -250,9 +262,25 @@ function priceSliderHandler() {
     minSlider.value = max;
     return priceSliderHandler();
   }
-  minValue.textContent = min;
-  maxValue.textContent = max;
 
+  const language = localStorage.getItem("language") || "en";
+  const rates = getExchangeRates();
+
+  const currency = language === "ja" ? "JPY" : "USD";
+  const locale = language === "ja" ? "ja-JP" : "en-US";
+
+  const formatValue = (value) => {
+    const converted = rates ? convertCurrency(value, currency, rates) : value;
+
+    return formatCurrency(
+      converted,
+      rates ? currency : "USD",
+      rates ? locale : "en-US",
+    );
+  };
+
+  minValue.textContent = formatValue(min);
+  maxValue.textContent = formatValue(max);
   const left = (min / Number(minSlider.max)) * 100;
   const right = (max / Number(maxSlider.max)) * 100;
   tracker.style.background = `
@@ -264,6 +292,7 @@ function priceSliderHandler() {
             #B8963E ${right}%
         )
     `;
+  filtersHandler();
 }
 
 export function resetFiltersHandler() {
@@ -282,7 +311,7 @@ export function resetFiltersHandler() {
     minSlider.value = minSlider.defaultValue;
     maxSlider.value = maxSlider.defaultValue;
     features.value = "";
-
+    priceSliderHandler();
     currentPage = 1;
     renderProducts(productArray);
     createPagination(productArray);
@@ -300,7 +329,7 @@ export function initializePriceSlider() {
   if (!minSlider || !maxSlider) return;
   minSlider.addEventListener("input", priceSliderHandler);
   maxSlider.addEventListener("input", priceSliderHandler);
-  priceSliderHandler();
+  //priceSliderHandler();
 }
 
 export function inputElemInit() {
@@ -310,12 +339,6 @@ export function inputElemInit() {
   categoryCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", filtersHandler);
   });
-  const minSlider = document.getElementById("min-price");
-  const maxSlider = document.getElementById("max-price");
-  if (minSlider && maxSlider) {
-    minSlider.addEventListener("input", filtersHandler);
-    maxSlider.addEventListener("input", filtersHandler);
-  }
   const features = document.getElementById("features");
   if (features) {
     features.addEventListener("change", filtersHandler);
@@ -364,35 +387,6 @@ function likeProductToggle() {
     });
   });
 }
-
-/*Add to cart modal*/
-/* function addToCart(products) {
-  const addToCartBtn = document.querySelectorAll(".add-to-cart");
-  addToCartBtn.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const productId = btn.closest("li").dataset.productId;
-      let addItem = [...products]
-        .reverse()
-        .find((item) => Number(item.No) === Number(productId));
-      let noSize = [...products].find(
-        (item) =>
-          Number(item.No) === Number(productId) &&
-          (String(item.category) === "bags" ||
-            String(item.category) === "accessory"),
-      );
-      disableSizeHandler(noSize);
-      openGlobalAuth();
-
-      hideModalCartHandler();
-      let colorArr = addItem.color
-        .split(",")
-        .map((color) => color.trim().replaceAll('"', ""));
-      showCartModal(colorArr);
-      colorInit();
-      renderCartModalHandler(addItem);
-    });
-  });
-} */
 
 //reusable existing size/color selection modal
 function openCartOptionsModal(addItem, products) {

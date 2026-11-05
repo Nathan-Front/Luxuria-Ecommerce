@@ -24,9 +24,8 @@ import { fetchSummaryData } from "../components/cart/cartSummary.js";
 import {
   filterContents,
   displayFiltersTablet,
-  fetchExchangeRates,
   updatePriceDisplay,
-  formatCurrency,
+  initializeCurrency,
 } from "../components/shop/filters.js";
 import {
   fetchStylesHeroCont,
@@ -279,12 +278,11 @@ async function fetchHTML() {
     fetchShopHeroCont();
     filterContents();
     displayFiltersTablet();
-    //fetchExchangeRates();
     updatePriceDisplay();
-    await fetchProducts();
+    //await fetchProducts();
     resetFiltersHandler();
-    inputElemInit();
-    initializePriceSlider();
+    //inputElemInit();
+    //initializePriceSlider();
     openShopFromURL();
   }
   if (page === "cart") {
@@ -325,6 +323,7 @@ async function fetchHTML() {
     fetchAboutStoryCont();
     fetchAboutJourneyCont();
   }
+
   FetchSettings();
   translateContent();
   initializeLanguage();
@@ -344,7 +343,13 @@ async function fetchHTML() {
   sectionsInterSectionsThird();
 }
 
-document.addEventListener("DOMContentLoaded", fetchHTML);
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchHTML();
+  await initializeCurrency();
+  await fetchProducts();
+  initializePriceSlider();
+  inputElemInit();
+});
 
 export const GOOGLE_APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxFjO54ZN5Tpn-aCqE8fAbFkhSxj2YvC-eHU3R0qBZ2pLPGgV4zZmazxhmGGbX9HS9-/exec";
@@ -719,6 +724,11 @@ export async function FetchSettings() {
 }
 
 import { languages } from "./translation.js";
+import {
+  getExchangeRates,
+  convertCurrency,
+  formatWholeCurrency,
+} from "../components/shop/filters.js";
 function renderNavUpperContent(settings) {
   const language = localStorage.getItem("language") || "en";
   const freeShippingPrice = document.querySelector(".upper-nav-text");
@@ -728,10 +738,18 @@ function renderNavUpperContent(settings) {
      <span>${languages.en.upperNavText}</span>
     `;
   } else {
+    const rates = getExchangeRates();
+    const currency = changeLanguage === "ja" ? "JPY" : "USD";
+    const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+    const displayPrice = rates
+      ? convertCurrency(Number(settings[0].difference), currency, rates)
+      : Number(settings[0].difference);
+    const displayCurrency = rates ? currency : "USD";
+    const displayLocale = rates ? locale : "en-US";
     freeShippingPrice.innerHTML = `
-    <span data-original-price="${settings[0].difference}">${formatCurrency(Number(settings[0].difference), language === "ja" ? "JPY" : "USD", language === "ja" ? "ja-JP" : "en-US")}</span>
+    <span data-original-price="${settings[0].difference}"> ${formatWholeCurrency(displayPrice, displayCurrency, displayLocale)}</span>
      <span>${languages.ja.upperNavText}</span>
     `;
   }
-  updatePriceDisplay();
+  //updatePriceDisplay();
 }

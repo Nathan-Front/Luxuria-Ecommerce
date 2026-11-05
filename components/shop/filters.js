@@ -48,11 +48,18 @@ export function displayFiltersTablet() {
   });
 }
 
+let exchangeRates = null;
+
+export async function initializeCurrency() {
+  if (exchangeRates) return exchangeRates;
+  exchangeRates = await fetchExchangeRates();
+  return exchangeRates;
+}
 export async function fetchExchangeRates() {
   try {
-    const api = "https://api.frankfurter.dev";
-
-    const res = await fetch(`${api}/v2/rates?base=USD&quotes=EUR,GBP,JPY`);
+    const res = await fetch(
+      "https://api.frankfurter.dev/v2/rates?base=USD&quotes=EUR,GBP,JPY",
+    );
     if (!res.ok) {
       throw new Error("Failed to fetch exchange rates");
     }
@@ -67,25 +74,23 @@ export async function fetchExchangeRates() {
     };
     return finalRates;
   } catch (error) {
-    console.error("Error fetching exchange rates:", error);
-    throw error;
+    console.warn("Error fetching exchange rates:", error);
+    return null;
   }
+}
+export function getExchangeRates() {
+  return exchangeRates;
 }
 export function convertCurrency(amount, currency, rates) {
   const rate = rates[currency];
-
   if (rate === undefined) {
     throw new Error(`Exchange rate for ${currency} not found`);
   }
 
   return amount * rate;
 }
+//For whole number with decimals format
 export function formatCurrency(amount, currency, locale) {
-  /* return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 2,
-  }).format(amount); */
   const parts = new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
@@ -96,36 +101,34 @@ export function formatCurrency(amount, currency, locale) {
       if (part.type === "fraction" || part.type === "decimal") {
         return `<small>${part.value}</small>`;
       }
-
       return part.value;
     })
     .join("");
 }
-
-export async function updatePriceDisplay() {
-  /* const language = localStorage.getItem("language") || "en";
-  const rates = await fetchExchangeRates();
-  const currency = language === "ja" ? "JPY" : "USD";
-  const locale = language === "ja" ? "ja-JP" : "en-US";
-
-  document.querySelectorAll("[data-original-price]").forEach((elem) => {
-    const originalPrice = Number(elem.dataset.originalPrice);
-
-    const converted = convertCurrency(originalPrice, currency, rates);
-
-    elem.textContent = formatCurrency(converted, currency, locale);
-  }); */
+//For whole number format only
+export function formatWholeCurrency(amount, currency, locale) {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(amount);
+}
+export function updatePriceDisplay() {
   const language = localStorage.getItem("language") || "en";
-  const rates = await fetchExchangeRates();
-
+  const rates = getExchangeRates();
+  if (!rates) {
+    console.warn(
+      "fetch ExchangeRates returned null. Cannot update price display.",
+    );
+    return;
+  }
   const currency = language === "ja" ? "JPY" : "USD";
   const locale = language === "ja" ? "ja-JP" : "en-US";
 
   document.querySelectorAll("[data-original-price]").forEach((elem) => {
     const originalPrice = Number(elem.dataset.originalPrice);
-
     const converted = convertCurrency(originalPrice, currency, rates);
-
     elem.innerHTML = formatCurrency(converted, currency, locale);
   });
 }

@@ -1,7 +1,8 @@
 import { languages } from "../../script/translation.js";
 import {
   formatCurrency,
-  updatePriceDisplay,
+  getExchangeRates,
+  convertCurrency,
 } from "../../components/shop/filters.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
@@ -55,6 +56,7 @@ export async function fetchIndexFilterContent() {
 export function renderSecondUpperContent(settingFees) {
   const changeLanguage = localStorage.getItem("language") || "en";
   const freeShippingPrice = document.querySelector(".shipping-free-text");
+  if (!freeShippingPrice) return;
   if (changeLanguage === "en") {
     freeShippingPrice.innerHTML = languages.en.shippingText;
   } else {
@@ -64,7 +66,7 @@ export function renderSecondUpperContent(settingFees) {
     
     `;
   }
-  updatePriceDisplay();
+  //updatePriceDisplay();
 }
 function renderIndexFilter(filterContent) {
   const changeLanguage = localStorage.getItem("language") || "en";
@@ -95,6 +97,7 @@ export async function fetchIndexNewArrivals() {
 
 export function renderNewArrivals(newArrivals) {
   const changeLanguage = localStorage.getItem("language") || "en";
+
   const newArrivalContainer = document.querySelector(".new-product-list");
   //used reverse since in db new item are at the bottom of the list
   const newProducts = newArrivals
@@ -103,6 +106,14 @@ export function renderNewArrivals(newArrivals) {
   //newProducts.map((item) => { //use this if next line is confusing
   newArrivalContainer.innerHTML = "";
   for (const item of newProducts) {
+    const rates = getExchangeRates();
+    const currency = changeLanguage === "ja" ? "JPY" : "USD";
+    const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+    const displayPrice = rates
+      ? convertCurrency(Number(item.price), currency, rates)
+      : Number(item.price);
+    const displayCurrency = rates ? currency : "USD";
+    const displayLocale = rates ? locale : "en-US";
     const li = document.createElement("li");
     li.dataset.productId = item.No;
     li.innerHTML = `
@@ -119,13 +130,15 @@ export function renderNewArrivals(newArrivals) {
         loading="lazy"
       />
       <span class="${changeLanguage === "en" ? "product-title" : "product-title-jp"}">${changeLanguage === "en" ? item.article : item.articleJA}</span>
-      <p class="product-price" data-original-price="${item.price}">${formatCurrency(item.price, changeLanguage === "ja" ? "JPY" : "USD", changeLanguage === "ja" ? "ja-JP" : "en-US")}</p> 
+      <p class="product-price" data-original-price="${item.price}">
+        ${formatCurrency(displayPrice, displayCurrency, displayLocale)}
+      </p>
     `;
     newArrivalContainer.append(li);
   }
   restoreLikedProducts();
   productLikeToggle();
-  updatePriceDisplay();
+  //updatePriceDisplay();
 }
 
 function productLikeToggle() {

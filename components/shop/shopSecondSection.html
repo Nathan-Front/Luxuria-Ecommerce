@@ -59,8 +59,8 @@
       </div>
       <div class="price-sliders hide-select-cont">
         <div class="category-list price-filter">
-          <span><span id="min-value" data-original-price="0">0</span></span>
-          <span><span id="max-value" data-original-price="200">200</span></span>
+          <span><span id="min-value">0</span></span>
+          <span><span id="max-value">200</span></span>
         </div>
         <div class="range-slider">
           <div class="slider-tracker"></div>
@@ -95,6 +95,7 @@
       <div class="sort-by hide-select-cont">
         <label for="features" data-i18n="filterSortBy">Sort by:</label>
         <select name="feature" id="features">
+          <option value="" data-i18n="filterSortByDefault">Default</option>
           <option value="new" data-i18n="filterSortByNew">New</option>
           <option value="best-seller" data-i18n="filterSortByBestSeller">
             Best Seller
