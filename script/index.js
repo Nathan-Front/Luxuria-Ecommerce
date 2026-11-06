@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxFjO54ZN5Tpn-aCqE8fAbFkhSxj2YvC-eHU3R0qBZ2pLPGgV4zZmazxhmGGbX9HS9-/exec";
+  "https://script.google.com/macros/s/AKfycbyaU1h8AhqHX9_2hzZ1wQVbEPud0LudRAvTnHP4ZjES7fUbhFNYuOLuwgKm5GFci2YF/exec";
 //51st ver
 
 //get settings for reference, like currency and language
@@ -380,7 +380,7 @@ function renderNavUpperContent(settings) {
   if (!freeShippingPrice) return;
   if (changeLanguage === "en") {
     freeShippingPrice.innerHTML = `
-     <span>${changeLanguage.en.upperNavText}</span>
+     <span>${languages.en.upperNavText}</span>
     `;
   } else {
     const rates = getExchangeRates();

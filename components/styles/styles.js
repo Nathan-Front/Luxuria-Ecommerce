@@ -12,15 +12,24 @@ export async function fetchStylesHeroCont() {
 }
 
 function renderStyleHero(styleHero) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const mainTitle = document.querySelector(".main-title");
   const subTitle = document.querySelector(".sub-title");
   const textUpper = document.querySelector(".text-upper");
   const textBottom = document.querySelector(".text-bottom");
   const hero = document.querySelector(".styles-hero-background");
-  mainTitle.textContent = styleHero[0].mainTitle;
-  subTitle.textContent = styleHero[0].subTitle;
-  textUpper.textContent = styleHero[0].textUpper;
-  textBottom.textContent = styleHero[0].textBottom;
+
+  mainTitle.textContent =
+    changeLanguage == "en" ? styleHero[0].mainTitle : styleHero[0].mainTitleJA;
+  subTitle.textContent =
+    changeLanguage == "en" ? styleHero[0].subTitle : styleHero[0].subTitleJA;
+  textUpper.textContent =
+    changeLanguage == "en" ? styleHero[0].textUpper : styleHero[0].textUpperJA;
+  textBottom.textContent =
+    changeLanguage == "en"
+      ? styleHero[0].textBottom
+      : styleHero[0].textBottomJA;
+
   hero.src = `./images/styles/firstSection/${styleHero[0].heroImg}.webp`;
 }
 
@@ -36,21 +45,37 @@ export async function fetchStylesOccasionCont() {
 }
 
 function renderStyleOccasion(styleOccasion) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const mainTitle = document.querySelector(".occasion-main-title");
   const subTitle = document.querySelector(".occasion-sub-title");
   const text = document.querySelector(".occasion-text");
+  const link = document.querySelector(".viewAllOccasions");
+
   styleOccasion.map((item) => {
     if (item.No === 1) {
-      mainTitle.textContent = styleOccasion[0].mainTitle;
-      subTitle.textContent = styleOccasion[0].subTitle;
-      text.textContent = styleOccasion[0].text;
+      mainTitle.textContent =
+        changeLanguage === "en"
+          ? styleOccasion[0].mainTitle
+          : styleOccasion[0].mainTitleJA;
+      subTitle.textContent =
+        changeLanguage === "en"
+          ? styleOccasion[0].subTitle
+          : styleOccasion[0].subTitleJA;
+      text.textContent =
+        changeLanguage === "en"
+          ? styleOccasion[0].text
+          : styleOccasion[0].textJA;
+      link.textContent =
+        changeLanguage === "en"
+          ? styleOccasion[0].linkText
+          : styleOccasion[0].linkTextJA;
     }
     if (item.No === 2) {
       const imageCon = document.querySelector(".occasion-lists");
       const li = document.createElement("li");
       li.innerHTML = `
             <img src="./images/styles/secondSection/${item.styleImg}.webp" alt=${item.styleImgAlt} />
-            <span>${item.styleImg}</span>
+            <span>${changeLanguage === "en" ? item.styleImg : item.styleImgJA}</span>
         `;
       imageCon.append(li);
     }
@@ -69,21 +94,36 @@ export async function fetchStylesGuidesCont() {
 }
 
 function renderStyleGuides(styleOccasion) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const mainTitle = document.querySelector(".guides-main-title");
   const subTitle = document.querySelector(".guides-sub-title");
   const text = document.querySelector(".guides-text");
+  const link = document.querySelector(".viewAllGuides");
   styleOccasion.map((item) => {
     if (item.No === 1) {
-      mainTitle.textContent = styleOccasion[0].mainTitle;
-      subTitle.textContent = styleOccasion[0].subTitle;
-      text.textContent = styleOccasion[0].text;
+      mainTitle.textContent =
+        changeLanguage === "en"
+          ? styleOccasion[0].mainTitle
+          : styleOccasion[0].mainTitleJA;
+      subTitle.textContent =
+        changeLanguage === "en"
+          ? styleOccasion[0].subTitle
+          : styleOccasion[0].mainTitleJA;
+      text.textContent =
+        changeLanguage === "en"
+          ? styleOccasion[0].text
+          : styleOccasion[0].textJA;
+      link.textContent =
+        changeLanguage === "en"
+          ? styleOccasion[0].linkText
+          : styleOccasion[0].linkTextJA;
     }
     if (item.No === 2) {
       const imageCon = document.querySelector(".guides-lists");
       const li = document.createElement("li");
       li.innerHTML = `
             <img src="./images/styles/thirdSection/${item.occasionImg}.webp" alt=${item.occasionImgAlt} />
-            <span>${item.imageTexts}</span>
+            <span>${changeLanguage === "en" ? item.imageTexts : item.imageTextsJA}</span>
         `;
       imageCon.append(li);
     }
@@ -102,13 +142,21 @@ export async function fetchStylesShopNowCont() {
 }
 
 function renderStyleShopNow(styleShopNow) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const mainTitle = document.querySelector(".shop-now-main-title");
   const subTitle = document.querySelector(".shop-now-sub-title");
   const text = document.querySelector(".shop-now-text");
   const image = document.querySelector(".shop-now-image");
-  mainTitle.textContent = styleShopNow[0].mainTitle;
-  subTitle.textContent = styleShopNow[0].subTitle;
-  text.textContent = styleShopNow[0].text;
+  mainTitle.textContent =
+    changeLanguage === "en"
+      ? styleShopNow[0].mainTitle
+      : styleShopNow[0].mainTitleJA;
+  subTitle.textContent =
+    changeLanguage === "en"
+      ? styleShopNow[0].subTitle
+      : styleShopNow[0].subTitleJA;
+  text.textContent =
+    changeLanguage === "en" ? styleShopNow[0].text : styleShopNow[0].textJA;
   image.src = `./images/styles/fourthSection/${styleShopNow[0].shopNowImg}.webp`;
   image.alt = styleShopNow[0].shopNowImgAlt;
 }

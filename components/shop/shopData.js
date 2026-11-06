@@ -278,9 +278,14 @@ function priceSliderHandler() {
       rates ? locale : "en-US",
     );
   };
+  if (language === "en") {
+    minValue.innerHTML = formatPrice(min, false);
+    maxValue.innerHTML = formatPrice(max, false);
+  } else {
+    minValue.textContent = formatValue(min);
+    maxValue.textContent = formatValue(max);
+  }
 
-  minValue.textContent = formatValue(min);
-  maxValue.textContent = formatValue(max);
   const left = (min / Number(minSlider.max)) * 100;
   const right = (max / Number(maxSlider.max)) * 100;
   tracker.style.background = `

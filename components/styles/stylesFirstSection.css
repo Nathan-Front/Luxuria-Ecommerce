@@ -26,7 +26,7 @@
 .styles-first-sec> p {
     font-size: var(--text-base);
     margin-top: 32px;
-    width: 60%;
+    width: 80%;
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
     letter-spacing: 1px;
     line-height: 1.5;
@@ -49,6 +49,9 @@
     .styles-first-sec {
         margin-top: var(--nav-height-mobile);
         overflow: hidden;
+    }
+    .styles-first-sec> h2 {
+        width: 80%;
     }
     .styles-hero-background {
         filter: blur(2px);
