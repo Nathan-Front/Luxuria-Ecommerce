@@ -12,13 +12,21 @@ export async function fetchOccasionsHeroCont() {
 }
 
 function renderOccasionsHero(occasionsHero) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const mainTitle = document.querySelector(".occasions-main-title");
   const subTitle = document.querySelector(".occasions-sub-title");
   const text = document.querySelector(".occasions-hero-text");
   const hero = document.querySelector(".occasions-hero-background");
-  mainTitle.textContent = occasionsHero[0].mainTitle;
-  subTitle.textContent = occasionsHero[0].subTitle;
-  text.textContent = occasionsHero[0].text;
+  mainTitle.textContent =
+    changeLanguage === "en"
+      ? occasionsHero[0].mainTitle
+      : occasionsHero[0].mainTitleJA;
+  subTitle.textContent =
+    changeLanguage === "en"
+      ? occasionsHero[0].subTitle
+      : occasionsHero[0].subTitleJA;
+  text.textContent =
+    changeLanguage === "en" ? occasionsHero[0].text : occasionsHero[0].textJA;
   hero.src = `./images/occasions/firstSection/${occasionsHero[0].heroImg}.webp`;
 }
 
@@ -33,6 +41,7 @@ export async function fetchOccasionsCasualCont() {
   renderOccasionsCasual(fetchDataArr);
 }
 function renderOccasionsCasual(casual) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const listCont = document.querySelector(".occasions-casual-list");
   const title = document.querySelector(".section-casual-title");
   const titleText = document.querySelector(".casual-title-text");
@@ -40,9 +49,12 @@ function renderOccasionsCasual(casual) {
   const titleImg = document.querySelector(".casual-title-image");
   casual.map((item) => {
     if (item.No === 1) {
-      title.textContent = item.category;
-      titleText.textContent = item.title;
-      casualText.textContent = item.text;
+      title.textContent =
+        changeLanguage === "en" ? item.category : item.categoryJA;
+      titleText.textContent =
+        changeLanguage === "en" ? item.title : item.titleJA;
+      casualText.textContent =
+        changeLanguage === "en" ? item.text : item.textJA;
       titleImg.src = `./images/occasions/secondSection/${item.background}.webp`;
       titleImg.alt = `${item.category}-image`;
     }
@@ -67,6 +79,7 @@ export async function fetchOccasionsBusinessCont() {
   renderOccasionsBusiness(fetchDataArr);
 }
 function renderOccasionsBusiness(business) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const listCont = document.querySelector(".occasions-business-list");
   const title = document.querySelector(".section-business-title");
   const titleText = document.querySelector(".business-title-text");
@@ -74,9 +87,12 @@ function renderOccasionsBusiness(business) {
   const titleImg = document.querySelector(".business-title-image");
   business.map((item) => {
     if (item.No === 1) {
-      title.textContent = item.category;
-      titleText.textContent = item.title;
-      businessText.textContent = item.text;
+      title.textContent =
+        changeLanguage === "en" ? item.category : item.categoryJA;
+      titleText.textContent =
+        changeLanguage === "en" ? item.title : item.titleJA;
+      businessText.textContent =
+        changeLanguage === "en" ? item.text : item.textJA;
       titleImg.src = `./images/occasions/thirdSection/${item.background}.webp`;
       titleImg.alt = `${item.category}-image`;
     }
@@ -101,6 +117,7 @@ export async function fetchOccasionsEveningCont() {
   renderOccasionsEvening(fetchDataArr);
 }
 function renderOccasionsEvening(evening) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const listCont = document.querySelector(".occasions-evening-list");
   const title = document.querySelector(".section-evening-title");
   const titleText = document.querySelector(".evening-title-text");
@@ -108,9 +125,12 @@ function renderOccasionsEvening(evening) {
   const titleImg = document.querySelector(".evening-title-image");
   evening.map((item) => {
     if (item.No === 1) {
-      title.textContent = item.category;
-      titleText.textContent = item.title;
-      eveningText.textContent = item.text;
+      title.textContent =
+        changeLanguage === "en" ? item.category : item.categoryJA;
+      titleText.textContent =
+        changeLanguage === "en" ? item.title : item.titleJA;
+      eveningText.textContent =
+        changeLanguage === "en" ? item.text : item.textJA;
       titleImg.src = `./images/occasions/fourthSection/${item.background}.webp`;
       titleImg.alt = `${item.category}-image`;
     }
@@ -135,6 +155,7 @@ export async function fetchOccasionsTravelCont() {
   renderOccasionsTravel(fetchDataArr);
 }
 function renderOccasionsTravel(travel) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const listCont = document.querySelector(".occasions-travel-list");
   const title = document.querySelector(".section-travel-title");
   const titleText = document.querySelector(".travel-title-text");
@@ -142,9 +163,12 @@ function renderOccasionsTravel(travel) {
   const titleImg = document.querySelector(".travel-title-image");
   travel.map((item) => {
     if (item.No === 1) {
-      title.textContent = item.category;
-      titleText.textContent = item.title;
-      travelText.textContent = item.text;
+      title.textContent =
+        changeLanguage === "en" ? item.category : item.categoryJA;
+      titleText.textContent =
+        changeLanguage === "en" ? item.title : item.titleJA;
+      travelText.textContent =
+        changeLanguage === "en" ? item.text : item.textJA;
       titleImg.src = `./images/occasions/fifthSection/${item.background}.webp`;
       titleImg.alt = `${item.category}-image`;
     }
