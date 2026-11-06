@@ -3,6 +3,7 @@ import {
   formatCurrency,
   getExchangeRates,
   convertCurrency,
+  updatePriceDisplay,
 } from "../../components/shop/filters.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
@@ -61,12 +62,12 @@ export function renderSecondUpperContent(settingFees) {
     freeShippingPrice.innerHTML = languages.en.shippingText;
   } else {
     freeShippingPrice.innerHTML = `
-    <small data-original-price="${settingFees[0].difference}">${formatCurrency(Number(settingFees[0].difference), changeLanguage === "ja" ? "JPY" : "USD", changeLanguage === "ja" ? "ja-JP" : "en-US")}"></small>
+    <small data-original-price="${settingFees[0].difference}">${formatCurrency(Number(settingFees[0].difference), changeLanguage === "ja" ? "JPY" : "USD", changeLanguage === "ja" ? "ja-JP" : "en-US")}</small>
       <small>${languages.ja.shippingText}</small>
     
     `;
   }
-  //updatePriceDisplay();
+  updatePriceDisplay();
 }
 function renderIndexFilter(filterContent) {
   const changeLanguage = localStorage.getItem("language") || "en";

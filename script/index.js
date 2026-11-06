@@ -355,6 +355,50 @@ export const GOOGLE_APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxFjO54ZN5Tpn-aCqE8fAbFkhSxj2YvC-eHU3R0qBZ2pLPGgV4zZmazxhmGGbX9HS9-/exec";
 //51st ver
 
+//get settings for reference, like currency and language
+export async function FetchSettings() {
+  const container = document.querySelector(".liked-modal");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "paymentSettings",
+    dataKey: "settingFees",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderNavUpperContent(fetchDataArr);
+  renderSecondUpperContent(fetchDataArr);
+}
+//upper nav
+import { languages } from "./translation.js";
+import {
+  getExchangeRates,
+  convertCurrency,
+  formatWholeCurrency,
+} from "../components/shop/filters.js";
+function renderNavUpperContent(settings) {
+  const changeLanguage = localStorage.getItem("language") || "en";
+  const freeShippingPrice = document.querySelector(".upper-nav-text");
+  if (!freeShippingPrice) return;
+  if (changeLanguage === "en") {
+    freeShippingPrice.innerHTML = `
+     <span>${changeLanguage.en.upperNavText}</span>
+    `;
+  } else {
+    const rates = getExchangeRates();
+    const currency = changeLanguage === "ja" ? "JPY" : "USD";
+    const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+    const displayPrice = rates
+      ? convertCurrency(Number(settings[0].difference), currency, rates)
+      : Number(settings[0].difference);
+    const displayCurrency = rates ? currency : "USD";
+    const displayLocale = rates ? locale : "en-US";
+    freeShippingPrice.innerHTML = `
+    <span data-original-price="${settings[0].difference}"> ${formatWholeCurrency(displayPrice, displayCurrency, displayLocale)}</span>
+     <span>${languages.ja.upperNavText}</span>
+    `;
+  }
+  updatePriceDisplay();
+}
+
 //To cart summary page
 function goToCartSummary() {
   const toCartBtn = document.getElementById("to-cart");
@@ -708,48 +752,4 @@ function restoreLoggedUser() {
   if (userData?.loggedIn && userData.avatar) {
     userAvatar.src = `https://drive.google.com/thumbnail?id=${userData.avatar}&sz=w200`;
   }
-}
-
-//get settings for reference, like currency and language
-export async function FetchSettings() {
-  const container = document.querySelector(".liked-modal");
-  const fetchDataArr = await fetchProductData({
-    sheetName: "paymentSettings",
-    dataKey: "settingFees",
-    container: container,
-  });
-  if (fetchDataArr.length === 0) return;
-  renderNavUpperContent(fetchDataArr);
-  renderSecondUpperContent(fetchDataArr);
-}
-
-import { languages } from "./translation.js";
-import {
-  getExchangeRates,
-  convertCurrency,
-  formatWholeCurrency,
-} from "../components/shop/filters.js";
-function renderNavUpperContent(settings) {
-  const language = localStorage.getItem("language") || "en";
-  const freeShippingPrice = document.querySelector(".upper-nav-text");
-  if (!freeShippingPrice) return;
-  if (language === "en") {
-    freeShippingPrice.innerHTML = `
-     <span>${languages.en.upperNavText}</span>
-    `;
-  } else {
-    const rates = getExchangeRates();
-    const currency = changeLanguage === "ja" ? "JPY" : "USD";
-    const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
-    const displayPrice = rates
-      ? convertCurrency(Number(settings[0].difference), currency, rates)
-      : Number(settings[0].difference);
-    const displayCurrency = rates ? currency : "USD";
-    const displayLocale = rates ? locale : "en-US";
-    freeShippingPrice.innerHTML = `
-    <span data-original-price="${settings[0].difference}"> ${formatWholeCurrency(displayPrice, displayCurrency, displayLocale)}</span>
-     <span>${languages.ja.upperNavText}</span>
-    `;
-  }
-  //updatePriceDisplay();
 }
