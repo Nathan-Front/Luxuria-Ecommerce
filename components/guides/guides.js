@@ -12,13 +12,19 @@ export async function fetchGuidesHeroCont() {
 }
 
 function renderGuidesHero(guidesHero) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const mainTitle = document.querySelector(".guides-main-title");
   const subTitle = document.querySelector(".guides-sub-title");
   const text = document.querySelector(".guides-hero-text");
   const hero = document.querySelector(".guides-hero-background");
-  mainTitle.textContent = guidesHero[0].mainTitle;
-  subTitle.textContent = guidesHero[0].subTitle;
-  text.textContent = guidesHero[0].text;
+  mainTitle.textContent =
+    changeLanguage === "en"
+      ? guidesHero[0].mainTitle
+      : guidesHero[0].mainTitleJA;
+  subTitle.textContent =
+    changeLanguage === "en" ? guidesHero[0].subTitle : guidesHero[0].subTitleJA;
+  text.textContent =
+    changeLanguage === "en" ? guidesHero[0].text : guidesHero[0].textJA;
   hero.src = `./images/guides/firstSection/${guidesHero[0].heroImg}.webp`;
 }
 
@@ -38,6 +44,7 @@ export async function fetchGuidesCont() {
 }
 
 function renderGuidesCont({ fetchCategory, fetchContents }) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const guideList = document.querySelector(".guide-lists");
   guideList.innerHTML = "";
 
@@ -91,12 +98,14 @@ function renderGuidesCont({ fetchCategory, fetchContents }) {
                 }">
                   ${
                     content.contentType === "tip"
-                      ? `<strong>${content.sectionTitle}</strong>`
-                      : content.sectionTitle
+                      ? `<strong>${changeLanguage === "en" ? content.sectionTitle : content.sectionTitleJA}</strong>`
+                      : changeLanguage === "en"
+                        ? content.sectionTitle
+                        : content.sectionTitleJA
                   }
                 </h4>
                 <span class="section-title-text">
-                  ${content.sectionText || ""}
+                  ${changeLanguage === "en" ? content.sectionText || "" : content.sectionTextJA || ""}
                 </span>
               `
               : ""
@@ -104,10 +113,10 @@ function renderGuidesCont({ fetchCategory, fetchContents }) {
           <div class="guides-text">
             ${
               content.contentTitle
-                ? `<strong>${content.contentTitle}</strong>`
+                ? `<strong>${changeLanguage === "en" ? content.contentTitle : content.contentTitleJA}</strong>`
                 : ""
             }
-            ${content.contentText ? `<span>${content.contentText}</span>` : ""}
+            ${content.contentText ? `<span>${changeLanguage === "en" ? content.contentText : content.contentTextJA}</span>` : ""}
           </div>
         </div>
       `,
@@ -122,8 +131,8 @@ function renderGuidesCont({ fetchCategory, fetchContents }) {
     </div>
 
     <div class="guides-content-con">
-      <h3>${item.title || ""}</h3>
-      <p>${item.introduction || ""}</p>
+      <h3>${changeLanguage === "en" ? item.title || "" : item.titleJA || ""}</h3>
+      <p>${changeLanguage === "en" ? item.introduction || "" : item.introductionJA || ""}</p>
 
       ${guideContentHTML}
     </div>
