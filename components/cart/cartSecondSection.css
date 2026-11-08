@@ -166,7 +166,7 @@
     display: flex;
     font-size: var(--text-large);
 }
-.summary-totals> p> span {
+.summary-totals> p> span:nth-child(2) {
     margin-left: auto;
 }
 .summary-totals> p:last-child {

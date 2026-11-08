@@ -1,53 +1,68 @@
 <section class="cart-second-sec">
   <div class="summary-left-container">
-    <p>Your Items</p>
+    <p data-i18n="yourItems"></p>
     <div id="loading-product" class="product-loading" hidden>
       <div class="product-spinner"></div>
       <p>Retrieving data...</p>
     </div>
     <ul class="cart-summary-list"></ul>
     <div class="summary-totals">
-      <p>Subtotal: <span class="summary-subtotal">00</span></p>
-      <p>Delivery fee: <span class="summary-del-fee">00</span></p>
-      <p>Estimated tax: <span class="summary-tax">00</span></p>
-      <p>Total: <span class="summary-total">00</span></p>
+      <p>
+        <span data-i18n="summarySubTotal"></span>
+        <span class="summary-subtotal">00</span>
+      </p>
+
+      <p>
+        <span data-i18n="summaryDeliveryFee"></span>
+        <span class="summary-del-fee">00</span>
+      </p>
+
+      <p>
+        <span data-i18n="summaryEstimatedTax"></span>
+        <span class="summary-tax">00</span>
+      </p>
+
+      <p>
+        <span data-i18n="summaryTotal"></span>
+        <span class="summary-total">00</span>
+      </p>
     </div>
   </div>
   <div class="summary-right-container">
     <div>
-      <p>Order details</p>
+      <p data-i18n="summaryOrderDetails"></p>
       <div>
         <img src="./images/cart/secondSection/secure.svg" alt="lock-icon" />
-        <p>Secure checkout powered by Luxuria</p>
+        <p data-i18n="summarySecureText"></p>
       </div>
     </div>
     <div>
-      <p>Payment</p>
+      <p data-i18n="summaryPayment"></p>
       <div>
         <img
           src="./images/cart/secondSection/delivery-fast.svg"
           alt="shipping-icon"
         />
-        <p>Free shipping on all orders</p>
+        <p data-i18n="summaryFreeShippingText"></p>
       </div>
       <div>
         <img
           src="./images/cart/secondSection/secure-shield.svg"
           alt="shield-icon"
         />
-        <p>Secure payment</p>
+        <p data-i18n="summarySecurePayment"></p>
       </div>
       <div>
         <img
           src="./images/cart/secondSection/return-box-shipping.svg"
           alt="return-icon"
         />
-        <p>Easy 30-days return</p>
+        <p data-i18n="summaryReturn"></p>
       </div>
     </div>
     <div>
-      <p>Need help?</p>
-      <span>Our team is here for you.</span>
+      <p data-i18n="summaryNeedHelp"></p>
+      <span data-i18n="summaryOurTeam"></span>
       <div>
         <img src="./images/cart/secondSection/email.svg" alt="email-icon" />
         <a href="#" class="mail-to">support@luxuria.com</a>
@@ -55,13 +70,13 @@
     </div>
     <div>
       <a href="checkout.html" class="to-checkout"
-        >Proceed to checkout <span>→</span></a
+        ><span data-i18n="summaryProceed"></span><span> →</span></a
       >
     </div>
     <div>
       <a href="shop.html" class="continue-shopping"
-        >← <span>Continue shopping</span></a
-      >
+        >← <span data-i18n="summaryContinueShop"></span
+      ></a>
     </div>
   </div>
 </section>

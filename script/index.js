@@ -279,14 +279,11 @@ async function fetchHTML() {
     filterContents();
     displayFiltersTablet();
     updatePriceDisplay();
-    //await fetchProducts();
     resetFiltersHandler();
-    //inputElemInit();
-    //initializePriceSlider();
     openShopFromURL();
   }
   if (page === "cart") {
-    fetchCartHeroCont();
+    await fetchCartHeroCont();
     fetchSummaryData();
   }
   if (page === "checkout") {
