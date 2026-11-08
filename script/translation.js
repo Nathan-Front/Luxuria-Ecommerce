@@ -79,6 +79,13 @@ export const languages = {
     countShowing: "Showing item",
     countOutOF: "out of",
     countTotalJA: "",
+    /* Cart modal */
+    cartModalQuick: "Quick Shop",
+    cartModalView: "View product details",
+    cartModalColor: "Select Color",
+    cartModalColorText: "*Color on the actual product might slightly be off.",
+    cartModalSize: "Select Size",
+    cartModalAddToCart: "Add To Cart",
     /* Footer Section */
     footerText:
       "Discover timeless pieces crafted for those who appreciate refined style, quality, and individuality.",
@@ -176,6 +183,13 @@ export const languages = {
     countShowing: " ",
     countOutOF: "/",
     countTotalJA: "件",
+    /* Cart modal */
+    cartModalQuick: "簡単購入",
+    cartModalView: "商品詳細を見る",
+    cartModalColor: "色選択",
+    cartModalColorText: "実際の商品と色味が若干異なる場合があります。",
+    cartModalSize: "サイズ選択",
+    cartModalAddToCart: "カートに入れる",
     /* Footer Section */
     footerText:
       "洗練されたスタイル、品質、個性を重視する方のために作られた、時代を超えたアイテムを発見してください。",

@@ -1,6 +1,12 @@
 import { displayCartCount } from "../../script/navigation.js";
 import { colorOptions } from "../../script/colors.js";
 import { hideGlobalAuth } from "../../script/globalAuth.js";
+import { formatPrice } from "../../script/priceFormat.js";
+import {
+  formatCurrency,
+  getExchangeRates,
+  convertCurrency,
+} from "../shop/filters.js";
 
 function hideCartModal() {
   const cartModal = document.querySelector(".cart-modal");
@@ -19,20 +25,24 @@ export function hideModalCartHandler() {
   });
 }
 export function viewProductDetails() {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const viewBtn = document.querySelector(".view-product-details");
   viewBtn.onclick = () => {
-    alert("view details not yet available at the moment!");
+    alert(
+      `${changeLanguage === "en" ? "view details not yet available at the moment!" : "ただいま詳細準備中です！"}`,
+    );
   };
 }
 
 export function renderColors(colorArr) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const colorCont = document.querySelector(".color-select");
   colorCont.innerHTML = "";
   if (colorArr.includes("none")) {
     const span = document.createElement("span");
     span.classList.add("no-color-opt");
     span.innerHTML = `
-      No other color for this product.
+      ${changeLanguage === "en" ? "No other color for this product." : "この商品は1色のみです"}
     `;
     colorCont.appendChild(span);
     return;
@@ -70,6 +80,7 @@ export function colorInit() {
 }
 
 export function renderCartModalHandler(selectedItem) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const colorCont = document.querySelector(".color-select");
   const article = document.querySelector(".cart-article-image");
   const product = document.querySelector(".product-title");
@@ -78,10 +89,12 @@ export function renderCartModalHandler(selectedItem) {
   const condition = document.querySelector(".product-condition");
 
   const colorSelected = colorInit();
+
   const sizeSelected = document.querySelector(
     'input[name="size"]:checked',
   )?.value;
-  product.textContent = selectedItem.article;
+  product.textContent =
+    changeLanguage === "en" ? selectedItem.article : selectedItem.articleJA;
 
   const sizeContainer = document.querySelector(".size-fieldset");
   if (sizeContainer.classList.contains("disabledSize")) {
@@ -90,10 +103,29 @@ export function renderCartModalHandler(selectedItem) {
     size.textContent = sizeSelected;
   }
   //initial display
-  price.textContent = selectedItem.price;
-  condition.textContent = selectedItem.condition
-    ? selectedItem.condition
-    : "In Stock";
+  const rates = getExchangeRates();
+  const currency = changeLanguage === "ja" ? "JPY" : "USD";
+  const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+  const displayPrice = rates
+    ? convertCurrency(Number(selectedItem.price), currency, rates)
+    : Number(selectedItem.price);
+  const displayCurrency = rates ? currency : "USD";
+  const displayLocale = rates ? locale : "en-US";
+
+  price.innerHTML =
+    changeLanguage === "en"
+      ? formatPrice(selectedItem.price)
+      : formatCurrency(displayPrice, displayCurrency, displayLocale);
+
+  condition.textContent =
+    changeLanguage === "en"
+      ? selectedItem.condition
+      : selectedItem.conditionJA
+        ? changeLanguage === "en"
+          ? selectedItem.condition
+          : selectedItem.conditionJA
+        : "In Stock";
+
   const colorName = colorSelected.replace(/\s+/g, "_");
   const imageName = `${selectedItem.articleImg}_${colorName}.webp`;
   article.src =
@@ -116,6 +148,7 @@ export function renderCartModalHandler(selectedItem) {
     articleSelected.color = newColor;
 
     const colorName = newColor.replace(/\s+/g, "_");
+
     const imageName = `${selectedItem.articleImg}_${colorName}.webp`;
     articleSelected.articleImg = imageName;
     articleSelected.imageName = imageName;
@@ -184,6 +217,7 @@ export function productCountHandler(articleSelected) {
 }
 
 function saveToCartHandler(articleSelected) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const addTocartBtn = document.querySelector(".add-item");
   const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
   addTocartBtn.onclick = () => {
@@ -195,10 +229,14 @@ function saveToCartHandler(articleSelected) {
     );
     if (itemExist) {
       itemExist.quantity += articleSelected.quantity;
-      alert("Same item is already in the cart. \nQuantity increased");
+      alert(
+        `${changeLanguage === "en" ? "Same item is already in the cart. \nQuantity increased" : "同じ商品がすでにカートにあります。 \n数量を更新しました"}`,
+      );
     } else {
       storage.push(articleSelected);
-      alert("Item added to cart.");
+      alert(
+        `${changeLanguage === "en" ? "Item added to cart." : "商品をカートに追加しました"}`,
+      );
     }
     localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
     displayCartCount();

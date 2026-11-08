@@ -1,6 +1,6 @@
 <aside class="cart-modal">
   <div class="upper-cart-con">
-    <span>Quick Shop</span>
+    <span data-i18n="cartModalQuick"></span>
     <button type="button" class="close-cart-modal">X</button>
   </div>
   <div class="middle-cart-con">
@@ -15,17 +15,17 @@
           <span class="product-condition"></span>
         </div>
       </div>
-      <button type="button" class="view-product-details">
-        View product details
-      </button>
+      <button
+        type="button"
+        class="view-product-details"
+        data-i18n="cartModalView"
+      ></button>
     </div>
     <div class="color-size-select">
-      <p>Select Color</p>
-      <p class="color-note">
-        *Color on the actual product might slightly be off.
-      </p>
+      <p data-i18n="cartModalColor"></p>
+      <p class="color-note" data-i18n="cartModalColorText"></p>
       <div class="color-select"></div>
-      <p class="size-indicator">Select Size</p>
+      <p class="size-indicator" data-i18n="cartModalSize"></p>
       <fieldset class="size-fieldset">
         <label>
           <input type="radio" name="size" value="xs" />
@@ -68,6 +68,8 @@
       <span id="cart-count">1</span>
       <button type="button" id="increase-count">+</button>
     </div>
-    <button type="button" class="add-item">Add To Cart</button>
+    <button type="button" class="add-item" data-i18n="cartModalAddToCart">
+      Add To Cart
+    </button>
   </div>
 </aside>
