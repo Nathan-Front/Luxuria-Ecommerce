@@ -8,6 +8,7 @@ import {
   getExchangeRates,
   convertCurrency,
 } from "../shop/filters.js";
+import { languages, translateColors } from "../../script/translation.js";
 
 let fetchDataArr = [];
 export async function fetchSummaryData() {
@@ -66,9 +67,9 @@ export function renderTemporaryCart(products) {
         <img src="${storageItem.imageName !== "none" ? `./images/shop/secondSection/articleOptions/${storageItem.articleImg}` : `./images/shop/secondSection/${product.articleImg}.webp`}" alt="${storageItem.imageName}" class="summary-cart-article-image" />
         <div class="summary-article-details">
           <p class="summary-title">${changeLanguage == "en" ? product.article : product.articleJA}</p>
-          <p class="summary-color"><span data-i18n="summaryColor">Color:</span> <span>${storageItem.color}</span></p>
-          <p class="summary-size"><span data-i18n="summarySize">Size:</span> <span>${storageItem.size}</span></p>
-          <p class="summary-condition"><span data-i18n="summaryCondition">Condition:</span> <span>${changeLanguage === "en" ? product.condition : product.conditionJA}</span></p>
+          <p class="summary-color"><span >${languages[changeLanguage].summaryColor}</span> <span>${translateColors(storageItem.color, changeLanguage)}</span></p>
+          <p class="summary-size"><span >${languages[changeLanguage].summarySize}</span> <span>${storageItem.size}</span></p>
+          <p class="summary-condition"><span >${languages[changeLanguage].summaryCondition}</span> <span>${changeLanguage === "en" ? product.condition : product.conditionJA}</span></p>
         </div>
         <div class="summary-article-opt">
           <p class="summary-price"><span>${changeLanguage === "en" ? formatPrice(itemTotal) : formatCurrency(displayItemTotal, displayCurrency, displayLocale)}</span></p>

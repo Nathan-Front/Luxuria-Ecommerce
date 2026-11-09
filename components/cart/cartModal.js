@@ -7,6 +7,7 @@ import {
   getExchangeRates,
   convertCurrency,
 } from "../shop/filters.js";
+import { translateColors } from "../../script/translation.js";
 
 function hideCartModal() {
   const cartModal = document.querySelector(".cart-modal");
@@ -66,13 +67,14 @@ export function renderColors(colorArr) {
     });
 }
 export function colorInit() {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const colorCont = document.querySelector(".color-select");
   const colorDisplay = document.querySelector(".product-color");
   // Initial selected color after render
   const selectedRadio = colorCont.querySelector('input[name="color"]:checked');
   let selectedColor = selectedRadio?.value;
   if (selectedColor) {
-    colorDisplay.textContent = selectedColor;
+    colorDisplay.textContent = translateColors(selectedColor, changeLanguage);
   } else {
     selectedColor = "none";
   }
@@ -153,6 +155,7 @@ export function renderCartModalHandler(selectedItem) {
     articleSelected.articleImg = imageName;
     articleSelected.imageName = imageName;
     article.src = `./images/shop/secondSection/articleOptions/${imageName}`;
+    colorInit();
   };
   colorSelectHandler(articleSelected);
   sizeSelectHandler(articleSelected);

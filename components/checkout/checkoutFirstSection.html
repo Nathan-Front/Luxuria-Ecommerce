@@ -1,7 +1,7 @@
 <section class="checkout-first-sec">
   <aside class="order-summary">
-    <h2 id="order-summary-title">Order Summary</h2>
-    <span class="checkout-quantity">0 item</span>
+    <h2 id="order-summary-title" data-i18n="checkoutOrderSummary"></h2>
+    <span class="checkout-quantity"></span>
     <div id="loading-product" class="product-loading" hidden>
       <div class="product-spinner"></div>
       <p>Retrieving data...</p>
@@ -9,10 +9,22 @@
     <ul class="cart-items"></ul>
 
     <div class="checkout-totals">
-      <p>Subtotal: <span class="checkout-subtotal">00</span></p>
-      <p>Delivery fee: <span class="checkout-del-fee">00</span></p>
-      <p>Estimated tax: <span class="checkout-tax">00</span></p>
-      <p>Grand Total: <span class="checkout-total">00</span></p>
+      <p>
+        <span data-i18n="checkoutSubTotal"></span>
+        <span class="checkout-subtotal">00</span>
+      </p>
+      <p>
+        <span data-i18n="checkoutDelFee"></span>
+        <span class="checkout-del-fee">00</span>
+      </p>
+      <p>
+        <span data-i18n="checkoutTax"></span
+        ><span class="checkout-tax">00</span>
+      </p>
+      <p>
+        <span data-i18n="checkoutGrand"></span
+        ><span class="checkout-total">00</span>
+      </p>
     </div>
     <div class="free-shipping-cont summary-footer">
       <img
@@ -20,7 +32,7 @@
         alt="shipping-icon"
       />
       <div>
-        <p>Free shipping on orders over $300</p>
+        <p data-i18n="checkoutFreeShip"></p>
         <p class="difference"></p>
       </div>
     </div>
@@ -30,7 +42,7 @@
         alt="shield-icon"
       />
       <div>
-        <p>Secure Payment</p>
+        <p data-i18n="checkoutSecure">Secure Payment</p>
         <p>Your information is safe with us</p>
       </div>
     </div>

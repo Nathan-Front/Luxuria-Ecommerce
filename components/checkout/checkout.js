@@ -2,6 +2,11 @@ import { fetchSpecificSheet } from "../../script/fetchApps.js";
 import { setSectionLoading } from "../../script/loadingSpinner.js";
 import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
+import {
+  formatCurrency,
+  getExchangeRates,
+  convertCurrency,
+} from "../shop/filters.js";
 
 export async function fetchCheckoutData() {
   let fetchDataArr = [];
@@ -44,6 +49,7 @@ export async function fetchSettingFees(products) {
 }
 
 export function renderCartContent(products) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
   const cartCon = document.querySelector(".cart-items");
   cartCon.innerHTML = "";
@@ -78,10 +84,12 @@ export function renderCartContent(products) {
   });
   const counter = document.querySelector(".checkout-quantity");
   counter.textContent =
-    `${storage.length} item${storage.length > 1 ? "s" : ""}` || "0 item";
+    `${storage.length} ${changeLanguage === "en" ? `item${storage.length > 1 ? "s" : ""}` : `商品`}` ||
+    `${changeLanguage === "en" ? "0 item" : "0 商品"}`;
 }
 
 function renderCheckoutTotals(products, settingFees) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const subtotal = document.querySelector(".checkout-subtotal");
   const shipping = document.querySelector(".checkout-del-fee");
   const tax = document.querySelector(".checkout-tax");
@@ -108,8 +116,27 @@ function renderCheckoutTotals(products, settingFees) {
 
   const isFreeShipping = document.querySelector(".difference");
   if (Number(total > settingFees[0].difference)) {
-    isFreeShipping.textContent = `You're order is eligible for free shipping`;
+    isFreeShipping.textContent =
+      changeLanguage === "en"
+        ? `You're order is eligible for free shipping`
+        : `ご注文は送料無料の対象です`;
   } else {
-    isFreeShipping.textContent = `You're $${Number(settingFees[0].difference - total).toFixed(2)} away from free shipping`;
+    const rates = getExchangeRates();
+    const currency = changeLanguage === "ja" ? "JPY" : "USD";
+    const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+    const displayPrice = rates
+      ? convertCurrency(
+          Number(settingFees[0].difference - total),
+          currency,
+          rates,
+        )
+      : Number(settingFees[0].difference - total);
+    const displayCurrency = rates ? currency : "USD";
+    const displayLocale = rates ? locale : "en-US";
+    isFreeShipping.textContent = `${
+      changeLanguage === "en"
+        ? `You're $${Number(settingFees[0].difference - total).toFixed(2)} away from free shipping`
+        : `後${`${formatCurrency(displayPrice, displayCurrency, displayLocale)}`}で、送料無料となります。`
+    }`;
   }
 }

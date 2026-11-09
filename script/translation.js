@@ -23,6 +23,20 @@ export function initializeLanguage() {
   opt.value = savedLanguage;
 }
 
+import {
+  formatCurrency,
+  getExchangeRates,
+  convertCurrency,
+} from "../components/shop/filters.js";
+const rates = getExchangeRates();
+const currency = changeLanguage === "ja" ? "JPY" : "USD";
+const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+const displayPrice = rates
+  ? convertCurrency(Number(300), currency, rates)
+  : Number(300);
+
+const displayCurrency = rates ? currency : "USD";
+const displayLocale = rates ? locale : "en-US";
 export const languages = {
   en: {
     /* Upper Navigation */
@@ -126,6 +140,13 @@ export const languages = {
     summaryOurTeam: "Our team is here for you.",
     summaryProceed: "Proceed To Checkout",
     summaryContinueShop: "Continue shopping",
+    /* Checkout page */
+    checkoutOrderSummary: "Order Summary",
+    checkoutSubTotal: "Sub Total:",
+    checkoutDelFee: "Delivery Fee:",
+    checkoutTax: "Extimated Tax:",
+    checkoutGrand: "Grand Total:",
+    checkoutFreeShip: "Free shipping on orders over $300",
   },
 
   ja: {
@@ -230,5 +251,118 @@ export const languages = {
     summaryOurTeam: "私たちのチームがいつでもサポートいたします。",
     summaryProceed: "チェックアウトに進む",
     summaryContinueShop: "ショップページへ",
+    /* Checkout page */
+    checkoutOrderSummary: "注文概要",
+    checkoutSubTotal: "小計:",
+    checkoutDelFee: "配送料:",
+    checkoutTax: "税金:",
+    checkoutGrand: "合計:",
+    checkoutFreeShip: `${(formatCurrency(displayPrice, displayCurrency, displayLocale), "以上のお買い上げで送料無料")}`,
   },
 };
+
+export const colorTranslations = {
+  //Basic colors
+  black: "ブラック",
+  "matte black": "マットブラック",
+  white: "ホワイト",
+  gray: "グレー",
+  "light gray": "ライトグレー",
+  silver: "シルバー",
+  gold: "ゴールド",
+  bronze: "ブロンズ",
+
+  //Blue colors
+  blue: "ブルー",
+  "light blue": "ライトブルー",
+  "pastel blue": "パステルブルー",
+  "powder blue": "パウダーブルー",
+  "sky blue": "スカイブルー",
+  "midnight blue": "ミッドナイトブルー",
+  "navy blue": "ネイビーブルー",
+  "cobalt blue": "コバルトブルー",
+  "sapphire blue": "サファイアブルー",
+  "steel blue": "スチールブルー",
+  "cornflower blue": "コーンフラワーブルー",
+  "blue gray": "ブルーグレー",
+  "blue green": "ブルーグリーン",
+  glaucous: "グレイッシュブルー",
+
+  //Green colors
+  green: "グリーン",
+  "olive green": "オリーブグリーン",
+  "hunter green": "ハンターグリーン",
+  "moss green": "モスグリーン",
+  "fern green": "ファーングリーン",
+  "sage green": "セージグリーン",
+  "seafoam green": "シーフォームグリーン",
+  "lincoln green": "リンカーングリーン",
+  celadon: "セラドン",
+  pistachio: "ピスタチオ",
+  teal: "ティール",
+  turquoise: "ターコイズ",
+
+  //Purple colors
+  "light violet": "ライトバイオレット",
+  "pastel purple": "パステルパープル",
+  "red purple": "レッドパープル",
+  mauve: "モーブ",
+  thistle: "シスル",
+  byzantium: "ビザンチウム",
+
+  //Red and pink colors
+  red: "レッド",
+  maroon: "マルーン",
+  wine: "ワインレッド",
+  sienna: "シエナ",
+  "red orange": "レッドオレンジ",
+  "burnt orange": "バーントオレンジ",
+  "pumpkin orange": "パンプキンオレンジ",
+  orange: "オレンジ",
+  "pastel orange": "パステルオレンジ",
+  "pink orange": "ピンクオレンジ",
+  pink: "ピンク",
+  "coral pink": "コーラルピンク",
+  "watermelon pink": "ウォーターメロンピンク",
+  peach: "ピーチ",
+  poppy: "ポピーレッド",
+
+  //Brown and neutral colors
+  brown: "ブラウン",
+  russet: "ラセット",
+  chestnut: "チェスナット",
+  cinnamon: "シナモン",
+  camel: "キャメル",
+  cognac: "コニャック",
+  coffee: "コーヒーブラウン",
+  bisque: "ビスク",
+  fawn: "フォーン",
+  ochre: "オークル",
+  khaki: "カーキ",
+  wheat: "ウィート",
+  "dark yellow": "ダークイエロー",
+  "mustard yellow": "マスタードイエロー",
+  "navajo white": "ナバホホワイト",
+  smoke: "スモーク",
+  denim: "デニム",
+  "terra cotta": "テラコッタ",
+  zantium: "ザンティウム",
+  periwinkle: "ペリウィンクル",
+};
+
+//Color selection translation
+export function translateColors(colors, language) {
+  if (!colors) return "";
+  if (language === "en") return colors;
+
+  if (colors.trim().toLowerCase() === "none") {
+    return "なし";
+  }
+  return colors
+    .split(",")
+    .map((color) => {
+      const key = color.trim().toLowerCase();
+      return colorTranslations[key] || color.trim();
+    })
+    .join(", ");
+}

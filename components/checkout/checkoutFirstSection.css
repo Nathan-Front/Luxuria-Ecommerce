@@ -113,7 +113,7 @@
     font-weight: 700;
     font-size: var(--text-large);
 }
-.checkout-totals> p> span {
+.checkout-totals> p> span:last-child {
     margin-left: auto;
 }
 .checkout-totals> p:last-child {
