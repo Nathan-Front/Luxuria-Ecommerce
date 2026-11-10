@@ -21,6 +21,7 @@ export function initializeLanguage() {
   const savedLanguage = localStorage.getItem("language") || "en";
 
   opt.value = savedLanguage;
+  currencyChange();
 }
 
 import {
@@ -28,15 +29,9 @@ import {
   getExchangeRates,
   convertCurrency,
 } from "../components/shop/filters.js";
-const rates = getExchangeRates();
-const currency = changeLanguage === "ja" ? "JPY" : "USD";
-const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
-const displayPrice = rates
-  ? convertCurrency(Number(300), currency, rates)
-  : Number(300);
 
-const displayCurrency = rates ? currency : "USD";
-const displayLocale = rates ? locale : "en-US";
+function currencyChange() {}
+
 export const languages = {
   en: {
     /* Upper Navigation */
@@ -146,7 +141,26 @@ export const languages = {
     checkoutDelFee: "Delivery Fee:",
     checkoutTax: "Extimated Tax:",
     checkoutGrand: "Grand Total:",
-    checkoutFreeShip: "Free shipping on orders over $300",
+    checkoutSecure: "Secure Payment",
+    checkoutSecureText: "Your information is safe with us",
+    checkoutFast: "Fast & Reliable Delivery",
+    checkoutFastText: "We make sure no time is wasted on your ordered item",
+    checkoutSupport: "24/7 Customer Support",
+    checkoutSupportText: "We're here to help",
+    checkoutTitle: "Checkout",
+    checkoutTitleText:
+      "Complete your purchase by providing your shipping and payment details",
+    checkoutAddress: "Shipping Address",
+    checkoutAddressInfo: "Enter your delivery information",
+    checkoutName: "Full Name",
+    checkoutEmail: "Email Address",
+    checkoutContact: "Contact Number",
+    checkoutShip: "Shipping Address",
+    checkoutPayment: "Payment Method",
+    checkoutPaymentText: "Choose your preferred payment method",
+    checkoutCredit: "Credit Card",
+    checkoutCOD: "Cash On Delivery",
+    checkoutPlaceOrder: "Place Order",
   },
 
   ja: {
@@ -257,7 +271,25 @@ export const languages = {
     checkoutDelFee: "配送料:",
     checkoutTax: "税金:",
     checkoutGrand: "合計:",
-    checkoutFreeShip: `${(formatCurrency(displayPrice, displayCurrency, displayLocale), "以上のお買い上げで送料無料")}`,
+    checkoutSecure: "安全な決済",
+    checkoutSecureText: "お客様の個人情報は安全に保護されています",
+    checkoutFast: "迅速かつ安全にお届けします",
+    checkoutFastText: "ご注文品はスピーディーに出荷・発送いたします",
+    checkoutSupport: "24時間年中無休のお問い合わせ対応",
+    checkoutSupportText: "お困りの際はお気軽にお問い合わせください",
+    checkoutTitle: "チェックアウト",
+    checkoutTitleText:
+      "お届け先とお支払い情報を入力して、ご注文を完了してください",
+    checkoutAddress: "配送先住所",
+    checkoutAddressInfo: "配送先情報を入力",
+    checkoutName: "フルネーム",
+    checkoutEmail: "メールアドレス",
+    checkoutContact: "電話番号",
+    checkoutShip: "配送先住所",
+    checkoutPaymentText: "お支払い方法を選択してください",
+    checkoutCredit: "クレジットカード",
+    checkoutCOD: "着払い",
+    checkoutPlaceOrder: "注文を確定する",
   },
 };
 
@@ -348,6 +380,7 @@ export const colorTranslations = {
   "terra cotta": "テラコッタ",
   zantium: "ザンティウム",
   periwinkle: "ペリウィンクル",
+  checkoutPayment: "お支払い方法",
 };
 
 //Color selection translation

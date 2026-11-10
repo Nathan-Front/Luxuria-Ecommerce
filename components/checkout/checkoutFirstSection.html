@@ -32,7 +32,7 @@
         alt="shipping-icon"
       />
       <div>
-        <p data-i18n="checkoutFreeShip"></p>
+        <p class="freeShip"></p>
         <p class="difference"></p>
       </div>
     </div>
@@ -42,8 +42,8 @@
         alt="shield-icon"
       />
       <div>
-        <p data-i18n="checkoutSecure">Secure Payment</p>
-        <p>Your information is safe with us</p>
+        <p data-i18n="checkoutSecure"></p>
+        <p data-i18n="checkoutSecureText"></p>
       </div>
     </div>
     <div class="summary-footer">
@@ -52,47 +52,45 @@
         alt="shipping-icon"
       />
       <div>
-        <p>Fast & Reliable Delivery</p>
-        <p>We make sure no time is wasted on your ordered item.</p>
+        <p data-i18n="checkoutFast"></p>
+        <p data-i18n="checkoutFastText"></p>
       </div>
     </div>
     <div class="summary-footer">
       <img src="./images/cart/secondSection/email.svg" alt="shipping-icon" />
       <div>
-        <p>24/7 Customer Support</p>
-        <p>We're here to help</p>
+        <p data-i18n="checkoutSupport"></p>
+        <p data-i18n="checkoutSupportText"></p>
       </div>
     </div>
   </aside>
 
   <div class="checkout-right-con">
-    <h3>Checkout</h3>
-    <p>
-      Complete your purchase by providing your shipping and payment details.
-    </p>
+    <h3 data-i18n="checkoutTitle"></h3>
+    <p data-i18n="checkoutTitleText"></p>
     <form>
       <div class="user-details-con">
         <div class="form-header">
           <div>
             <img src="./images/checkout/location-pin.svg" alt="location-icon" />
-            <h4>Shipping Address</h4>
+            <h4 data-i18n="checkoutAddress"></h4>
           </div>
-          <p>Enter your delivery information</p>
+          <p data-i18n="checkoutAddressInfo"></p>
         </div>
         <div class="user-input-con">
           <div class="name-email">
             <div>
-              <label>Full Name</label>
+              <label data-i18n="checkoutName"></label>
               <input type="text" id="full-name" class="paypal-init" required />
             </div>
             <div>
-              <label>Email Address</label>
+              <label data-i18n="checkoutEmail"></label>
               <input type="email" id="email" class="paypal-init" required />
             </div>
           </div>
           <div class="contact-address">
             <div>
-              <label>Contact Number</label>
+              <label data-i18n="checkoutContact"></label>
               <input
                 type="text"
                 id="contact-number"
@@ -101,7 +99,7 @@
               />
             </div>
             <div>
-              <label>Shipping Address</label>
+              <label data-i18n="checkoutShip"></label>
               <input
                 type="text"
                 id="shipping-address"
@@ -116,9 +114,9 @@
         <div class="form-header">
           <div>
             <img src="./images/checkout/card.svg" alt="card-icon" />
-            <h4>Payment Method</h4>
+            <h4 data-i18n="checkoutPayment"></h4>
           </div>
-          <p>Choose your preferred payment method</p>
+          <p data-i18n="checkoutPaymentText"></p>
         </div>
         <div id="payment-message" class="payment-message"></div>
         <div class="paypal-selection">
@@ -129,7 +127,7 @@
               id="paypal"
               value="paypal"
             />
-            <span>Credit Card</span>
+            <span data-i18n="checkoutCredit"></span>
             <div class="payment-card-con">
               <img src="./images/checkout/paypal.svg" alt="paypal" />
               <img src="./images/checkout/visa.svg" alt="visa" />
@@ -149,13 +147,19 @@
               id="cashOnDelivery"
               value="cash-on-delivery"
             />
-            <span>Cash On Delivery</span>
+            <span data-i18n="checkoutCOD"></span>
             <div class="payment-card-con">
               <img src="./images/checkout/money-cash.svg" alt="cash" />
             </div>
           </label>
           <div class="cod-btn-con">
-            <button id="place-order-btn" type="button">Place Order</button>
+            <button
+              id="place-order-btn"
+              type="button"
+              data-i18n="checkoutPlaceOrder"
+            >
+              Place Order
+            </button>
           </div>
         </div>
       </div>

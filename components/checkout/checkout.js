@@ -4,9 +4,11 @@ import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import {
   formatCurrency,
+  formatWholeCurrency,
   getExchangeRates,
   convertCurrency,
 } from "../shop/filters.js";
+import { translateColors } from "../../script/translation.js";
 
 export async function fetchCheckoutData() {
   let fetchDataArr = [];
@@ -69,10 +71,10 @@ export function renderCartContent(products) {
       />
       <div>
         <div class="checkout-product-price">
-          <p class="checkout-product">${product.article}</p>
+          <p class="checkout-product">${changeLanguage === "en" ? product.article : product.articleJA}</p>
           <p class="checkout-price">${formatPrice(product.price * storageItem.quantity)}</p>
         </div>
-        <p class="checkout-color">${storageItem.color}</p>
+        <p class="checkout-color">${translateColors(storageItem.color, changeLanguage)}</p>
         <div class="checkout-size-count">
           <span class="checkout-size">${storageItem.size}</span> x
           <span class="checkout-count">${storageItem.quantity}</span>
@@ -112,30 +114,40 @@ function renderCheckoutTotals(products, settingFees) {
     grandTotal.innerHTML = formatPrice(0);
   }
 
-  let total = subtotalValue + parseFloat(settingFees[0].taxFee * subtotalValue);
+  const language = localStorage.getItem("language") || "en";
+  const rates = getExchangeRates();
+  const currency = language === "ja" ? "JPY" : "USD";
+  const locale = language === "ja" ? "ja-JP" : "en-US";
+  const displayPrice = rates
+    ? convertCurrency(Number(300), currency, rates)
+    : Number(300);
+
+  const displayCurrency = rates ? currency : "USD";
+  const displayLocale = rates ? locale : "en-US";
+  const freeShipping = document.querySelector(".freeShip");
+  freeShipping.innerHTML = `
+   ${language === "en" ? `Free shipping on orders over ${formatWholeCurrency(displayPrice, displayCurrency, displayLocale)}` : `${formatCurrency(displayPrice, displayCurrency, displayLocale)}以上のお買い上げで送料無料`}
+  `;
 
   const isFreeShipping = document.querySelector(".difference");
-  if (Number(total > settingFees[0].difference)) {
+  console.log("sub", subtotalValue, "difference", settingFees[0].difference);
+  if (Number(subtotalValue) > Number(settingFees[0].difference)) {
     isFreeShipping.textContent =
       changeLanguage === "en"
         ? `You're order is eligible for free shipping`
         : `ご注文は送料無料の対象です`;
   } else {
     const rates = getExchangeRates();
-    const currency = changeLanguage === "ja" ? "JPY" : "USD";
-    const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
     const displayPrice = rates
       ? convertCurrency(
-          Number(settingFees[0].difference - total),
+          Number(settingFees[0].difference - subtotalValue),
           currency,
           rates,
         )
-      : Number(settingFees[0].difference - total);
-    const displayCurrency = rates ? currency : "USD";
-    const displayLocale = rates ? locale : "en-US";
+      : Number(settingFees[0].difference - subtotalValue);
     isFreeShipping.textContent = `${
       changeLanguage === "en"
-        ? `You're $${Number(settingFees[0].difference - total).toFixed(2)} away from free shipping`
+        ? `You're $${Number(settingFees[0].difference - subtotalValue).toFixed(2)} away from free shipping`
         : `後${`${formatCurrency(displayPrice, displayCurrency, displayLocale)}`}で、送料無料となります。`
     }`;
   }
