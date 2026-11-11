@@ -118,6 +118,9 @@
     text-align: center;
     font-size: var(--text-small);
 }
+.to-create-acnt> button {
+    text-decoration: underline;
+}
 @media only screen and (max-width: 415px) {
     .login-overlay {
         width: 100%;

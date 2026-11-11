@@ -1,24 +1,26 @@
 <div class="create-account-con">
   <div class="create-account-modal">
     <button type="button" class="close-create-account">×</button>
-    <h2>Create Account</h2>
-    <p>Join Luxuria and endjoy a personalized shopping experience.</p>
+    <h2 data-i18n="createAccountTitle"></h2>
+    <p data-i18n="createAccountTitleText"></p>
     <form class="create-account-form">
       <div class="name-container">
         <label for="firstName"
-          >First Name<input
+          ><span data-i18n="createAccountFirstName"></span
+          ><input
             type="text"
             id="firstName"
             class="required-create-inputs"
-            placeholder="First name"
+            data-i18n-placeholder="FirstNamePlaceholder"
         /></label>
 
         <label for="lastName"
-          >Last Name<input
+          ><span data-i18n="createAccountLastName"></span
+          ><input
             type="text"
             id="lastName"
             class="required-create-inputs"
-            placeholder="Last name"
+            data-i18n-placeholder="lastNamePlaceholder"
         /></label>
       </div>
       <label for="userEmail"></label>
@@ -26,7 +28,7 @@
         type="email"
         id="userEmail"
         class="required-create-inputs"
-        placeholder="Email"
+        data-i18n-placeholder="createEmailPlaceholder"
         autocomplete="email"
       />
       <label for="password"></label>
@@ -34,22 +36,19 @@
         type="password"
         id="password"
         class="required-create-inputs"
-        placeholder="Password"
+        data-i18n-placeholder="createPassPlaceholder"
         autocomplete="new-password"
       />
 
       <div class="eula-container">
         <label for="eula" class="eula"
-          ><input
-            type="checkbox"
-            id="eula"
-            placeholder="Email"
-            disabled
-          />EULA</label
+          ><input type="checkbox" id="eula" disabled />EULA</label
         >
         <p>
-          I agree to the <a href="#">Terms & conditions</a> and
-          <a href="#">Privacy policy</a>
+          <span data-i18n="createAccountAgree"></span>
+          <a href="#" data-i18n="createAccountTerms"></a>
+          <span data-i18n="createAccountAnd"></span>
+          <a href="#" data-i18n="createAccountPolicy"></a>
         </p>
       </div>
       <input
@@ -58,16 +57,23 @@
         class="__honeypot"
         placeholder="Leave this field empty"
       />
-      <button type="submit" class="create-account-submit" disabled>
-        Create Account
-      </button>
+      <button
+        type="submit"
+        class="create-account-submit"
+        data-i18n="createAccountButton"
+        disabled
+      ></button>
     </form>
   </div>
   <div class="create-account-lower">
     <p class="or-divider"><span>OR</span></p>
     <p class="sign-in-link">
-      Already have an account?
-      <button type="button" class="return-to-sign-in">Sign in</button>
+      <span data-i18n="createAccountAlready"></span>
+      <button
+        type="button"
+        class="return-to-sign-in"
+        data-i18n="createAccountToLogin"
+      ></button>
     </p>
   </div>
 </div>

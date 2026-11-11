@@ -164,6 +164,23 @@ export const languages = {
     loginGoogle: "Continue with Google",
     loginNoAccount: "Don't have any account?",
     loginCreateAcc: "Create an account",
+    /* Create account popup */
+    createAccountTitle: "Create Account",
+    createAccountTitleText:
+      "Join Luxuria and endjoy a personalized shopping experience.",
+    createAccountFirstName: "First Name",
+    FirstNamePlaceholder: "First Name",
+    createAccountLastName: "Last Name",
+    lastNamePlaceholder: "Last Name",
+    createEmailPlaceholder: "Email Address",
+    createPassPlaceholder: "Password",
+    createAccountAgree: "I agree to the",
+    createAccountTerms: "Terms & conditions",
+    createAccountAnd: "and",
+    createAccountPolicy: "Privacy policy",
+    createAccountButton: "Create Account",
+    createAccountAlready: "Already have an account?",
+    createAccountToLogin: "Login",
   },
 
   ja: {
@@ -305,6 +322,23 @@ export const languages = {
     loginGoogle: "Google でログイン",
     loginNoAccount: "アカウントをお持ちでない方",
     loginCreateAcc: "新規会員登録",
+    /* Create account popup */
+    createAccountTitle: "新規登録",
+    createAccountTitleText:
+      "Luxuriaで、あなた専用のプレミアムなショッピング体験を",
+    createAccountFirstName: "名",
+    FirstNamePlaceholder: "ファーストネーム",
+    createAccountLastName: "姓",
+    lastNamePlaceholder: "ラストネーム",
+    createEmailPlaceholder: "メールアドレス",
+    createPassPlaceholder: "パスワード",
+    createAccountAgree: "登録ボタンを押すことで",
+    createAccountTerms: "[利用規約]",
+    createAccountAnd: "および",
+    createAccountPolicy: "[プライバシーポリシー] に同意いたします",
+    createAccountButton: "登録します",
+    createAccountAlready: "アカウントをお持ちの場合",
+    createAccountToLogin: "ログインへ",
   },
 };
 
