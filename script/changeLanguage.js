@@ -10,4 +10,9 @@ export function changeLanguage() {
     }
   });
   document.documentElement.lang = language;
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+    const key = element.dataset.i18nPlaceholder;
+
+    element.placeholder = languages[language][key] || "";
+  });
 }

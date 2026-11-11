@@ -2,26 +2,26 @@
   <div class="login-modal">
     <button class="close-login" type="button">×</button>
 
-    <h2>Welcome Back</h2>
-    <p>Login to continue your shopping.</p>
+    <h2 data-i18n="loginTitle"></h2>
+    <p data-i18n="loginTitleText"></p>
     <form class="login-form">
       <input
         type="email"
-        placeholder="Email"
+        data-i18n-placeholder="emailPlaceholder"
         autocomplete="email"
         id="email-input"
       />
       <input
         type="password"
-        placeholder="Password"
+        data-i18n-placeholder="passwordPlaceholder"
         id="password-input"
         autocomplete="current-password"
       />
 
       <div>
         <input type="checkbox" value="lsRememberMe" id="rememberMe" />
-        <label for="rememberMe">Remember me</label>
-        <a href="#">Forgot password?</a>
+        <label for="rememberMe" data-i18n="loginRememberMe"></label>
+        <a href="#" data-i18n="loginForgotPass"></a>
       </div>
       <input
         type="text"
@@ -29,23 +29,30 @@
         class="login_honeypot"
         placeholder="Leave this field empty"
       />
-      <button type="submit" class="login-btn">LOGIN</button>
+      <button
+        type="submit"
+        class="login-btn"
+        data-i18n="loginLoginBtn"
+      ></button>
     </form>
   </div>
   <div class="login-form-lower">
-    <p class="or-divider"><span>or continue with</span></p>
+    <p class="or-divider"><span data-i18n="loginContinue"></span></p>
     <button type="button" class="google-login-btn">
       <img
         src="./images/login-create/google-svgrepo-com.svg"
         alt="google-icon"
       />
-      <span>Continue with Google</span>
+      <span data-i18n="loginGoogle"></span>
     </button>
     <p class="to-create-acnt">
-      Don't have any account?
-      <button type="button" class="create-account-btn">
-        Create an account
-      </button>
+      <span data-i18n="loginNoAccount"></span>
+
+      <button
+        type="button"
+        class="create-account-btn"
+        data-i18n="loginCreateAcc"
+      ></button>
     </p>
   </div>
 </div>

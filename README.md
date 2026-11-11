@@ -43,6 +43,10 @@ I did not put email validator on this form so its ok to input anything.
 
 But, it will still going to check if the email is in its correct format to enable the selection of payment method.
 
+\*You need an account before you can select payment method. So go ahead and create dummy account and login
+
+\*click the user icon beside the cart bag icon at the upper right corner of the page
+
 7. Select payment method
 
 \*If paypal is selected

@@ -21,16 +21,7 @@ export function initializeLanguage() {
   const savedLanguage = localStorage.getItem("language") || "en";
 
   opt.value = savedLanguage;
-  currencyChange();
 }
-
-import {
-  formatCurrency,
-  getExchangeRates,
-  convertCurrency,
-} from "../components/shop/filters.js";
-
-function currencyChange() {}
 
 export const languages = {
   en: {
@@ -161,6 +152,18 @@ export const languages = {
     checkoutCredit: "Credit Card",
     checkoutCOD: "Cash On Delivery",
     checkoutPlaceOrder: "Place Order",
+    /* Login popup */
+    loginTitle: "Welcome Back",
+    loginTitleText: "Login to continue your shopping",
+    emailPlaceholder: "Enter your email",
+    passwordPlaceholder: "Password",
+    loginRememberMe: "Remember me",
+    loginForgotPass: "Forgot password?",
+    loginLoginBtn: "LOGIN",
+    loginContinue: "or continue with",
+    loginGoogle: "Continue with Google",
+    loginNoAccount: "Don't have any account?",
+    loginCreateAcc: "Create an account",
   },
 
   ja: {
@@ -290,6 +293,18 @@ export const languages = {
     checkoutCredit: "クレジットカード",
     checkoutCOD: "着払い",
     checkoutPlaceOrder: "注文を確定する",
+    /* Login popup */
+    loginTitle: "おかえりなさい",
+    loginTitleText: "ログインして買い物を続ける",
+    emailPlaceholder: "メールアドレス",
+    passwordPlaceholder: "パスワード",
+    loginRememberMe: "ログイン状態を保存する",
+    loginForgotPass: "パスワードをお忘れの方",
+    loginLoginBtn: "ログイン",
+    loginContinue: "または",
+    loginGoogle: "Google でログイン",
+    loginNoAccount: "アカウントをお持ちでない方",
+    loginCreateAcc: "新規会員登録",
   },
 };
 
