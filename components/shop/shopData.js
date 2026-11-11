@@ -37,17 +37,21 @@ function renderShopCont(shopHeroCon) {
   const shopSubTitle = shopHeroSection.querySelector("span");
   const shopHeroText = shopHeroSection.querySelector(".shop-hero-text");
   const shopHeroImg = shopHeroSection.querySelector("img");
-  if (changeLanguage === "en") {
-    shopMainTitle.textContent = shopHeroCon[0].mainTitle;
-    shopSubTitle.textContent = shopHeroCon[0].subTitle;
-    shopHeroText.textContent = shopHeroCon[0].text;
-    shopHeroImg.alt = shopHeroCon[0].heroImgAlt;
-  } else {
-    shopMainTitle.textContent = shopHeroCon[0].mainTitleJA;
-    shopSubTitle.textContent = shopHeroCon[0].subTitleJA;
-    shopHeroText.textContent = shopHeroCon[0].textJA;
-    shopHeroImg.alt = shopHeroCon[0].heroImgAltJA;
-  }
+
+  shopMainTitle.textContent =
+    changeLanguage === "en"
+      ? shopHeroCon[0].mainTitle
+      : shopHeroCon[0].mainTitleJA;
+  shopSubTitle.textContent =
+    changeLanguage === "en"
+      ? shopHeroCon[0].subTitle
+      : shopHeroCon[0].subTitleJA;
+  shopHeroText.textContent =
+    changeLanguage === "en" ? shopHeroCon[0].text : shopHeroCon[0].textJA;
+  shopHeroImg.alt =
+    changeLanguage === "en"
+      ? shopHeroCon[0].heroImgAlt
+      : shopHeroCon[0].heroImgAltJA;
   shopHeroImg.src = `./images/shop/firstSection/${shopHeroCon[0].heroImg}.webp`;
 }
 

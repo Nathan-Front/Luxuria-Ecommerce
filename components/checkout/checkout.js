@@ -60,7 +60,7 @@ export function renderCartContent(products) {
     const product = products.find(
       (item) => String(item.No) === String(storageItem.No),
     );
-    console.log("products", storageItem);
+
     if (product) {
       const li = document.createElement("li");
       li.innerHTML = `
@@ -130,7 +130,7 @@ function renderCheckoutTotals(products, settingFees) {
   `;
 
   const isFreeShipping = document.querySelector(".difference");
-  console.log("sub", subtotalValue, "difference", settingFees[0].difference);
+
   if (Number(subtotalValue) > Number(settingFees[0].difference)) {
     isFreeShipping.textContent =
       changeLanguage === "en"
