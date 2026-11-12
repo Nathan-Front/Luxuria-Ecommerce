@@ -181,6 +181,13 @@ export const languages = {
     createAccountButton: "Create Account",
     createAccountAlready: "Already have an account?",
     createAccountToLogin: "Login",
+    /* User window */
+    userOrder: "My Orders",
+    userWish: "My Wishlists",
+    userLogoutBtn: "Logout",
+    userLogoutText: "Are you sure you want to log out?",
+    userLogoutCancel: "Cancel",
+    userLogoutYes: "Yes",
   },
 
   ja: {
@@ -339,6 +346,13 @@ export const languages = {
     createAccountButton: "登録します",
     createAccountAlready: "アカウントをお持ちの場合",
     createAccountToLogin: "ログインへ",
+    /* User window */
+    userOrder: "ご注文履歴",
+    userWish: "お気に入りリスト",
+    userLogoutBtn: "ログアウト",
+    userLogoutText: "ログアウトしてもよろしいですか？",
+    userLogoutCancel: "キャンセル",
+    userLogoutYes: "はい",
   },
 };
 

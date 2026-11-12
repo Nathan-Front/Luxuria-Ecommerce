@@ -97,6 +97,9 @@
     font-size: var(--text-base);
     transition: transform 0.1s ease;
 }
+.settings-opt> li> span:hover {
+    cursor: pointer;
+}
 .logout-container> img {
     width: 30px;
     height: 30px;

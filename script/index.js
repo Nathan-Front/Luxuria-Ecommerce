@@ -657,7 +657,7 @@ function showUserWindow() {
   const userWindow = document.querySelector(".user-window");
   userWindow.classList.add("userWindow");
 }
-function hideUserWindow() {
+export function hideUserWindow() {
   const userWindow = document.querySelector(".user-window");
   userWindow.classList.remove("userWindow");
 }
