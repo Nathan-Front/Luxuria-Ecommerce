@@ -178,7 +178,6 @@ function restoreLikedProducts() {
 }
 
 export async function fetchIndexPromo() {
-  const changeLanguage = localStorage.getItem("language") || "en";
   const container = document.querySelector(".index-fourth-sect");
   const fetchDataArr = await fetchProductData({
     sheetName: "indexPromo",

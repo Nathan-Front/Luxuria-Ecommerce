@@ -349,7 +349,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyaU1h8AhqHX9_2hzZ1wQVbEPud0LudRAvTnHP4ZjES7fUbhFNYuOLuwgKm5GFci2YF/exec";
+  "https://script.google.com/macros/s/AKfycbxTyhY5sXKNxBaUDvK1sLrDerZTm0kkME45ra_tMsAuwn1MIwmc-YUIdnFb0BPb7ais/exec";
 //51st ver
 
 //get settings for reference, like currency and language
@@ -642,6 +642,8 @@ function createAccountHandler() {
         return;
       } else {
         alert(result.message);
+        hideCreateAccountForm();
+        showLoginForm();
       }
     } catch (error) {
       console.error("Error creating account:", error);
