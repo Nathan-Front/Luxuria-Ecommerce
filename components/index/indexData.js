@@ -167,35 +167,48 @@ function productLikeToggle() {
       }
       localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
       displayLikedCount();
+      // Show loading state
+      clickedProduct.classList.add("loading");
+      clickedProduct.disabled = true;
       try {
-        const loggedUser = JSON.parse(localStorage.getItem("loggedIn"));
-        const params = {
-          formType: "liked-items",
-          userID: loggedUser.userID,
-          user: loggedUser.email,
-          likedProduct: likedProducts,
-        };
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify(params),
-        });
-        const result = await response.json();
-        console.log(result);
-        if (result.success) {
-          alert("Wishlist updated");
-        }
-        displayLikedCount();
-
-        return result;
-      } catch (error) {
-        console.log(error);
-        alert("Oops looks like we encounter an error. Refresh and try again");
-        return null;
+        await updateWishlist(likedProducts);
+      } finally {
+        clickedProduct.classList.remove("loading");
+        clickedProduct.disabled = false;
       }
     });
   });
 }
+//Update the wishlist in the sheet
+export async function updateWishlist(likedProducts) {
+  const loggedUser = JSON.parse(localStorage.getItem("loggedIn") || "null");
+  if (!loggedUser?.userID) return;
+  try {
+    const params = {
+      formType: "liked-items",
+      userID: loggedUser.userID,
+      email: loggedUser.email,
+      likedProducts,
+    };
+    const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify(params),
+    });
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || "Failed to update wishlist");
+    }
+    if (result.success) {
+      alert(result.message);
+    }
+    return result;
+  } catch (error) {
+    console.error("Error saving wishlist:", error);
+    return null;
+  }
+}
 
+//Use during login to get the saved list
 export async function FetchWishlists() {
   try {
     const loggedUser = JSON.parse(localStorage.getItem("loggedIn"));

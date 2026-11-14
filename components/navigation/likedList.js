@@ -3,7 +3,7 @@ import { openGlobalAuth, hideGlobalAuth } from "../../script/globalAuth.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { renderProducts } from "../shop/shopData.js";
-import { renderNewArrivals } from "../index/indexData.js";
+import { renderNewArrivals, updateWishlist } from "../index/indexData.js";
 import {
   formatCurrency,
   getExchangeRates,
@@ -109,11 +109,13 @@ function addToCarLikedItem() {
 function removeLikedItem(products) {
   const removeBtn = document.querySelectorAll(".liked-remove-button");
   removeBtn.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       //get the dataset of its container
       const item = e.currentTarget.closest("li");
       const productId = item.dataset.productId;
-      sharedDeleteLikedItem(productId);
+
+      // Remove from localStorage and Google Sheets
+      await sharedDeleteLikedItem(productId);
       //remove its container
       item.remove();
       renderProducts([...products]);
@@ -122,13 +124,13 @@ function removeLikedItem(products) {
   });
 }
 //reusable delete liked items from storage
-function sharedDeleteLikedItem(productId) {
+async function sharedDeleteLikedItem(productId) {
   let likedArr = JSON.parse(localStorage.getItem("likedProducts")) || [];
   //filter it out from the storage list
   likedArr = likedArr.filter((id) => String(id) !== String(productId));
   //update storage
   localStorage.setItem("likedProducts", JSON.stringify(likedArr));
-
+  await updateWishlist(likedArr);
   displayLikedCount();
   if (likedArr.length === 0) {
     hideGlobalAuth();

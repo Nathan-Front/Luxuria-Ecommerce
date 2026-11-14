@@ -350,7 +350,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxbpP7l4Z7nb15mKHYY0EazGgESix30BkST5_P7FgysF9DjRr-MLwpJuuuj64bEo_nO/exec";
+  "https://script.google.com/macros/s/AKfycbxFABaMOkmoaJsGV9vzxATARilSFP33TlfZ72AwK5XDU8OQZNu5u2HZKZlNuOjC4SUx/exec";
 //51st ver
 
 //get settings for reference, like currency and language
