@@ -115,7 +115,14 @@ function removeLikedItem(products) {
       const productId = item.dataset.productId;
 
       // Remove from localStorage and Google Sheets
-      await sharedDeleteLikedItem(productId);
+      item.classList.add("loading");
+      item.disabled = true;
+      try {
+        await sharedDeleteLikedItem(productId);
+      } finally {
+        item.classList.remove("loading");
+        item.disabled = false;
+      }
       //remove its container
       item.remove();
       renderProducts([...products]);

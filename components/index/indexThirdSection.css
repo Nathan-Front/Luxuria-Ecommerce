@@ -89,27 +89,3 @@
         display: none;
     }
 }
-
-.loading {
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-.loading::after {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #ddd;
-  border-top-color: #d4af37;
-  border-radius: 50%;
-  animation: heartSpinner 0.7s linear infinite;
-}
-
-@keyframes heartSpinner {
-  to {
-    transform: rotate(360deg);
-  }
-}

@@ -3,7 +3,6 @@ import {
   formatCurrency,
   getExchangeRates,
   convertCurrency,
-  formatWholeCurrency,
 } from "./filters.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { openGlobalAuth } from "../../script/globalAuth.js";
@@ -11,14 +10,13 @@ import {
   hideModalCartHandler,
   renderCartModalHandler,
   colorInit,
-} from "../cart/cartModal.js";
-import {
   disableSizeHandler,
   renderColors,
   viewProductDetails,
 } from "../cart/cartModal.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
 import { updatePriceDisplay } from "../../components/shop/filters.js";
+import { updateWishlist } from "../index/indexData.js";
 
 export async function fetchShopHeroCont() {
   const container = document.querySelector(".shop-first-sec");
@@ -377,7 +375,7 @@ function likedProduct() {
 function likeProductToggle() {
   const heartBtn = document.querySelectorAll(".shop-liked-product");
   heartBtn.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const clickedProduct = btn.closest("li");
       const productId = clickedProduct.dataset.productId;
       let likedProducts =
@@ -393,6 +391,15 @@ function likeProductToggle() {
       }
       localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
       displayLikedCount();
+      // Show loading state
+      clickedProduct.classList.add("loading");
+      clickedProduct.disabled = true;
+      try {
+        await updateWishlist(likedProducts);
+      } finally {
+        clickedProduct.classList.remove("loading");
+        clickedProduct.disabled = false;
+      }
     });
   });
 }

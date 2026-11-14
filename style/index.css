@@ -422,6 +422,31 @@ nav {
     border-radius: 50%;
     animation: productLoading .8s linear infinite;
 }
+
+/*wishlist loader*/
+.loading {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  border: 4px solid #ddd;
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: heartSpinner 0.7s linear infinite;
+}
+
+@keyframes heartSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
 /*section fetching error message*/
 .section-error {
     position: absolute;
