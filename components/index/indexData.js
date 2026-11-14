@@ -7,6 +7,7 @@ import {
 } from "../../components/shop/filters.js";
 import { displayLikedCount } from "../../script/navigation.js";
 import { fetchProductData } from "../../script/fetchProducts.js";
+import { GOOGLE_APPS_SCRIPT_URL } from "../../script/index.js";
 
 let fetchDataArr = [];
 export async function fetchHeroContent() {
@@ -145,7 +146,12 @@ export function renderNewArrivals(newArrivals) {
 function productLikeToggle() {
   const heartBtn = document.querySelectorAll(".liked-product");
   heartBtn.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
+      const loggedUser = localStorage.getItem("loggedIn") || "";
+      if (!loggedUser) {
+        alert("Must be logged in to save liked items.");
+        return;
+      }
       const clickedProduct = btn.closest("li");
       const productId = clickedProduct.dataset.productId;
       let likedProducts =
@@ -161,11 +167,55 @@ function productLikeToggle() {
       }
       localStorage.setItem("likedProducts", JSON.stringify(likedProducts));
       displayLikedCount();
+      try {
+        const loggedUser = JSON.parse(localStorage.getItem("loggedIn"));
+        const params = {
+          formType: "liked-items",
+          userID: loggedUser.userID,
+          user: loggedUser.email,
+          likedProduct: likedProducts,
+        };
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(params),
+        });
+        const result = await response.json();
+        console.log(result);
+        if (result.success) {
+          alert("Wishlist updated");
+        }
+        displayLikedCount();
+
+        return result;
+      } catch (error) {
+        console.log(error);
+        alert("Oops looks like we encounter an error. Refresh and try again");
+        return null;
+      }
     });
   });
 }
 
-function restoreLikedProducts() {
+export async function FetchWishlists() {
+  try {
+    const loggedUser = JSON.parse(localStorage.getItem("loggedIn"));
+    if (!loggedUser) return [];
+    const fetchDataArr = await fetchProductData({
+      sheetName: "getLikedItems",
+      dataKey: "retrieveWishlist",
+      container: "",
+      params: {
+        userID: loggedUser.userID,
+      },
+    });
+    localStorage.setItem("likedProducts", JSON.stringify(fetchDataArr || []));
+    return fetchDataArr || [];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+async function restoreLikedProducts() {
   const likedProducts = JSON.parse(localStorage.getItem("likedProducts")) || [];
   const heartBtns = document.querySelectorAll(".liked-product");
   heartBtns.forEach((btn) => {

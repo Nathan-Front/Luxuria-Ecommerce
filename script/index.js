@@ -10,6 +10,7 @@ import {
   fetchIndexNewArrivals,
   fetchIndexPromo,
   renderSecondUpperContent,
+  FetchWishlists,
 } from "../components/index/indexData.js";
 import {
   fetchShopHeroCont,
@@ -349,7 +350,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxTyhY5sXKNxBaUDvK1sLrDerZTm0kkME45ra_tMsAuwn1MIwmc-YUIdnFb0BPb7ais/exec";
+  "https://script.google.com/macros/s/AKfycbxbpP7l4Z7nb15mKHYY0EazGgESix30BkST5_P7FgysF9DjRr-MLwpJuuuj64bEo_nO/exec";
 //51st ver
 
 //get settings for reference, like currency and language
@@ -477,6 +478,7 @@ function loginHandler() {
         return;
       }
       const paramReturn = {
+        userID: result.user.userID,
         firstName: result.user.firstName,
         lastName: result.user.lastName,
         email: result.user.email,
@@ -501,6 +503,9 @@ function loginHandler() {
             icon.src = loggedUserIcon;
           });
         }
+        //Fetch wishlist AFTER storing loggedUser
+        await FetchWishlists();
+
         const userAvatar = document.getElementById("user-avatar");
         if (userAvatar) {
           userAvatar.src = `https://drive.google.com/thumbnail?id=${result.user.avatar}&sz=w1000`;
@@ -695,9 +700,10 @@ function displayLogoutModal() {
   const avatar = document.getElementById("user-avatar");
   if (confirmLogout) {
     confirmLogout.addEventListener("click", () => {
-      logoutModal.classList.remove("logoutModal");
       localStorage.removeItem("loggedIn");
       localStorage.removeItem("savedUser");
+      localStorage.removeItem("likedProducts");
+      logoutModal.classList.remove("logoutModal");
       hideGlobalAuth();
       restoreLoggedUser(); //update icon
       avatar.src = "./images/index/secondSection/mens.webp";
