@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxd23QZlXp4Zt98pxsdxQ1lENIF4mdf1led24QLryCbx11h0nmCpm3qiM5wlEO6vbr2/exec";
+  "https://script.google.com/macros/s/AKfycbziNbKDtOPQKB1XPUAbSZwgcWAVojqJxQrCUSmbnFmQRL7M8wH38RKMvS8iu10GGZTG/exec";
 //51st ver
 
 //get settings for reference, like currency and language
@@ -500,18 +500,11 @@ function loginHandler() {
         }
         localStorage.setItem("savedUser", JSON.stringify(loggedUserIcon));
         localStorage.setItem("loggedIn", JSON.stringify(paramReturn));
-        // if (savedUser) {
+
         userIcon.forEach((icon) => {
           icon.src = loggedUserIcon;
         });
-        //}
 
-        /*  const userAvatar = document.getElementById("user-avatar");
-        if (result.user.avatar) {
-          userAvatar.src = `https://drive.google.com/thumbnail?id=${result.user.avatar}&sz=w1000`;
-        } else {
-          userAvatar.src = "./images/index/secondSection/mens.webp";
-        } */
         //Fetch wishlist AFTER storing loggedUser
         await FetchWishlists();
       }

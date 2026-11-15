@@ -8,6 +8,7 @@ import {
   convertCurrency,
 } from "../shop/filters.js";
 import { translateColors } from "../../script/translation.js";
+import { GOOGLE_APPS_SCRIPT_URL } from "../../script/index.js";
 
 function hideCartModal() {
   const cartModal = document.querySelector(".cart-modal");
@@ -223,7 +224,8 @@ function saveToCartHandler(articleSelected) {
   const changeLanguage = localStorage.getItem("language") || "en";
   const addTocartBtn = document.querySelector(".add-item");
   const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
-  addTocartBtn.onclick = () => {
+  addTocartBtn.onclick = async () => {
+    const loggedUser = JSON.parse(localStorage.getItem("loggedIn") || "null");
     let itemExist = storage.find(
       (item) =>
         item.No === articleSelected.No &&
@@ -242,8 +244,43 @@ function saveToCartHandler(articleSelected) {
       );
     }
     localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+    // Update local cart
+    localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+
+    // Save to Google Sheets only for logged-in users
+    if (loggedUser?.userID) {
+      await syncUserCart(loggedUser.userID, storage);
+    }
     displayCartCount();
     hideCartModal();
     hideGlobalAuth();
   };
+}
+async function syncUserCart(userID, cart) {
+  try {
+    const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body: JSON.stringify({
+        formType: "userCartCont",
+        userID: userID,
+        cart: cart.map((item) => ({
+          article_ID: item.No,
+          article_Color: item.color || "-",
+          article_Size: item.size || "-",
+          article_Quantity: item.quantity,
+        })),
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error("Cart synchronization failed:", result.message);
+    }
+  } catch (error) {
+    console.error("Cart synchronization error:", error);
+  }
 }
