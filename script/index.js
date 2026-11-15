@@ -69,6 +69,10 @@ import { openGlobalAuth, hideGlobalAuth } from "./globalAuth.js";
 import { translateContent, initializeLanguage } from "./translation.js";
 import { changeLanguage } from "./changeLanguage.js";
 import { fetchProductData } from "./fetchProducts.js";
+import {
+  fetchUserCart,
+  mergeUserCartAfterLogin,
+} from "../components/cart/cartModal.js";
 
 async function fetchHTML() {
   const page = document.body.dataset.page;
@@ -351,7 +355,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbziNbKDtOPQKB1XPUAbSZwgcWAVojqJxQrCUSmbnFmQRL7M8wH38RKMvS8iu10GGZTG/exec";
+  "https://script.google.com/macros/s/AKfycbxm70NjsDZzwh0MSFCT2TwK5Sxxvfod9plcfxtNIHgt5djwPEsU5Gmy6fel15nvzhwP/exec";
 //51st ver
 
 //get settings for reference, like currency and language
@@ -487,7 +491,7 @@ function loginHandler() {
         avatar: result.user.avatar,
         loggedIn: true,
       };
-      const savedUser = JSON.parse(localStorage.getItem("savedUser")) || [];
+      console.log("result", result);
       const loggedUserIcon = "./images/nav/user-logged-in.svg";
       const userIcon = document.querySelectorAll(".nav-user-icon");
       if (result.success) {
@@ -505,16 +509,26 @@ function loginHandler() {
           icon.src = loggedUserIcon;
         });
 
-        //Fetch wishlist AFTER storing loggedUser
-        await FetchWishlists();
-      }
+        try {
+          await mergeUserCartAfterLogin(result.user.userID);
+          await fetchUserCart();
+          //Fetch wishlist AFTER storing loggedUser
+          await FetchWishlists();
 
-      alert(result.message);
-      hideSpinner();
-      hideLoginForm();
-      hideGlobalAuth();
-      form.reset();
-      window.location.reload();
+          alert(result.message);
+          hideLoginForm();
+          hideGlobalAuth();
+          form.reset();
+          // Reload only after the cart has been merged and saved.
+          window.location.reload();
+        } catch (error) {
+          alert(
+            "Login successful, but we couldn't sync your cart. Please try again.",
+          );
+        } finally {
+          hideSpinner();
+        }
+      }
     } catch (error) {
       console.log(error);
       alert("An error occurred while logging in. Please try again.");
@@ -717,6 +731,8 @@ function displayLogoutModal() {
       localStorage.removeItem("loggedIn");
       localStorage.removeItem("savedUser");
       localStorage.removeItem("likedProducts");
+      localStorage.removeItem("luxuriaTemp");
+      localStorage.removeItem("luxuriaCartOwner");
       logoutModal.classList.remove("logoutModal");
       hideGlobalAuth();
       restoreLoggedUser(); //update icon

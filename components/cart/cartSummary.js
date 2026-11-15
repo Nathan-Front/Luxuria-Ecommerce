@@ -25,7 +25,7 @@ export async function fetchSummaryData() {
   }
 }
 
-export function renderTemporaryCart(products) {
+export async function renderTemporaryCart(products) {
   const changeLanguage = localStorage.getItem("language") || "en";
   const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
   const summaryList = document.querySelector(".cart-summary-list");

@@ -9,6 +9,7 @@ import {
 } from "../shop/filters.js";
 import { translateColors } from "../../script/translation.js";
 import { GOOGLE_APPS_SCRIPT_URL } from "../../script/index.js";
+import { showSpinner, hideSpinner } from "../../script/index.js";
 
 function hideCartModal() {
   const cartModal = document.querySelector(".cart-modal");
@@ -223,9 +224,11 @@ export function productCountHandler(articleSelected) {
 function saveToCartHandler(articleSelected) {
   const changeLanguage = localStorage.getItem("language") || "en";
   const addTocartBtn = document.querySelector(".add-item");
-  const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+
   addTocartBtn.onclick = async () => {
     const loggedUser = JSON.parse(localStorage.getItem("loggedIn") || "null");
+    const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+    showSpinner();
     let itemExist = storage.find(
       (item) =>
         item.No === articleSelected.No &&
@@ -243,20 +246,54 @@ function saveToCartHandler(articleSelected) {
         `${changeLanguage === "en" ? "Item added to cart." : "商品をカートに追加しました"}`,
       );
     }
+    //Update local cart
     localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
-    // Update local cart
-    localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
-
-    // Save to Google Sheets only for logged-in users
-    if (loggedUser?.userID) {
-      await syncUserCart(loggedUser.userID, storage);
+    try {
+      //Save to Google Sheets only for logged-in users
+      if (loggedUser?.userID) {
+        await syncUserCart(loggedUser.userID, storage);
+      }
+      displayCartCount();
+      hideCartModal();
+      hideGlobalAuth();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      hideSpinner();
     }
-    displayCartCount();
-    hideCartModal();
-    hideGlobalAuth();
   };
 }
+
 async function syncUserCart(userID, cart) {
+  const cartData = cart.map((item) => ({
+    article_ID: item.No,
+    article_Color: item.color || "-",
+    article_Size: item.size || "-",
+    article_Quantity: Number(item.quantity),
+    article_Image: item.articleImg || "",
+  }));
+
+  console.log("Cart data being sent:", cartData);
+
+  const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      formType: "userCartCont",
+      userID,
+      cart: cartData,
+    }),
+  });
+
+  const result = await response.json();
+  if (!result.success) {
+    throw new Error(result.message || "Could not save cart.");
+  }
+  return result;
+}
+
+export async function fetchUserCart() {
+  const loggedUser = JSON.parse(localStorage.getItem("loggedIn") || "null");
+  if (!loggedUser?.userID) return;
   try {
     const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
       method: "POST",
@@ -264,23 +301,90 @@ async function syncUserCart(userID, cart) {
         "Content-Type": "text/plain",
       },
       body: JSON.stringify({
-        formType: "userCartCont",
-        userID: userID,
-        cart: cart.map((item) => ({
-          article_ID: item.No,
-          article_Color: item.color || "-",
-          article_Size: item.size || "-",
-          article_Quantity: item.quantity,
-        })),
+        formType: "get-cart-content",
+        userID: loggedUser.userID,
+      }),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      localStorage.setItem("luxuriaTemp", JSON.stringify(result.cart));
+
+      displayCartCount();
+    }
+  } catch (error) {
+    console.error("Failed to retrieve cart:", error);
+  }
+}
+
+function mergeCarts(savedCart, guestCart) {
+  //Copies of the items already saved in the user's account
+  const mergedCart = savedCart.map((item) => ({ ...item }));
+
+  guestCart.forEach((guestItem) => {
+    const existingItem = mergedCart.find(
+      (item) =>
+        String(item.No) === String(guestItem.No) &&
+        (item.color || "-") === (guestItem.color || "-") &&
+        (item.size || "-") === (guestItem.size || "-"),
+    );
+
+    if (existingItem) {
+      //If same item add quantity
+      existingItem.quantity =
+        Number(existingItem.quantity) + Number(guestItem.quantity);
+    } else {
+      //Add to merge cart if new item
+      mergedCart.push({ ...guestItem });
+    }
+  });
+  return mergedCart;
+}
+
+export async function mergeUserCartAfterLogin(userID) {
+  try {
+    const localCart = JSON.parse(localStorage.getItem("luxuriaTemp") || "[]");
+
+    const cartOwner = localStorage.getItem("luxuriaCartOwner");
+
+    // Only treat the local cart as a guest cart if it has no owner.
+    const guestCart = cartOwner ? [] : localCart;
+
+    // Retrieve the user's saved cart.
+    const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body: JSON.stringify({
+        formType: "get-cart-content",
+        userID,
       }),
     });
 
     const result = await response.json();
 
     if (!result.success) {
-      console.error("Cart synchronization failed:", result.message);
+      throw new Error(result.message || "Could not retrieve saved cart.");
     }
+
+    const savedCart = result.cart || [];
+
+    // Merge only genuine guest items with the saved account cart.
+    const mergedCart = mergeCarts(savedCart, guestCart);
+
+    // Save the final cart.
+    await syncUserCart(userID, mergedCart);
+
+    // Update localStorage and identify its owner.
+    localStorage.setItem("luxuriaTemp", JSON.stringify(mergedCart));
+    localStorage.setItem("luxuriaCartOwner", userID);
+
+    displayCartCount();
+
+    return mergedCart;
   } catch (error) {
-    console.error("Cart synchronization error:", error);
+    console.error("Cart merge failed:", error);
+    throw error;
   }
 }
