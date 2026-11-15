@@ -347,7 +347,7 @@ export const languages = {
     createAccountAlready: "アカウントをお持ちの場合",
     createAccountToLogin: "ログインへ",
     /* User window */
-    userOrder: "ご注文履歴",
+    userOrder: "ご注文要約",
     userWish: "お気に入りリスト",
     userLogoutBtn: "ログアウト",
     userLogoutText: "ログアウトしてもよろしいですか？",

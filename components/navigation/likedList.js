@@ -37,6 +37,7 @@ export function showLikedItemModal(products) {
       const likedArr = JSON.parse(localStorage.getItem("likedProducts")) || [];
       if (likedArr.length === 0) {
         alert("No liked item in the list");
+        hideGlobalAuth();
         return;
       }
       //search up the liked product ID from fetched list of products

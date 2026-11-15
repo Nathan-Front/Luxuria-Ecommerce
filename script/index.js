@@ -347,10 +347,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   await fetchProducts();
   initializePriceSlider();
   inputElemInit();
+  loadUserAvatar();
 });
 
 export const GOOGLE_APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxFABaMOkmoaJsGV9vzxATARilSFP33TlfZ72AwK5XDU8OQZNu5u2HZKZlNuOjC4SUx/exec";
+  "https://script.google.com/macros/s/AKfycbxd23QZlXp4Zt98pxsdxQ1lENIF4mdf1led24QLryCbx11h0nmCpm3qiM5wlEO6vbr2/exec";
 //51st ver
 
 //get settings for reference, like currency and language
@@ -472,6 +473,7 @@ function loginHandler() {
         body: JSON.stringify(params),
       });
       const result = await response.json();
+
       if (!result.success) {
         alert(result.message);
         hideSpinner();
@@ -498,20 +500,20 @@ function loginHandler() {
         }
         localStorage.setItem("savedUser", JSON.stringify(loggedUserIcon));
         localStorage.setItem("loggedIn", JSON.stringify(paramReturn));
-        if (savedUser) {
-          userIcon.forEach((icon) => {
-            icon.src = loggedUserIcon;
-          });
-        }
-        //Fetch wishlist AFTER storing loggedUser
-        await FetchWishlists();
+        // if (savedUser) {
+        userIcon.forEach((icon) => {
+          icon.src = loggedUserIcon;
+        });
+        //}
 
-        const userAvatar = document.getElementById("user-avatar");
-        if (userAvatar) {
+        /*  const userAvatar = document.getElementById("user-avatar");
+        if (result.user.avatar) {
           userAvatar.src = `https://drive.google.com/thumbnail?id=${result.user.avatar}&sz=w1000`;
         } else {
           userAvatar.src = "./images/index/secondSection/mens.webp";
-        }
+        } */
+        //Fetch wishlist AFTER storing loggedUser
+        await FetchWishlists();
       }
 
       alert(result.message);
@@ -529,6 +531,25 @@ function loginHandler() {
       hideSpinner();
     }
   });
+}
+
+//Load logged user
+function loadUserAvatar() {
+  const loggedUser = JSON.parse(localStorage.getItem("loggedIn"));
+  const userAvatar = document.getElementById("user-avatar");
+
+  if (!userAvatar) return;
+
+  const defaultAvatar = "./images/index/secondSection/mens.webp";
+
+  userAvatar.onerror = () => {
+    userAvatar.onerror = null;
+    userAvatar.src = defaultAvatar;
+  };
+
+  userAvatar.src = loggedUser?.avatar
+    ? `https://drive.google.com/thumbnail?id=${loggedUser.avatar}&sz=w1000`
+    : defaultAvatar;
 }
 
 //Disable/enable eula checbox and button
