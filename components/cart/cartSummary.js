@@ -9,6 +9,7 @@ import {
   convertCurrency,
 } from "../shop/filters.js";
 import { languages, translateColors } from "../../script/translation.js";
+import { syncUserCart } from "./cartModal.js";
 
 let fetchDataArr = [];
 export async function fetchSummaryData() {
@@ -64,7 +65,7 @@ export async function renderTemporaryCart(products) {
     li.dataset.color = storageItem.color;
     li.dataset.size = storageItem.size;
     li.innerHTML = `
-        <img src="${storageItem.imageName !== "none" ? `./images/shop/secondSection/articleOptions/${storageItem.articleImg}` : `./images/shop/secondSection/${product.articleImg}.webp`}" alt="${storageItem.imageName}" class="summary-cart-article-image" />
+        <img src="${storageItem.articleName !== "none" ? `./images/shop/secondSection/articleOptions/${storageItem.articleImg}` : `./images/shop/secondSection/${product.articleImg}.webp`}" alt="${storageItem.imageName}" class="summary-cart-article-image" />
         <div class="summary-article-details">
           <p class="summary-title">${changeLanguage == "en" ? product.article : product.articleJA}</p>
           <p class="summary-color"><span >${languages[changeLanguage].summaryColor}</span> <span>${translateColors(storageItem.color, changeLanguage)}</span></p>
@@ -101,11 +102,13 @@ function increaseDecreaseQuantity(products) {
   const summaryMinus = summaryList.querySelectorAll(".summary-decrease-count");
 
   summaryAdd.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const li = btn.closest("li");
       const productNo = String(li.dataset.productNo);
       const color = String(li.dataset.color);
       const size = String(li.dataset.size);
+      const loggedUser =
+        JSON.parse(localStorage.getItem("luxuriaCartOwner")) || [];
       const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
       const itemExist = storage.find(
         (item) =>
@@ -118,6 +121,11 @@ function increaseDecreaseQuantity(products) {
         itemExist.quantity += 1;
         span.textContent = itemExist.quantity;
         localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+      }
+      try {
+        await syncUserCart(loggedUser, storage);
+      } catch (error) {
+        console.log(error);
       }
       renderTemporaryCart(products);
       displayCartCount();

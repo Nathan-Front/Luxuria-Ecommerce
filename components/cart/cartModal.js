@@ -222,6 +222,7 @@ export function productCountHandler(articleSelected) {
 }
 
 function saveToCartHandler(articleSelected) {
+  console.log(articleSelected);
   const changeLanguage = localStorage.getItem("language") || "en";
   const addTocartBtn = document.querySelector(".add-item");
 
@@ -264,13 +265,14 @@ function saveToCartHandler(articleSelected) {
   };
 }
 
-async function syncUserCart(userID, cart) {
+export async function syncUserCart(userID, cart) {
   const cartData = cart.map((item) => ({
     article_ID: item.No,
     article_Color: item.color || "-",
     article_Size: item.size || "-",
     article_Quantity: Number(item.quantity),
     article_Image: item.articleImg || "",
+    article_Name: item.imageName || "",
   }));
 
   console.log("Cart data being sent:", cartData);
@@ -307,9 +309,9 @@ export async function fetchUserCart() {
     });
 
     const result = await response.json();
+    console.log("result", result);
     if (result.success) {
       localStorage.setItem("luxuriaTemp", JSON.stringify(result.cart));
-
       displayCartCount();
     }
   } catch (error) {
@@ -344,7 +346,7 @@ function mergeCarts(savedCart, guestCart) {
 export async function mergeUserCartAfterLogin(userID) {
   try {
     const localCart = JSON.parse(localStorage.getItem("luxuriaTemp") || "[]");
-
+    if (!localCart.length) return;
     const cartOwner = localStorage.getItem("luxuriaCartOwner");
 
     // Only treat the local cart as a guest cart if it has no owner.
