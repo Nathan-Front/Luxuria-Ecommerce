@@ -10,6 +10,8 @@ import {
 } from "../shop/filters.js";
 import { languages, translateColors } from "../../script/translation.js";
 import { syncUserCart } from "./cartModal.js";
+import { showSpinner, hideSpinner } from "../../script/index.js";
+import { openGlobalAuth, hideGlobalAuth } from "../../script/globalAuth.js";
 
 let fetchDataArr = [];
 export async function fetchSummaryData() {
@@ -65,7 +67,7 @@ export async function renderTemporaryCart(products) {
     li.dataset.color = storageItem.color;
     li.dataset.size = storageItem.size;
     li.innerHTML = `
-        <img src="${storageItem.articleName !== "none" ? `./images/shop/secondSection/articleOptions/${storageItem.articleImg}` : `./images/shop/secondSection/${product.articleImg}.webp`}" alt="${storageItem.imageName}" class="summary-cart-article-image" />
+        <img src="${storageItem.imageName !== "none" ? `./images/shop/secondSection/articleOptions/${storageItem.articleImg}` : `./images/shop/secondSection/${product.articleImg}.webp`}" alt="${storageItem.imageName}" class="summary-cart-article-image" />
         <div class="summary-article-details">
           <p class="summary-title">${changeLanguage == "en" ? product.article : product.articleJA}</p>
           <p class="summary-color"><span >${languages[changeLanguage].summaryColor}</span> <span>${translateColors(storageItem.color, changeLanguage)}</span></p>
@@ -103,56 +105,72 @@ function increaseDecreaseQuantity(products) {
 
   summaryAdd.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      const li = btn.closest("li");
-      const productNo = String(li.dataset.productNo);
-      const color = String(li.dataset.color);
-      const size = String(li.dataset.size);
-      const loggedUser =
-        JSON.parse(localStorage.getItem("luxuriaCartOwner")) || [];
-      const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
-      const itemExist = storage.find(
-        (item) =>
-          String(item.No) === productNo &&
-          String(item.color) === color &&
-          String(item.size) === size,
-      );
-      if (itemExist) {
-        let span = btn.parentElement.querySelector(".summary-cart-count");
-        itemExist.quantity += 1;
-        span.textContent = itemExist.quantity;
-        localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
-      }
+      /* openGlobalAuth();
+      showSpinner(); */
       try {
-        await syncUserCart(loggedUser, storage);
+        const li = btn.closest("li");
+        const productNo = String(li.dataset.productNo);
+        const color = String(li.dataset.color);
+        const size = String(li.dataset.size);
+        const loggedUser = JSON.parse(localStorage.getItem("loggedIn")) || "";
+        const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+
+        const itemExist = storage.find(
+          (item) =>
+            String(item.No) === productNo &&
+            String(item.color) === color &&
+            String(item.size) === size,
+        );
+        if (itemExist) {
+          let span = btn.parentElement.querySelector(".summary-cart-count");
+          itemExist.quantity += 1;
+          span.textContent = itemExist.quantity;
+          localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+        }
+        await syncUserCart(String(loggedUser.userID), storage);
+        renderTemporaryCart(products);
+        displayCartCount();
       } catch (error) {
         console.log(error);
-      }
-      renderTemporaryCart(products);
-      displayCartCount();
+      } /* finally {
+        hideSpinner();
+        hideGlobalAuth();
+      } */
     });
   });
   summaryMinus.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const li = btn.closest("li");
-      const productNo = String(li.dataset.productNo);
-      const color = String(li.dataset.color);
-      const size = String(li.dataset.size);
-      const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
-      const itemExist = storage.find(
-        (item) =>
-          String(item.No) === productNo &&
-          String(item.color) === color &&
-          String(item.size) === size,
-      );
-      console.log(itemExist);
-      if (itemExist) {
-        let span = btn.parentElement.querySelector(".summary-cart-count");
-        itemExist.quantity = Math.max(1, itemExist.quantity - 1);
-        span.textContent = itemExist.quantity;
-        localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
-      }
-      renderTemporaryCart(products);
-      displayCartCount();
+    btn.addEventListener("click", async () => {
+      /*  openGlobalAuth();
+      showSpinner(); */
+      try {
+        const li = btn.closest("li");
+        const productNo = String(li.dataset.productNo);
+        const color = String(li.dataset.color);
+        const size = String(li.dataset.size);
+        const loggedUser = JSON.parse(localStorage.getItem("loggedIn")) || "";
+        const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+
+        const itemExist = storage.find(
+          (item) =>
+            String(item.No) === productNo &&
+            String(item.color) === color &&
+            String(item.size) === size,
+        );
+        if (itemExist) {
+          let span = btn.parentElement.querySelector(".summary-cart-count");
+          itemExist.quantity = Math.max(1, itemExist.quantity - 1);
+          span.textContent = itemExist.quantity;
+          localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+        }
+        await syncUserCart(String(loggedUser.userID), storage);
+        renderTemporaryCart(products);
+        displayCartCount();
+      } catch (error) {
+        console.log(error);
+      } /*  finally {
+        hideSpinner();
+        hideGlobalAuth();
+      } */
     });
   });
 }

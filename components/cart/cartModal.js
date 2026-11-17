@@ -222,7 +222,6 @@ export function productCountHandler(articleSelected) {
 }
 
 function saveToCartHandler(articleSelected) {
-  console.log(articleSelected);
   const changeLanguage = localStorage.getItem("language") || "en";
   const addTocartBtn = document.querySelector(".add-item");
 
@@ -243,6 +242,7 @@ function saveToCartHandler(articleSelected) {
       );
     } else {
       storage.push(articleSelected);
+      console.log("selected", articleSelected);
       alert(
         `${changeLanguage === "en" ? "Item added to cart." : "商品をカートに追加しました"}`,
       );
