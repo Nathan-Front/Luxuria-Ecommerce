@@ -37,7 +37,7 @@ export async function renderTemporaryCart(products) {
   if (storage.length === 0) {
     const p = document.createElement("p");
     p.classList.add("storage-zero");
-    p.textContent = "You don't have item in your cart.";
+    p.textContent = `${changeLanguage === "en" ? "You don't have item in your cart." : "カートに商品がありません"}`;
     summaryList.appendChild(p);
     toCheckoutBtn.classList.remove("enableCheckout");
     return;
@@ -179,11 +179,12 @@ function deleteItemHandler(products) {
   const delBtn = document.querySelectorAll(".delete-item");
   delBtn.forEach((btn) => {
     btn.addEventListener("click", () => {
+      let storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
       const li = btn.closest("li");
       const productNo = String(li.dataset.productNo);
       const color = String(li.dataset.color);
       const size = String(li.dataset.size);
-      let storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+
       storage = storage.filter(
         (item) =>
           !(
@@ -197,6 +198,9 @@ function deleteItemHandler(products) {
       displayCartCount();
       renderTotalCosts(products);
       renderTemporaryCart(products);
+      if (storage.length === 0) {
+        window.location.reload();
+      }
     });
   });
 }
@@ -225,6 +229,7 @@ async function renderTotalCosts(products) {
   const grandTotal = summary.querySelector(".summary-total");
 
   const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+
   const subtotal = storage.reduce((total, storeItem) => {
     const foundItem = products.find(
       (item) => String(item.No) === String(storeItem.No),
@@ -243,6 +248,7 @@ async function renderTotalCosts(products) {
   const displaySubTotal = rates
     ? convertCurrency(Number(subtotal), currency, rates)
     : Number(subtotal);
+
   subTotal.innerHTML =
     changeLanguage === "en"
       ? formatPrice(subtotal)
