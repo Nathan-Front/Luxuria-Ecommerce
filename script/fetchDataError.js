@@ -1,4 +1,4 @@
-import { languages } from "./translation";
+import { languages } from "./translation.js";
 //error message
 export function showSectionError(section) {
   const changeLanguage = localStorage.getItem("language") || "en";
