@@ -10,6 +10,7 @@ import {
   convertCurrency,
 } from "../shop/filters.js";
 import { hideUserWindow } from "../../script/index.js";
+import { languages } from "../../script/translation.js";
 
 //get product data from reusable fetch function
 export async function likedItemsModal() {
@@ -32,11 +33,14 @@ export function showLikedItemModal(products) {
   const wishlistBtn = document.querySelector(".wish-list-button");
   [likedBtn, wishlistBtn].forEach((btn) => {
     btn.addEventListener("click", () => {
+      const changeLanguage = localStorage.getItem("language") || "en";
       //close the user window
       hideUserWindow();
       const likedArr = JSON.parse(localStorage.getItem("likedProducts")) || [];
       if (likedArr.length === 0) {
-        alert("No liked item in the list");
+        alert(
+          `${changeLanguage === "en" ? languages.en.noLikedItem : languages.ja.noLikedItem}`,
+        );
         hideGlobalAuth();
         return;
       }
@@ -74,11 +78,11 @@ export function showLikedItemModal(products) {
       <div>
         <button class="liked-add-button">
           <img src="./images/shop/secondSection/cart-bag.svg" alt="cart" />
-          <span class="tooltip">Add to cart</span>
+          <span class="tooltip">${changeLanguage === "en" ? languages.en.likedAddToCart : languages.ja.likedAddToCart}</span>
         </button>
         <button class="liked-remove-button">
           <img src="./images/cart/secondSection/delete.svg" alt="delete-button"/>
-          <span class="tooltip">Remove item</span>
+          <span class="tooltip">${changeLanguage === "en" ? languages.en.likedDeleteBtn : languages.ja.likedDeleteBtn}</span>
         </button>
       </div>
     `;

@@ -1,13 +1,13 @@
 import { displayCartCount } from "../../script/navigation.js";
 import { colorOptions } from "../../script/colors.js";
-import { hideGlobalAuth } from "../../script/globalAuth.js";
+import { hideGlobalAuth, openGlobalAuth } from "../../script/globalAuth.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import {
   formatCurrency,
   getExchangeRates,
   convertCurrency,
 } from "../shop/filters.js";
-import { translateColors } from "../../script/translation.js";
+import { languages, translateColors } from "../../script/translation.js";
 import { GOOGLE_APPS_SCRIPT_URL } from "../../script/index.js";
 import { showSpinner, hideSpinner } from "../../script/index.js";
 
@@ -45,7 +45,7 @@ export function renderColors(colorArr) {
     const span = document.createElement("span");
     span.classList.add("no-color-opt");
     span.innerHTML = `
-      ${changeLanguage === "en" ? "No other color for this product." : "この商品は1色のみです"}
+      ${changeLanguage === "en" ? languages.en.onlyOneColorText : languages.ja.onlyOneColorText}
     `;
     colorCont.appendChild(span);
     return;
@@ -228,39 +228,46 @@ function saveToCartHandler(articleSelected) {
   addTocartBtn.onclick = async () => {
     const loggedUser = JSON.parse(localStorage.getItem("loggedIn") || "null");
     const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
-    showSpinner();
-    let itemExist = storage.find(
-      (item) =>
-        item.No === articleSelected.No &&
-        item.color === articleSelected.color &&
-        item.size === articleSelected.size,
-    );
-    if (itemExist) {
-      itemExist.quantity += articleSelected.quantity;
-      alert(
-        `${changeLanguage === "en" ? "Same item is already in the cart. \nQuantity increased" : "同じ商品がすでにカートにあります。 \n数量を更新しました"}`,
-      );
-    } else {
-      storage.push(articleSelected);
-      console.log("selected", articleSelected);
-      alert(
-        `${changeLanguage === "en" ? "Item added to cart." : "商品をカートに追加しました"}`,
-      );
-    }
-    //Update local cart
-    localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
     try {
+      showSpinner();
+      openGlobalAuth();
+      let itemExist = storage.find(
+        (item) =>
+          String(item.No) === String(articleSelected.No) &&
+          String(item.color || "-") === String(articleSelected.color || "-") &&
+          String(item.size || "-") === String(articleSelected.size || "-"),
+      );
+      let message = "";
       //Save to Google Sheets only for logged-in users
       if (loggedUser?.userID) {
+        if (itemExist) {
+          itemExist.quantity += articleSelected.quantity;
+          message =
+            changeLanguage === "en"
+              ? `${languages.en.saveToCartText1} \n${languages.en.saveToCartText2}`
+              : `${languages.ja.saveToCartText1} \n${languages.ja.saveToCartText2}`;
+        } else {
+          storage.push(articleSelected);
+          //console.log("selected", articleSelected);
+          message =
+            changeLanguage === "en"
+              ? `${languages.en.addedToCartText}`
+              : `${languages.ja.addedToCartText}`;
+        }
         await syncUserCart(loggedUser.userID, storage);
       }
+      //Update local cart
+      localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
       displayCartCount();
       hideCartModal();
+      hideSpinner();
       hideGlobalAuth();
+      alert(message);
     } catch (error) {
       console.log(error);
     } finally {
       hideSpinner();
+      hideGlobalAuth();
     }
   };
 }
@@ -274,8 +281,6 @@ export async function syncUserCart(userID, cart) {
     article_Image: item.articleImg || "",
     article_Name: item.imageName || "",
   }));
-
-  console.log("Cart data being sent:", cartData);
 
   const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
     method: "POST",

@@ -78,7 +78,7 @@ export function renderProducts(products) {
   if (products.length === 0) {
     const noProducts = document.createElement("p");
     noProducts.classList.add("no-products");
-    noProducts.textContent = "No products found.";
+    noProducts.textContent = `${changeLanguage === "en" ? languages.en.noProductText : languages.ja.noProductText}`;
 
     productCon.appendChild(noProducts);
     return;

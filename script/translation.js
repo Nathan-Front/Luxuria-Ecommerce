@@ -31,7 +31,12 @@ export const languages = {
     trackOrder: "Track Order",
     english: "ENG",
     japanese: "JAP",
+    /* Wishlist */
+    noLikedItem: "No liked item in the list.",
+    likedAddToCart: "Add to cart",
+    likedDeleteBtn: "Remove item",
     /* Lower Navigation */
+    mustBeloggedLikeText: "Must be logged in to save liked items.",
     navigationNew: "NEW",
     navigationShop: "SHOP",
     navigationStyles: "STYLES",
@@ -57,6 +62,8 @@ export const languages = {
     designedInText: "New York",
     customerLove: "Customer Love",
     customerLoveText: "4.5/5 Rating",
+    /* cart page */
+    noProductText: "No products found.",
     /* Shop filter */
     filter: "Filter",
     clearAll: "Clear all",
@@ -86,6 +93,10 @@ export const languages = {
     cartModalColorText: "*Color on the actual product might slightly be off.",
     cartModalSize: "Select Size",
     cartModalAddToCart: "Add To Cart",
+    onlyOneColorText: "No other color for this product.",
+    saveToCartText1: "Same item is already in the cart.",
+    saveToCartText2: "Quantity increased",
+    addedToCartText: "Item added to cart.",
     /* Footer Section */
     footerText:
       "Discover timeless pieces crafted for those who appreciate refined style, quality, and individuality.",
@@ -126,6 +137,8 @@ export const languages = {
     summaryOurTeam: "Our team is here for you.",
     summaryProceed: "Proceed To Checkout",
     summaryContinueShop: "Continue shopping",
+    noItemOnCartText: "You don't have item in your cart.",
+    itemDeletedText: "Item deleted from your cart.",
     /* Checkout page */
     checkoutOrderSummary: "Order Summary",
     checkoutSubTotal: "Sub Total:",
@@ -192,6 +205,12 @@ export const languages = {
     userLogoutText: "Are you sure you want to log out?",
     userLogoutCancel: "Cancel",
     userLogoutYes: "Yes",
+    /* Avatar upload */
+    wrongFormatText: "Please select an image file.",
+    failedResponseText: "No response from server.",
+    failedUploadText: "Failed to upload image. Please try again.",
+    avatarUploadError:
+      "An error occurred while reading the file. Please try again.",
     /* spinner */
     processing: "Processing...",
     waitMoment: "Please wait a moment.",
@@ -225,6 +244,9 @@ export const languages = {
     orderProcessing: "Sending your order....",
     paymentMethodText1: "Credit card",
     paymentMethodText2: "COD",
+    /* Fetch data error */
+    fetchErrorText1: "We couldn't load this section.",
+    fetchErrorText2: "Please reload the page and try again.",
   },
 
   ja: {
@@ -234,7 +256,12 @@ export const languages = {
     trackOrder: "注文追跡",
     english: "英語",
     japanese: "日本語",
+    /* Wishlist */
+    noLikedItem: "お気に入りリストに商品がありません。",
+    likedAddToCart: "カートに入れる",
+    likedDeleteBtn: "商品を削除",
     /* Lower Navigation */
+    mustBeloggedLikeText: "お気に入りを保存するにはログインが必要です。",
     navigationNew: "新着",
     navigationShop: "ショップ",
     navigationStyles: "スタイル",
@@ -260,6 +287,8 @@ export const languages = {
     designedInText: "ニューヨーク",
     customerLove: "お客様のレビュー",
     customerLoveText: "4.5 / 5 評価",
+    /* cart page */
+    noProductText: "商品が見つかりませんでした。",
     /* Shop filter */
     filter: "フィルター",
     clearAll: "クリア",
@@ -289,6 +318,10 @@ export const languages = {
     cartModalColorText: "実際の商品と色味が若干異なる場合があります。",
     cartModalSize: "サイズ選択",
     cartModalAddToCart: "カートに入れる",
+    onlyOneColorText: "この商品は1色のみです。",
+    saveToCartText1: "同じ商品がすでにカートにあります。",
+    saveToCartText2: "数量を更新しました",
+    addedToCartText: "商品をカートに追加しました。",
     /* Footer Section */
     footerText:
       "洗練されたスタイル、品質、個性を重視する方のために作られた、時代を超えたアイテムを発見してください。",
@@ -329,6 +362,8 @@ export const languages = {
     summaryOurTeam: "私たちのチームがいつでもサポートいたします。",
     summaryProceed: "チェックアウトに進む",
     summaryContinueShop: "ショップページへ",
+    noItemOnCartText: "カートに商品がありません。",
+    itemDeletedText: "カートから商品が削除されました。",
     /* Checkout page */
     checkoutOrderSummary: "注文概要",
     checkoutSubTotal: "小計:",
@@ -395,6 +430,13 @@ export const languages = {
     userLogoutText: "ログアウトしてもよろしいですか？",
     userLogoutCancel: "キャンセル",
     userLogoutYes: "はい",
+    /* Avatar upload */
+    wrongFormatText: "画像ファイルを選択してください。",
+    failedResponseText: "サーバーからの応答がありません。",
+    failedUploadText:
+      "画像のアップロードに失敗しました。もう一度お試しください。",
+    avatarUploadError:
+      "ファイルの読み込み中にエラーが発生しました。もう一度お試しください",
     /* spinner */
     processing: "処理中です。",
     waitMoment: "しばらくお待ちください。",
@@ -430,6 +472,9 @@ export const languages = {
     paymentMethod: "着払い",
     paymentMethodText1: "クレジットカード",
     paymentMethodText2: "着払い",
+    /* Fetch data error */
+    fetchErrorText1: "このセクションを読み込めませんでした。",
+    fetchErrorText2: "ページを再読み込みして、もう一度お試しください。",
   },
 };
 

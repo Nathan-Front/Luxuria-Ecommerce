@@ -8,7 +8,11 @@ import {
   getExchangeRates,
   convertCurrency,
 } from "../shop/filters.js";
-import { languages, translateColors } from "../../script/translation.js";
+import {
+  changeLanguage,
+  languages,
+  translateColors,
+} from "../../script/translation.js";
 import { syncUserCart } from "./cartModal.js";
 import { showSpinner, hideSpinner } from "../../script/index.js";
 import { openGlobalAuth, hideGlobalAuth } from "../../script/globalAuth.js";
@@ -37,7 +41,7 @@ export async function renderTemporaryCart(products) {
   if (storage.length === 0) {
     const p = document.createElement("p");
     p.classList.add("storage-zero");
-    p.textContent = `${changeLanguage === "en" ? "You don't have item in your cart." : "カートに商品がありません"}`;
+    p.textContent = `${changeLanguage === "en" ? languages.en.noItemOnCartText : languages.ja.noItemOnCartText}`;
     summaryList.appendChild(p);
     toCheckoutBtn.classList.remove("enableCheckout");
     return;
@@ -178,28 +182,43 @@ function increaseDecreaseQuantity(products) {
 function deleteItemHandler(products) {
   const delBtn = document.querySelectorAll(".delete-item");
   delBtn.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
+      const loggedUser = JSON.parse(localStorage.getItem("loggedIn")) || "";
       let storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
-      const li = btn.closest("li");
-      const productNo = String(li.dataset.productNo);
-      const color = String(li.dataset.color);
-      const size = String(li.dataset.size);
 
-      storage = storage.filter(
-        (item) =>
-          !(
-            String(item.No) === productNo &&
-            String(item.color) === color &&
-            String(item.size) === size
-          ),
-      );
-      localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
-      li.remove();
-      displayCartCount();
-      renderTotalCosts(products);
-      renderTemporaryCart(products);
-      if (storage.length === 0) {
-        window.location.reload();
+      try {
+        openGlobalAuth();
+        showSpinner();
+        const li = btn.closest("li");
+        const productNo = String(li.dataset.productNo);
+        const color = String(li.dataset.color);
+        const size = String(li.dataset.size);
+
+        storage = storage.filter(
+          (item) =>
+            !(
+              String(item.No) === productNo &&
+              String(item.color) === color &&
+              String(item.size) === size
+            ),
+        );
+        await syncUserCart(String(loggedUser.userID), storage);
+        localStorage.setItem("luxuriaTemp", JSON.stringify(storage));
+        li.remove();
+        displayCartCount();
+        renderTotalCosts(products);
+        renderTemporaryCart(products);
+        if (storage.length === 0) {
+          window.location.reload();
+        }
+        alert(
+          `${changeLanguage === "en" ? languages.en.itemDeletedText : languages.ja.itemDeletedText}`,
+        );
+      } catch (error) {
+        console.log("Failed to delete", error);
+      } finally {
+        hideSpinner();
+        hideGlobalAuth();
       }
     });
   });

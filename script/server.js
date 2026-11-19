@@ -146,14 +146,14 @@ const createOrder = async (cart) => {
 // createOrder route for paypal
 app.post("/api/orders", async (req, res) => {
   try {
-    console.log("🔥 Order received from frontend:");
-    console.log(JSON.stringify(req.body, null, 2));
+    /* console.log("🔥 Order received from frontend:");
+    console.log(JSON.stringify(req.body, null, 2)); */
     // use the cart information passed from the front-end to calculate the order amount detals
     //15. use the cart information passed from the front-end
     const { cart, customer, paymentMethod } = req.body;
-    console.log("Cart received:", cart);
+    /* console.log("Cart received:", cart);
     console.log("Customer received:", customer);
-    console.log("Payment method received:", paymentMethod);
+    console.log("Payment method received:", paymentMethod); */
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
       return res.status(400).json({
         error: "Cart is empty.",
@@ -171,7 +171,7 @@ app.post("/api/orders", async (req, res) => {
       paymentMethod,
       orderCalculation,
     });
-    console.log("Saved pending order:", pendingOrders.get(jsonResponse.id));
+    //console.log("Saved pending order:", pendingOrders.get(jsonResponse.id));
 
     res.status(httpStatusCode).json(jsonResponse);
   } catch (error) {
@@ -224,9 +224,9 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
     }
     //19. pass the block of cart and other necessary details needed in google sheet
     if (capture.status === "COMPLETED") {
-      console.log("Payment completed");
+      /* console.log("Payment completed");
       console.log("Customer:", savedOrder.customer);
-      console.log("Cart:", savedOrder.cart);
+      console.log("Cart:", savedOrder.cart); */
       const orderData = buildOrderData({
         orderID: jsonResponse.id,
         captureID: capture.id,
@@ -246,7 +246,7 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         },
         paymentMethod: savedOrder.paymentMethod,
       });
-      console.log("Order data to send to Google Script:", orderData);
+      //console.log("Order data to send to Google Script:", orderData);
       //21. fetch the google sheet and pass the orderData
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
@@ -256,11 +256,11 @@ app.post("/api/orders/:orderID/capture", async (req, res) => {
         body: JSON.stringify(orderData),
       });
       //22. get the result from the google script
-      console.log("Google Script status:", response.status);
-      console.log(
+      //console.log("Google Script status:", response.status);
+      /* console.log(
         "Google Script content type:",
         response.headers.get("content-type"),
-      );
+      ); */
 
       const result = await response.json();
       if (!result.success) {

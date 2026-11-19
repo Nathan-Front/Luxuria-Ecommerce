@@ -99,7 +99,6 @@ export async function fetchIndexNewArrivals() {
 
 export function renderNewArrivals(newArrivals) {
   const changeLanguage = localStorage.getItem("language") || "en";
-
   const newArrivalContainer = document.querySelector(".new-product-list");
   //used reverse since in db new item are at the bottom of the list
   const newProducts = newArrivals
@@ -147,9 +146,12 @@ function productLikeToggle() {
   const heartBtn = document.querySelectorAll(".liked-product");
   heartBtn.forEach((btn) => {
     btn.addEventListener("click", async () => {
+      const changeLanguage = localStorage.getItem("language") || "en";
       const loggedUser = localStorage.getItem("loggedIn") || "";
       if (!loggedUser) {
-        alert("Must be logged in to save liked items.");
+        alert(
+          `${changeLanguage === "en" ? languages.en.mustBeloggedLikeText : languages.ja.mustBeloggedLikeText}`,
+        );
         return;
       }
       const clickedProduct = btn.closest("li");
