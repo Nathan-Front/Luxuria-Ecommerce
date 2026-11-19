@@ -260,6 +260,7 @@ export const languages = {
     noLikedItem: "お気に入りリストに商品がありません。",
     likedAddToCart: "カートに入れる",
     likedDeleteBtn: "商品を削除",
+    likedDeleteSuccess: "お気に入りリストが更新されました。",
     /* Lower Navigation */
     mustBeloggedLikeText: "お気に入りを保存するにはログインが必要です。",
     navigationNew: "新着",

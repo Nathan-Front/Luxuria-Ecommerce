@@ -2,7 +2,7 @@ import { fetchProductData } from "../../script/fetchProducts.js";
 import { openGlobalAuth, hideGlobalAuth } from "../../script/globalAuth.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import { displayLikedCount } from "../../script/navigation.js";
-import { renderProducts } from "../shop/shopData.js";
+import { renderProducts, displayPage } from "../shop/shopData.js";
 import { renderNewArrivals, updateWishlist } from "../index/indexData.js";
 import {
   formatCurrency,
@@ -130,7 +130,8 @@ function removeLikedItem(products) {
       }
       //remove its container
       item.remove();
-      renderProducts([...products]);
+      renderProducts(products);
+      displayPage(1);
       renderNewArrivals(products);
     });
   });

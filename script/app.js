@@ -121,7 +121,7 @@ export function initPayPal() {
         });
 
         const orderData = await response.json();
-        console.log("🔥 PayPal response from server:", orderData);
+        //console.log("🔥 PayPal response from server:", orderData);
 
         if (orderData.id) {
           return orderData.id;
@@ -232,7 +232,9 @@ export function paymentRadioButton() {
   const loggedUser = loggedUserChecker();
   if (radio === "paypal") {
     if (!loggedUser.loggedIn) {
-      alert(`${changeLanguage}`);
+      alert(
+        `${changeLanguage === "en" ? languages.en.mustLogged : languages.ja.mustLogged}`,
+      );
       return;
     }
     paypalButtonContainer.classList.add("showPaypalBtn");

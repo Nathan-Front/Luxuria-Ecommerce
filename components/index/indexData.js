@@ -100,6 +100,7 @@ export async function fetchIndexNewArrivals() {
 export function renderNewArrivals(newArrivals) {
   const changeLanguage = localStorage.getItem("language") || "en";
   const newArrivalContainer = document.querySelector(".new-product-list");
+  if (!newArrivalContainer) return;
   //used reverse since in db new item are at the bottom of the list
   const newProducts = newArrivals
     .filter((item) => item.condition === "new")
@@ -201,7 +202,12 @@ export async function updateWishlist(likedProducts) {
       throw new Error(result.message || "Failed to update wishlist");
     }
     if (result.success) {
-      alert(result.message);
+      const changeLanguage = localStorage.getItem("language") || "en";
+      alert(
+        changeLanguage === "en"
+          ? result.message
+          : languages.ja.likedDeleteSuccess,
+      );
     }
     return result;
   } catch (error) {

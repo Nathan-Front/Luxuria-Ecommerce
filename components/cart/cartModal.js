@@ -239,21 +239,22 @@ function saveToCartHandler(articleSelected) {
       );
       let message = "";
       //Save to Google Sheets only for logged-in users
+
+      if (itemExist) {
+        itemExist.quantity += articleSelected.quantity;
+        message =
+          changeLanguage === "en"
+            ? `${languages.en.saveToCartText1} \n${languages.en.saveToCartText2}`
+            : `${languages.ja.saveToCartText1} \n${languages.ja.saveToCartText2}`;
+      } else {
+        storage.push(articleSelected);
+        //console.log("selected", articleSelected);
+        message =
+          changeLanguage === "en"
+            ? `${languages.en.addedToCartText}`
+            : `${languages.ja.addedToCartText}`;
+      }
       if (loggedUser?.userID) {
-        if (itemExist) {
-          itemExist.quantity += articleSelected.quantity;
-          message =
-            changeLanguage === "en"
-              ? `${languages.en.saveToCartText1} \n${languages.en.saveToCartText2}`
-              : `${languages.ja.saveToCartText1} \n${languages.ja.saveToCartText2}`;
-        } else {
-          storage.push(articleSelected);
-          //console.log("selected", articleSelected);
-          message =
-            changeLanguage === "en"
-              ? `${languages.en.addedToCartText}`
-              : `${languages.ja.addedToCartText}`;
-        }
         await syncUserCart(loggedUser.userID, storage);
       }
       //Update local cart

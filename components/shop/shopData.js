@@ -79,7 +79,6 @@ export function renderProducts(products) {
     const noProducts = document.createElement("p");
     noProducts.classList.add("no-products");
     noProducts.textContent = `${changeLanguage === "en" ? languages.en.noProductText : languages.ja.noProductText}`;
-
     productCon.appendChild(noProducts);
     return;
   }
@@ -122,7 +121,7 @@ export function renderProducts(products) {
 
 let currentPage = 1;
 const cardsPerPage = 12;
-function createPagination(productArr) {
+export function createPagination(productArr) {
   const pagination = document.querySelector(".pagination");
   if (!pagination) return;
 
@@ -198,7 +197,7 @@ function getPageNumbers(current, total) {
   return [1, "...", current - 1, current, current + 1, "...", total];
 }
 
-function displayPage(page) {
+export function displayPage(page) {
   const start = (page - 1) * cardsPerPage;
   const end = start + cardsPerPage;
   const productPerPage = productArray.slice(start, end).reverse();
