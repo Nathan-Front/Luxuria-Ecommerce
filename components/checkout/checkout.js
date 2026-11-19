@@ -8,7 +8,7 @@ import {
   getExchangeRates,
   convertCurrency,
 } from "../shop/filters.js";
-import { translateColors } from "../../script/translation.js";
+import { languages, translateColors } from "../../script/translation.js";
 
 export async function fetchCheckoutData() {
   let fetchDataArr = [];
@@ -60,7 +60,19 @@ export function renderCartContent(products) {
     const product = products.find(
       (item) => String(item.No) === String(storageItem.No),
     );
+    const rates = getExchangeRates();
+    const currency = changeLanguage === "ja" ? "JPY" : "USD";
+    const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+    const displayPrice = rates
+      ? convertCurrency(
+          Number(product.price * storageItem.quantity),
+          currency,
+          rates,
+        )
+      : Number(0);
 
+    const displayCurrency = rates ? currency : "USD";
+    const displayLocale = rates ? locale : "en-US";
     if (product) {
       const li = document.createElement("li");
       li.innerHTML = `
@@ -72,7 +84,7 @@ export function renderCartContent(products) {
       <div>
         <div class="checkout-product-price">
           <p class="checkout-product">${changeLanguage === "en" ? product.article : product.articleJA}</p>
-          <p class="checkout-price">${formatPrice(product.price * storageItem.quantity)}</p>
+          <p class="checkout-price">${formatCurrency(displayPrice, displayCurrency, displayLocale)}</p>
         </div>
         <p class="checkout-color">${translateColors(storageItem.color, changeLanguage)}</p>
         <div class="checkout-size-count">
@@ -97,36 +109,69 @@ function renderCheckoutTotals(products, settingFees) {
   const tax = document.querySelector(".checkout-tax");
   const grandTotal = document.querySelector(".checkout-total");
   const storage = JSON.parse(localStorage.getItem("luxuriaTemp")) || [];
+
+  const rates = getExchangeRates();
+  const currency = changeLanguage === "ja" ? "JPY" : "USD";
+  const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+  const displayCurrency = rates ? currency : "USD";
+  const displayLocale = rates ? locale : "en-US";
+
   const subtotalValue = storage.reduce((total, item) => {
     const product = products.find((p) => String(p.No) === String(item.No));
+
     if (product) {
       return total + product.price * item.quantity;
     }
   }, 0);
-  subtotal.innerHTML = `${formatPrice(subtotalValue)}`;
+  const displaySubTotal = rates
+    ? convertCurrency(Number(subtotalValue), currency, rates)
+    : Number(0);
+  const displayShipping = rates
+    ? convertCurrency(Number(settingFees[0].shippingFee), currency, rates)
+    : Number(0);
+  const displayTax = rates
+    ? convertCurrency(
+        Number(settingFees[0].taxFee * subtotalValue),
+        currency,
+        rates,
+      )
+    : Number(0);
+  const displayGrandTotal = rates
+    ? convertCurrency(
+        Number(
+          subtotalValue +
+            (subtotalValue > Number(settingFees[0].difference)
+              ? 0
+              : parseFloat(settingFees[0].shippingFee)) +
+            (settingFees[0].taxFee !== 0
+              ? parseFloat(settingFees[0].taxFee * subtotalValue)
+              : 0),
+        ),
+        currency,
+        rates,
+      )
+    : Number(0);
+  subtotal.innerHTML = `${formatCurrency(displaySubTotal, displayCurrency, displayLocale)}`;
   if (storage.length !== 0) {
-    shipping.innerHTML = `${subtotalValue > Number(settingFees[0].difference) ? formatPrice(0) : formatPrice(settingFees[0].shippingFee)}`;
-    tax.innerHTML = `${formatPrice(settingFees[0].taxFee * subtotalValue)}`;
-    grandTotal.innerHTML = `${formatPrice(subtotalValue + (subtotalValue > Number(settingFees[0].difference) ? 0 : parseFloat(settingFees[0].shippingFee)) + (settingFees[0].taxFee !== 0 ? parseFloat(settingFees[0].taxFee * subtotalValue) : 0))}`;
+    shipping.innerHTML = `${subtotalValue > Number(settingFees[0].difference) ? formatCurrency(0, displayCurrency, displayLocale) : formatCurrency(displayShipping, displayCurrency, displayLocale)}`;
+    tax.innerHTML = `${formatCurrency(displayTax, displayCurrency, displayLocale)}`;
+    grandTotal.innerHTML = `${formatCurrency(displayGrandTotal, displayCurrency, displayLocale)}`;
   } else {
     shipping.innerHTML = formatPrice(0);
     tax.innerHTML = formatPrice(0);
     grandTotal.innerHTML = formatPrice(0);
   }
 
-  const language = localStorage.getItem("language") || "en";
-  const rates = getExchangeRates();
-  const currency = language === "ja" ? "JPY" : "USD";
-  const locale = language === "ja" ? "ja-JP" : "en-US";
   const displayPrice = rates
     ? convertCurrency(Number(300), currency, rates)
     : Number(300);
-
-  const displayCurrency = rates ? currency : "USD";
-  const displayLocale = rates ? locale : "en-US";
   const freeShipping = document.querySelector(".freeShip");
   freeShipping.innerHTML = `
-   ${language === "en" ? `Free shipping on orders over ${formatWholeCurrency(displayPrice, displayCurrency, displayLocale)}` : `${formatCurrency(displayPrice, displayCurrency, displayLocale)}以上のお買い上げで送料無料`}
+   ${
+     changeLanguage === "en"
+       ? `${languages.en.checkoutFreeShip1} ${formatWholeCurrency(displayPrice, displayCurrency, displayLocale)}`
+       : `${formatCurrency(displayPrice, displayCurrency, displayLocale)}${languages.ja.checkoutFreeShip1}`
+   }
   `;
 
   const isFreeShipping = document.querySelector(".difference");
@@ -134,8 +179,8 @@ function renderCheckoutTotals(products, settingFees) {
   if (Number(subtotalValue) > Number(settingFees[0].difference)) {
     isFreeShipping.textContent =
       changeLanguage === "en"
-        ? `You're order is eligible for free shipping`
-        : `ご注文は送料無料の対象です`;
+        ? `${languages.en.checkoutFreeShip2}`
+        : `${languages.ja.checkoutFreeShip2}`;
   } else {
     const rates = getExchangeRates();
     const displayPrice = rates
@@ -145,10 +190,10 @@ function renderCheckoutTotals(products, settingFees) {
           rates,
         )
       : Number(settingFees[0].difference - subtotalValue);
-    isFreeShipping.textContent = `${
+    isFreeShipping.innerHTML = `${
       changeLanguage === "en"
-        ? `You're $${Number(settingFees[0].difference - subtotalValue).toFixed(2)} away from free shipping`
-        : `後${`${formatCurrency(displayPrice, displayCurrency, displayLocale)}`}で、送料無料となります。`
+        ? `${languages.en.checkoutCheckFree1} ${formatCurrency(Number(settingFees[0].difference - subtotalValue), displayCurrency, displayLocale)} ${languages.en.checkoutCheckFree2}`
+        : `${languages.ja.checkoutCheckFree1} ${formatCurrency(displayPrice, displayCurrency, displayLocale)} ${languages.ja.checkoutCheckFree2}`
     }`;
   }
 }

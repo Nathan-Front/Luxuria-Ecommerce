@@ -1,5 +1,11 @@
 import { fetchSpecificSheet } from "./fetchApps.js";
 import { openGlobalAuth, hideGlobalAuth } from "./globalAuth.js";
+import { languages } from "./translation.js";
+import {
+  formatCurrency,
+  getExchangeRates,
+  convertCurrency,
+} from "../components/shop/filters.js";
 
 let paypalButtons = null;
 //1. Set the server URL to your deployed server
@@ -135,6 +141,7 @@ export function initPayPal() {
     async onApprove(data, actions) {
       try {
         //7. Approve the order on the server
+        const changeLanguage = localStorage.getItem("language") || "en";
         const response = await fetch(
           `${SERVER_URL}/api/orders/${data.orderID}/capture`,
           {
@@ -163,7 +170,7 @@ export function initPayPal() {
             return actions.restart();
           }
           throw new Error(
-            "Your card was declined. Please try another payment method.",
+            `${changeLanguage === "en" ? languages.en.cardDecline : languages.ja.cardDecline}`,
           );
         } else if (errorDetail) {
           // (2) Other non-recoverable errors -> Show a failure message
@@ -215,6 +222,7 @@ export function initPayPal() {
 }
 
 export function paymentRadioButton() {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const paypalButtonContainer = document.querySelector(".paypal-btn-con");
   const codButtonContainer = document.querySelector(".cod-btn-con");
   const radio = document.querySelector(
@@ -224,7 +232,7 @@ export function paymentRadioButton() {
   const loggedUser = loggedUserChecker();
   if (radio === "paypal") {
     if (!loggedUser.loggedIn) {
-      alert("must be logged in to continue");
+      alert(`${changeLanguage}`);
       return;
     }
     paypalButtonContainer.classList.add("showPaypalBtn");
@@ -232,7 +240,9 @@ export function paymentRadioButton() {
   }
   if (radio === "cash-on-delivery") {
     if (!loggedUser.loggedIn) {
-      alert("must be logged in to continue");
+      alert(
+        `${changeLanguage === "en" ? languages.en.mustLogged : languages.ja.mustLogged}`,
+      );
       return;
     }
     codButtonContainer.classList.add("showCodBtn");
@@ -248,8 +258,9 @@ export function paymentRadioButton() {
 // createOrder for COD
 export async function createCODOrder() {
   try {
+    const changeLanguage = localStorage.getItem("language") || "en";
     const orderDetails = await fetchCartData();
-    console.log("Order Details for COD:", orderDetails);
+    //console.log("Order Details for COD:", orderDetails);
     //add cod at the end and use this as reference in server.js when creating order for COD
     const response = await fetch(`${SERVER_URL}/api/orders/cod`, {
       method: "POST",
@@ -259,7 +270,9 @@ export async function createCODOrder() {
       body: JSON.stringify(orderDetails),
     });
     if (!response.ok) {
-      throw new Error("Failed to place COD order.");
+      throw new Error(
+        `${changeLanguage === "en" ? languages.en.codFail : languages.ja.codFail}`,
+      );
     }
     //receive the passed data from server.js
     const result = await response.json();
@@ -271,16 +284,17 @@ export async function createCODOrder() {
 }
 
 export function placeCODOrder() {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const codBtn = document.querySelector("#place-order-btn");
   codBtn.addEventListener("click", async () => {
     codBtn.disabled = true;
-    codBtn.textContent = "Processing....";
+    codBtn.textContent = `${changeLanguage === "en" ? languages.en.codProcessing : languages.ja.codProcessing}`;
     showProcessLoading();
     openGlobalAuth();
     try {
       //receive and pass the order details to the UI handler
       const result = await createCODOrder();
-      console.log("COD result", result);
+      //console.log("COD result", result);
       if (result.googleScript.success) {
         codLoaderHandler(result);
         hideProcessLoading();
@@ -293,30 +307,50 @@ export function placeCODOrder() {
       }
     } catch (error) {
       console.log(error);
-      alert("Oops looks like we encountered a problem.\nPlease try again.");
+      alert(
+        `${changeLanguage === "en" ? languages.en.codError1 : languages.ja.codError1} 
+        \n${changeLanguage === "en" ? languages.en.codError2 : languages.ja.codError2}`,
+      );
       return;
     } finally {
-      codBtn.textContent = "Place Order";
+      codBtn.textContent = `${changeLanguage === "en" ? languages.en.codText : languages.ja.codText}`;
       codBtn.disabled = false;
     }
   });
 }
 
 export function codLoaderHandler(result) {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const status = document.querySelector(".cod-status");
   const paymentMethod = document.querySelector(".payment-method");
   const transactionID = document.querySelector(".cod-transaction-id");
   const priceDue = document.querySelector(".payment-method-con");
-  status.textContent = result.status;
+  const rates = getExchangeRates();
+  const currency = changeLanguage === "ja" ? "JPY" : "USD";
+  const locale = changeLanguage === "ja" ? "ja-JP" : "en-US";
+  const displayCurrency = rates ? currency : "USD";
+  const displayLocale = rates ? locale : "en-US";
+  const displayPrice = rates
+    ? convertCurrency(Number(result.amount), currency, rates)
+    : Number(0);
+
+  status.textContent =
+    changeLanguage === "en" ? result.status : languages.ja.paymentCondition;
   paymentMethod.textContent =
-    result.paymentMethod === "paypal" ? "Credit card" : "COD";
+    result.paymentMethod === "paypal"
+      ? changeLanguage === "en"
+        ? languages.en.paymentMethodText1
+        : languages.ja.paymentMethodText1
+      : changeLanguage === "en"
+        ? languages.en.paymentMethodText2
+        : languages.ja.paymentMethodText2;
   transactionID.textContent = result.orderID;
   {
     result.type === "paypal"
-      ? (priceDue.innerHTML = `<p>Amount Paid: $<span class="cod-grand-price">${result.amount}</span></p>`)
+      ? (priceDue.innerHTML = `<p>${changeLanguage === "en" ? languages.en.codLoader : languages.ja.codLoader}<span class="cod-grand-price">${formatCurrency(displayPrice, displayCurrency, displayLocale)}</span></p>`)
       : (priceDue.innerHTML = `
-      <p>Payment will be collected upon delivery.</p>
-      <p>Amount Due: $<span class="cod-payment-total">${result.amount}</span></p>
+      <p>${changeLanguage === "en" ? languages.en.codLoader2 : languages.ja.codLoader2}</p>
+      <p>${changeLanguage === "en" ? languages.en.codLoader3 : languages.ja.codLoader3} <span class="cod-payment-total">${formatCurrency(displayPrice, displayCurrency, displayLocale)}</span></p>
      `);
   }
   closeLoader();

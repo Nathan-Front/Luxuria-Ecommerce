@@ -447,13 +447,16 @@ function displayLoginForm() {
 
 function loginHandler() {
   const form = document.querySelector(".login-form");
+  const changeLanguage = localStorage.getItem("language") || "en";
   if (!form) return;
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const userInput = document.getElementById("email-input");
     const passInput = document.getElementById("password-input");
     if (userInput.value === "" || passInput.value === "") {
-      alert("Please fill in both email and password fields.");
+      alert(
+        `${changeLanguage === "en" ? languages.en.inputFieldMessage : languages.ja.inputFieldMessage}`,
+      );
       return;
     }
     const isValidEmail = validateEmail(userInput.value);
@@ -523,7 +526,7 @@ function loginHandler() {
           window.location.reload();
         } catch (error) {
           alert(
-            "Login successful, but we couldn't sync your cart. Please try again.",
+            `${changeLanguage === "en" ? languages.en.loginSyncError : languages.ja.loginSyncError}`,
           );
         } finally {
           hideSpinner();
@@ -531,7 +534,9 @@ function loginHandler() {
       }
     } catch (error) {
       console.log(error);
-      alert("An error occurred while logging in. Please try again.");
+      alert(
+        `${changeLanguage === "en" ? languages.en.loginError : languages.ja.loginError}`,
+      );
       hideSpinner();
       return;
     } finally {
@@ -618,6 +623,7 @@ function openCreateAccountModal() {
 }
 
 function createAccountHandler() {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const form = document.querySelector(".create-account-form");
   if (!form) return;
   const firstNameInput = document.getElementById("firstName");
@@ -646,7 +652,9 @@ function createAccountHandler() {
     //timer for 30s
     const now = Date.now();
     if (now - lastSent < 30000) {
-      alert("Please wait 30 seconds before sending again!");
+      alert(
+        `${changeLanguage === "en" ? languages.en.createTime : languages.ja.createTime}`,
+      );
       return;
     }
     lastSent = now;
@@ -680,7 +688,9 @@ function createAccountHandler() {
       }
     } catch (error) {
       console.error("Error creating account:", error);
-      alert("An error occurred while creating the account. Please try again.");
+      alert(
+        `${changeLanguage == "en" ? languages.en.createError : languages.ja.createError}`,
+      );
     } finally {
       hideSpinner();
     }
@@ -750,14 +760,15 @@ function displayLogoutModal() {
 
 //spinner
 export function showSpinner() {
+  const changeLanguage = localStorage.getItem("language") || "en";
   const autthContainer = document.querySelector("#auth-modals");
   const spinner = document.createElement("div");
   spinner.className = "spinner-overlay";
   spinner.innerHTML = `
         <div class="loader-box">
           <div class="waiting-spinner"></div>
-          <h3>Processing...</h3>
-          <p>Please wait a moment.</p>
+          <h3>${changeLanguage === "en" ? languages.en.processing : languages.ja.processing}</h3>
+          <p>${changeLanguage === "en" ? languages.en.waitMoment : languages.ja.waitMoment}</p>
         </div>
   `;
   autthContainer.append(spinner);

@@ -404,7 +404,7 @@ app.post("/api/orders/cod", async (req, res) => {
       orderCalculation,
       paymentMethod,
     });
-    console.log("COD order data to send to Google Script:", orderData);
+    //console.log("COD order data to send to Google Script:", orderData);
     //6 pass the built data to apps script
     const sheetResponse = await fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
@@ -413,7 +413,7 @@ app.post("/api/orders/cod", async (req, res) => {
       },
       body: JSON.stringify(orderData),
     });
-    console.log("Google Script status:", sheetResponse.status);
+    //console.log("Google Script status:", sheetResponse.status);
     //7 capture the response
     const result = await sheetResponse.json();
     if (!result.success) {
