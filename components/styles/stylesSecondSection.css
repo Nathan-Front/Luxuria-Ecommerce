@@ -97,4 +97,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
+    font-size: var(--text-base);
+    width: 100%;
+    text-align: center;
 }

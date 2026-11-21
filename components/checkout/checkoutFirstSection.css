@@ -5,6 +5,7 @@
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     position: relative;
+    font-size: var(--text-base);
 }
 @media only screen and (max-width: 640px) {
     .checkout-first-sec {
@@ -24,6 +25,7 @@
 }
 .order-summary> h2 {
     font-size: var(--heading-medium);
+    color: #B5A078;
 }
 .checkout-quantity {
     text-transform: uppercase;
@@ -303,6 +305,11 @@
 .payment-card-con> img {
     width: 40px;
 }
+@media only screen and (max-width: 640px) {
+    .payment-card-con> img {
+        width: 30px;
+    }
+}
 .paypal-btn-con {
     margin-top: 16px;
     display: grid;
@@ -332,8 +339,8 @@
         opacity 0.3s ease;
 }
 .cod-btn-con> button {
-    background-color: aqua;
-    padding: 16px 0;
+    background-color: #B5A078;
+    padding: 12px 0;
     margin-top: 16px;
     font-size: var(--text-large);
     border-radius: 0.25rem;

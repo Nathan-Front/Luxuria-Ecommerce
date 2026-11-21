@@ -46,6 +46,13 @@
     z-index: -1;
 }
 @media only screen and (max-width: 640px) {
+    .occasions-first-sec {
+        height: 80dvh;
+    }
+    .occasions-first-sec> h2 {
+        width: 90%;
+        text-align: center;
+    }
     .occasions-first-sec> p {
         width: 80%;
     }

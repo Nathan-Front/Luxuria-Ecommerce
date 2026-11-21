@@ -20,6 +20,8 @@ Images are AI generated and edited it with GIMP to fit my design
 
 Some Icons, especially SVG icons, were sourced from https://www.svgrepo.com/
 
+It may take some time to load or process some function at first since the backend need to boot up.
+
 Below is the live preview
 
 [View Live Website](https://your-website-url.com)

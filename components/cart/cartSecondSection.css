@@ -7,6 +7,7 @@
     grid-template-columns: 1.5fr 1fr;
     gap: 24px;
     background-color: #F8F5EF;
+    font-size: var(--text-base);
 }
 .cart-second-sec> div {
     min-width: 0;
@@ -250,6 +251,7 @@
     width: 60%;
     margin: 0 auto;
     color: #fff;
+    font-size: var(--text-base);
     padding: 16px 32px;
     background-color: #1a1a1a;
     border-radius: 0.5rem;
@@ -280,6 +282,7 @@
     width: 60%;
     margin: 0 auto;
     padding: 16px 32px;
+    font-size: var(--text-base);
     display: flex;
     justify-content: center;
     gap:8px;

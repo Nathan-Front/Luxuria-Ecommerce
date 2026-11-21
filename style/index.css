@@ -119,7 +119,7 @@ nav {
 .language-selector> select {
     border: none;
     background: transparent;
-    font-size: 0.8rem;
+    font-size: var(--text-xsmall);
     cursor: pointer;
     padding: 4px;
     color: white;
@@ -133,6 +133,9 @@ nav {
         justify-content: center;
     }
     .upper-nav-con> ul {
+        
+    }
+    .mobile-nav-opt {
         display: none;
     }
 }

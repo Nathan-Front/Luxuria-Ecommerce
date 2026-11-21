@@ -46,7 +46,11 @@
 }
 @media only screen and (max-width: 640px) {
     .guides-first-sec {
-        height: 70dvh;
+        height: 80dvh;
+    }
+    .guides-first-sec> h2 {
+        width: 90%;
+        text-align: center;
     }
     .guides-first-sec> p {
         width: 80%;

@@ -13,13 +13,13 @@
     margin-left: clamp(16px, 15vw, 150px);
 }
 .about-first-sec> h2 {
-    font-size: var(--heading-large);
+    font-size: var(--text-large);
     font-weight: 900;
     color: #5E4C32;
     text-transform: uppercase;
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
-.about-first-sec> span {
+.about-sub-title {
     font-size: var(--heading-small);
     text-transform: uppercase;
     margin-top: var(--nav-height-desk);
@@ -45,19 +45,18 @@
 }
 @media only screen and (max-width: 640px) {
     .about-first-sec {
+        height: 80dvh;
         margin-top: var(--nav-height-mobile);
         overflow: hidden;
-        gap: 32px;
     }
     .about-hero-background {
         filter: blur(2px);
         z-index: -1;
     }
-    .about-first-sec> *:not(:last-child) {
-        margin:  0 auto;
+    .about-sub-title {
+        margin-top: 16px;
     }
     .about-first-sec> p {
         width: 90%;
-        text-align: center;
     }
 }

@@ -42,6 +42,7 @@
 }
 @media only screen and (max-width: 640px) {
     .shop-first-sec {
+        height: 80dvh;
         margin-top: var(--nav-height-mobile);
         overflow: hidden;
     }

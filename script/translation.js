@@ -9,17 +9,13 @@ export function translateContent() {
 export function changeLanguage(language) {
   console.log(`Changing language to: ${language}`);
   localStorage.setItem("language", language);
-
   window.location.reload();
 }
 
 export function initializeLanguage() {
   const opt = document.querySelector("#language");
-
   if (!opt) return;
-
   const savedLanguage = localStorage.getItem("language") || "en";
-
   opt.value = savedLanguage;
 }
 
