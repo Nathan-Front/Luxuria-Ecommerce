@@ -79,7 +79,7 @@ export const languages = {
     filterSortByBestSeller: "Best Seller",
     filterSortBySale: "Sale",
     /* Shop filter count */
-    countShowing: "Showing item",
+    countShowing: "Showing ",
     countOutOF: "out of",
     countTotalJA: "",
     /* Cart modal */

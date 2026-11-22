@@ -206,7 +206,7 @@
         grid-template-columns: 1fr;
     }
     .product-summary> button {
-        margin: 8px 0 16px 16px;
+        margin: 0 0 8px 16px;
     }
     .size-indicator {
         margin-top: 16px;

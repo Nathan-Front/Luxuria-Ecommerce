@@ -16,11 +16,6 @@
     overflow: hidden;
     padding: 40px 0;
 }
-@media only screen and (max-width: 640px) {
-    .occasions-fifth-sec> div {
-        padding: 20px 0;
-    }
-}
 .occasions-fifth-sec> div> h3 {
     font-size: var(--heading-large);
     text-align: center;
@@ -44,6 +39,14 @@
     color: #fff;
     letter-spacing: 1px;
     line-height: 1.5;
+}
+@media only screen and (max-width: 640px) {
+    .occasions-fifth-sec> div {
+        padding: 20px 0;
+    }
+    .occasions-fifth-sec> div> p {
+        width: 80%;
+    }
 }
 .occasions-fifth-sec> div> img {
     width: 100%;
