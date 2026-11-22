@@ -45,9 +45,13 @@ I did not put email validator on this form so its ok to input anything.
 
 But, it will still going to check if the email is in its correct format to enable the selection of payment method.
 
-\*You need an account before you can select payment method. So go ahead and create dummy account and login
+\*You need an account before you can select payment method.
 
-\*click the user icon beside the cart bag icon at the upper right corner of the page
+So use this dummy account [dummy-account@gmail.com] [password is dummy2026]
+
+\*click the user icon beside the cart bag icon at the upper right corner of the page if in desktop viewport or
+
+click the burger menu and then click the user icon when in mobile viewport.
 
 7. Select payment method
 
