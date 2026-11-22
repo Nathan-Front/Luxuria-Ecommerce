@@ -16,13 +16,33 @@ import {
 import bodyParser from "body-parser";
 
 const app = express();
-app.use(
+/* app.use(
   cors({
     origin: "http://127.0.0.1:5500",
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
+); */
+const allowedOrigins = [
+  "http://127.0.0.1:5500",
+  "http://localhost:5500",
+  "https://nathan-front.github.io",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
 );
+
 //14. delcare a map to store pending orders for later processing
 const pendingOrders = new Map();
 app.use(bodyParser.json());
