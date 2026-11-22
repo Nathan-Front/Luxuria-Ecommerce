@@ -238,7 +238,7 @@ export const languages = {
     codloader9: "Please check your email for order details.",
     codloader10: "Close",
     orderProcessing: "Sending your order....",
-    paymentMethodText1: "Credit card",
+    paymentMethodText1: "Credit Card",
     paymentMethodText2: "COD",
     /* Fetch data error */
     fetchErrorText1: "We couldn't load this section.",

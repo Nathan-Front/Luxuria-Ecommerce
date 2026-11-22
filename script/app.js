@@ -107,7 +107,7 @@ export function initPayPal() {
       try {
         //5. get the returned order details
         const orderDetails = await fetchCartData();
-        console.log("Order Details:", orderDetails);
+        //console.log("Order Details:", orderDetails);
         //2.Use the created URL from render server
         const response = await fetch(`${SERVER_URL}/api/orders`, {
           method: "POST",
@@ -203,11 +203,11 @@ export function initPayPal() {
             `Transaction ${transaction.status}: ${transaction.id}<br>
           <br>Thank you for trying our service!<br>`,
           ); */
-          console.log(
+          /* console.log(
             "Capture result",
             result.paypal,
             JSON.stringify(result, null, 2),
-          );
+          ); */
         }
       } catch (error) {
         console.error(error);
@@ -317,6 +317,7 @@ export function placeCODOrder() {
     } finally {
       codBtn.textContent = `${changeLanguage === "en" ? languages.en.codText : languages.ja.codText}`;
       codBtn.disabled = false;
+      //hideGlobalAuth();
     }
   });
 }
@@ -337,7 +338,11 @@ export function codLoaderHandler(result) {
     : Number(0);
 
   status.textContent =
-    changeLanguage === "en" ? result.status : languages.ja.paymentCondition;
+    result.paymentMethod === "paypal"
+      ? result.paymentMethod
+      : changeLanguage === "en"
+        ? result.status
+        : languages.ja.paymentCondition;
   paymentMethod.textContent =
     result.paymentMethod === "paypal"
       ? changeLanguage === "en"

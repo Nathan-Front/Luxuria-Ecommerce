@@ -53,6 +53,8 @@ But, it will still going to check if the email is in its correct format to enabl
 
 \*If paypal is selected
 
+\*When debit/credit is clicked, it will take a few second to load its form
+
 <img src="images/readMe/Paypal.png" alt="Paypal payment" width="500">
 
 ### Test Payment
