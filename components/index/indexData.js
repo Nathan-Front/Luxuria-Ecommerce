@@ -23,8 +23,8 @@ export async function fetchHeroContent() {
 
 function renderHero(heroContent) {
   const changeLanguage = localStorage.getItem("language") || "en";
-
   const heroSection = document.querySelector(".index-first-sect");
+
   const mainTitle = heroSection.querySelector("h2");
   const subTitle = heroSection.querySelector("span");
   const heroText = heroSection.querySelector(".hero-text");

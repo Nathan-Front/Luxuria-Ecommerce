@@ -27,17 +27,22 @@ function renderAboutHero(aboutUs) {
 }
 
 export async function fetchAboutStoryCont() {
-  const container = document.querySelector(".about-second-sec");
-  const fetchStory = await fetchProductData({
-    sheetName: "aboutStories",
-    dataKey: "aboutStory",
-    container: container,
-  });
-  const fetchValue = await fetchProductData({
-    sheetName: "aboutValues",
-    dataKey: "aboutValue",
-    container: container,
-  });
+  //const container = document.querySelector(".about-second-sec");
+  const containerValues = document.querySelector(".about-us-story");
+  const containerIcons = document.querySelector(".about-us-story-icons");
+  const [fetchStory, fetchValue] = await Promise.all([
+    fetchProductData({
+      sheetName: "aboutStories",
+      dataKey: "aboutStory",
+      container: containerValues,
+    }),
+
+    fetchProductData({
+      sheetName: "aboutValues",
+      dataKey: "aboutValue",
+      container: containerIcons,
+    }),
+  ]);
   renderAboutStory({ fetchStory, fetchValue });
 }
 

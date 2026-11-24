@@ -18,7 +18,7 @@ export async function likedItemsModal() {
   const fetchDataArr = await fetchProductData({
     sheetName: "shop-articles",
     dataKey: "products",
-    container: container,
+    container: "",
   });
   if (fetchDataArr.length === 0) return;
   showLikedItemModal(fetchDataArr);

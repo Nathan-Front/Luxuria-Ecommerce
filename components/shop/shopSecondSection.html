@@ -6,14 +6,12 @@
         alt="filter-options"
         class="display-filter-tablet"
       />
-      <h4 data-i18n="filter">Filter</h4>
-      <button type="button" class="reset-filter" data-i18n="clearAll">
-        Clear all
-      </button>
+      <h4 data-i18n="filter"></h4>
+      <button type="button" class="reset-filter" data-i18n="clearAll"></button>
     </div>
     <div class="category-fieldset-con filter-tablet">
       <div class="filter-titles">
-        <h4 data-i18n="category">Category</h4>
+        <h4 data-i18n="category"></h4>
         <img
           src="./images/shop/secondSection/arrow-down.svg"
           alt="arrow-icon"
@@ -24,33 +22,33 @@
       <fieldset class="category-fieldset hide-select-cont">
         <label>
           <input type="checkbox" name="category" value="men" />
-          <span data-i18n="filterMen">Men</span>
+          <span data-i18n="filterMen"></span>
         </label>
         <label>
           <input type="checkbox" name="category" value="women" />
-          <span data-i18n="filterWomen">Women</span>
+          <span data-i18n="filterWomen"></span>
         </label>
         <label>
           <input type="checkbox" name="category" value="dress" />
-          <span data-i18n="filterDresses">Dresses</span>
+          <span data-i18n="filterDresses"></span>
         </label>
         <label>
           <input type="checkbox" name="category" value="tops" />
-          <span data-i18n="filterTops">Tops</span>
+          <span data-i18n="filterTops"></span>
         </label>
         <label>
           <input type="checkbox" name="category" value="bags" />
-          <span data-i18n="filterBags">Bags</span>
+          <span data-i18n="filterBags"></span>
         </label>
         <label>
           <input type="checkbox" name="category" value="accessory" />
-          <span data-i18n="filterAccessories">Accessories</span>
+          <span data-i18n="filterAccessories"></span>
         </label>
       </fieldset>
     </div>
     <div class="price-sliders-con filter-tablet">
       <div class="filter-titles">
-        <h4 data-i18n="filterPriceRange">Price Range</h4>
+        <h4 data-i18n="filterPriceRange"></h4>
         <img
           src="./images/shop/secondSection/arrow-down.svg"
           alt="arrow-icon"
@@ -59,8 +57,8 @@
       </div>
       <div class="price-sliders hide-select-cont">
         <div class="category-list price-filter">
-          <span><span id="min-value">0</span></span>
-          <span><span id="max-value">200</span></span>
+          <span><span id="min-value"></span></span>
+          <span><span id="max-value"></span></span>
         </div>
         <div class="range-slider">
           <div class="slider-tracker"></div>
@@ -85,7 +83,7 @@
     </div>
     <div class="feature-con filter-tablet">
       <div class="filter-titles">
-        <h4 data-i18n="filterFeatures">Features</h4>
+        <h4 data-i18n="filterFeatures"></h4>
         <img
           src="./images/shop/secondSection/arrow-down.svg"
           alt="arrow-icon"
@@ -93,29 +91,26 @@
         />
       </div>
       <div class="sort-by hide-select-cont">
-        <label for="features" data-i18n="filterSortBy">Sort by:</label>
+        <label for="features" data-i18n="filterSortBy"></label>
         <select name="feature" id="features">
-          <option value="" data-i18n="filterSortByDefault">Default</option>
-          <option value="new" data-i18n="filterSortByNew">New</option>
-          <option value="best-seller" data-i18n="filterSortByBestSeller">
-            Best Seller
-          </option>
-          <option value="sale" data-i18n="filterSortBySale">Sale</option>
+          <option value="" data-i18n="filterSortByDefault"></option>
+          <option value="new" data-i18n="filterSortByNew"></option>
+          <option
+            value="best-seller"
+            data-i18n="filterSortByBestSeller"
+          ></option>
+          <option value="sale" data-i18n="filterSortBySale"></option>
         </select>
       </div>
     </div>
   </aside>
-  <article>
+  <article class="shop-article-section">
     <p>
-      <span data-i18n="countShowing">Showing item</span>
+      <span data-i18n="countShowing"></span>
       <span class="start-count"></span> - <span class="end-count"></span>
-      <span data-i18n="countOutOF">out of</span>
+      <span data-i18n="countOutOF"></span>
       <span class="total-count"></span><span data-i18n="countTotalJA"></span>
     </p>
-    <div id="loading-product" class="product-loading" hidden>
-      <div class="product-spinner"></div>
-      <p>Retrieving data...</p>
-    </div>
     <ul class="products-lists"></ul>
     <div class="pagination"></div>
   </article>

@@ -31,12 +31,15 @@ export const languages = {
     noLikedItem: "No liked item in the list.",
     likedAddToCart: "Add to cart",
     likedDeleteBtn: "Remove item",
+    likeModal: "Liked Items",
     /* Lower Navigation */
     mustBeloggedLikeText: "Must be logged in to save liked items.",
     navigationNew: "NEW",
     navigationShop: "SHOP",
     navigationStyles: "STYLES",
     navigationAbout: "WHO ARE WE",
+    /* index */
+    indexShopNow: "Shop Now",
     /* Index Second Section */
     shipping: "Free Shipping",
     shippingText: "On orders over $300",
@@ -49,6 +52,7 @@ export const languages = {
     shopByCategory: "Shop By Category",
     /* Index Third Section */
     newArrivals: "New Arrivals",
+    viewAll: "View All",
     /* Index Fourth Section */
     sustainable: "Sustainable",
     sustainableText: "Conscious fashion",
@@ -135,6 +139,8 @@ export const languages = {
     summaryContinueShop: "Continue shopping",
     noItemOnCartText: "You don't have item in your cart.",
     itemDeletedText: "Item deleted from your cart.",
+    /* Style page*/
+    styleShopNow: "Shop Now",
     /* Checkout page */
     checkoutOrderSummary: "Order Summary",
     checkoutSubTotal: "Sub Total:",
@@ -243,6 +249,8 @@ export const languages = {
     /* Fetch data error */
     fetchErrorText1: "We couldn't load this section.",
     fetchErrorText2: "Please reload the page and try again.",
+    /* Retrieve data text */
+    retrieveDataText: "Retrieving data...",
   },
 
   ja: {
@@ -257,12 +265,15 @@ export const languages = {
     likedAddToCart: "カートに入れる",
     likedDeleteBtn: "商品を削除",
     likedDeleteSuccess: "お気に入りリストが更新されました。",
+    likeModal: "お気に入りリスト",
     /* Lower Navigation */
     mustBeloggedLikeText: "お気に入りを保存するにはログインが必要です。",
     navigationNew: "新着",
     navigationShop: "ショップ",
     navigationStyles: "スタイル",
     navigationAbout: "私たちについて",
+    /* index */
+    indexShopNow: "購入する",
     /* Index Second Section */
     shipping: "送料無料",
     shippingText: "以上の注文",
@@ -275,6 +286,7 @@ export const languages = {
     shopByCategory: "カテゴリーから探す",
     /* Index Third Section */
     newArrivals: "新着商品",
+    viewAll: "すべて見る",
     /* Index Fourth Section */
     sustainable: "持続可能",
     sustainableText: "意識の高いファッション",
@@ -361,6 +373,8 @@ export const languages = {
     summaryContinueShop: "ショップページへ",
     noItemOnCartText: "カートに商品がありません。",
     itemDeletedText: "カートから商品が削除されました。",
+    /* Style page*/
+    styleShopNow: "購入する",
     /* Checkout page */
     checkoutOrderSummary: "注文概要",
     checkoutSubTotal: "小計:",
@@ -472,6 +486,8 @@ export const languages = {
     /* Fetch data error */
     fetchErrorText1: "このセクションを読み込めませんでした。",
     fetchErrorText2: "ページを再読み込みして、もう一度お試しください。",
+    /* Retrieve data text */
+    retrieveDataText: "データ取得中",
   },
 };
 

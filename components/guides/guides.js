@@ -35,10 +35,11 @@ export async function fetchGuidesCont() {
     dataKey: "guideCategory",
     container: container,
   });
+  const containerList = document.querySelector(".guide-lists");
   const fetchContents = await fetchProductData({
     sheetName: "guidesContents",
     dataKey: "guideContents",
-    container: container,
+    container: containerList,
   });
   renderGuidesCont({ fetchCategory, fetchContents });
 }

@@ -56,7 +56,7 @@ function renderShopCont(shopHeroCon) {
 let productArray = [];
 let originalProducts = [];
 export async function fetchProducts() {
-  const container = document.querySelector(".shop-second-sec");
+  const container = document.querySelector(".shop-article-section");
   const fetchDataArr = await fetchProductData({
     sheetName: "shop-articles",
     dataKey: "products",

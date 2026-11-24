@@ -94,6 +94,11 @@
     font-size: var(--heading-small);
     font-family: "Cormorant Garamond", serif;
 }
+.summary-title-ja {
+    font-size: var(--text-large);
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 800;
+}
 .summary-color,
 .summary-size,
 .summary-condition {

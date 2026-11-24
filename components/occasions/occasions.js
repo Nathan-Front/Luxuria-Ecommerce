@@ -69,7 +69,7 @@ function renderOccasionsCasual(casual) {
 }
 
 export async function fetchOccasionsBusinessCont() {
-  const container = document.querySelector(".occasions-second-sec");
+  const container = document.querySelector(".occasions-third-sec");
   const fetchDataArr = await fetchProductData({
     sheetName: "occasionsBusiness",
     dataKey: "occasionBusiness",

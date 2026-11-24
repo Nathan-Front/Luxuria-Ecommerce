@@ -1,20 +1,14 @@
-import { fetchSpecificSheet } from "../../script/fetchApps.js";
-import { setSectionLoading } from "../../script/loadingSpinner.js";
-import { showSectionError } from "../../script/fetchDataError.js";
+import { fetchProductData } from "../../script/fetchProducts.js";
 
-let fetchDataArr = [];
 export async function fetchCartHeroCont() {
-  const firstSection = document.querySelector(".cart-first-sec");
-  setSectionLoading(firstSection, true);
-  try {
-    fetchDataArr = await fetchSpecificSheet("cartHero", "cartHero");
-    renderCartCont(fetchDataArr);
-  } catch (error) {
-    console.log(error);
-    showSectionError(firstSection);
-  } finally {
-    setSectionLoading(firstSection, false);
-  }
+  const container = document.querySelector(".cart-first-sec");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "cartHero",
+    dataKey: "cartHero",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderCartCont(fetchDataArr);
 }
 
 export function renderCartCont(cartHero) {

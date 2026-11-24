@@ -16,8 +16,9 @@ import {
 import { syncUserCart } from "./cartModal.js";
 import { showSpinner, hideSpinner } from "../../script/index.js";
 import { openGlobalAuth, hideGlobalAuth } from "../../script/globalAuth.js";
+import { fetchProductData } from "../../script/fetchProducts.js";
 
-let fetchDataArr = [];
+/* let fetchDataArr = [];
 export async function fetchSummaryData() {
   const cartSecond = document.querySelector(".summary-left-container");
   setSectionLoading(cartSecond, true);
@@ -30,6 +31,17 @@ export async function fetchSummaryData() {
   } finally {
     setSectionLoading(cartSecond, false);
   }
+} */
+
+export async function fetchSummaryData() {
+  const container = document.querySelector(".cart-product-loading");
+  const fetchDataArr = await fetchProductData({
+    sheetName: "shop-articles",
+    dataKey: "products",
+    container: container,
+  });
+  if (fetchDataArr.length === 0) return;
+  renderTemporaryCart(fetchDataArr);
 }
 
 export async function renderTemporaryCart(products) {
@@ -73,7 +85,7 @@ export async function renderTemporaryCart(products) {
     li.innerHTML = `
         <img src="${storageItem.imageName !== "none" ? `./images/shop/secondSection/articleOptions/${storageItem.articleImg}` : `./images/shop/secondSection/${product.articleImg}.webp`}" alt="${storageItem.imageName}" class="summary-cart-article-image" />
         <div class="summary-article-details">
-          <p class="summary-title">${changeLanguage == "en" ? product.article : product.articleJA}</p>
+          <p class=${changeLanguage === "en" ? "summary-title" : "summary-title-ja"}>${changeLanguage == "en" ? product.article : product.articleJA}</p>
           <p class="summary-color"><span >${languages[changeLanguage].summaryColor}</span> <span>${translateColors(storageItem.color, changeLanguage)}</span></p>
           <p class="summary-size"><span >${languages[changeLanguage].summarySize}</span> <span>${storageItem.size}</span></p>
           <p class="summary-condition"><span >${languages[changeLanguage].summaryCondition}</span> <span>${changeLanguage === "en" ? product.condition : product.conditionJA}</span></p>

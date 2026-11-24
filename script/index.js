@@ -288,7 +288,7 @@ async function fetchHTML() {
     openShopFromURL();
   }
   if (page === "cart") {
-    await fetchCartHeroCont();
+    fetchCartHeroCont();
     fetchSummaryData();
   }
   if (page === "checkout") {

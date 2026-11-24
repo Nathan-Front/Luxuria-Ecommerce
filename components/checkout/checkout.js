@@ -1,6 +1,3 @@
-import { fetchSpecificSheet } from "../../script/fetchApps.js";
-import { setSectionLoading } from "../../script/loadingSpinner.js";
-import { showSectionError } from "../../script/fetchDataError.js";
 import { formatPrice } from "../../script/priceFormat.js";
 import {
   formatCurrency,
@@ -9,44 +6,31 @@ import {
   convertCurrency,
 } from "../shop/filters.js";
 import { languages, translateColors } from "../../script/translation.js";
+import { fetchProductData } from "../../script/fetchProducts.js";
 
 export async function fetchCheckoutData() {
-  let fetchDataArr = [];
-  const cartList = document.querySelector(".order-summary");
-  const formContainer = document.querySelector(".checkout-right-con");
+  const container = document.querySelector(".checkout-product-list-loader");
   const paymentSelections = document.querySelector(".user-payment-con");
-  formContainer.classList.add("disableForm");
-  paymentSelections.classList.add("disableForm");
-  setSectionLoading(cartList, true);
+  const totalsContainer = document.querySelector(".checkout-totals");
+  container.classList.add("disableForm");
   try {
-    fetchDataArr = await fetchSpecificSheet("shop-articles", "products");
+    paymentSelections.classList.add("disableForm");
+    const fetchDataArr = await fetchProductData({
+      sheetName: "shop-articles",
+      dataKey: "products",
+      container: container,
+    });
+    const fetchSettings = await fetchProductData({
+      sheetName: "paymentSettings",
+      dataKey: "settingFees",
+      container: totalsContainer,
+    });
+    if (fetchDataArr.length === 0) return;
     renderCartContent([...fetchDataArr]);
-    await fetchSettingFees([...fetchDataArr]);
-    formContainer.classList.remove("disableForm");
+    renderCheckoutTotals([...fetchDataArr], fetchSettings);
+    container.classList.remove("disableForm");
   } catch (error) {
     console.log(error);
-    showSectionError(cartList);
-  } finally {
-    setSectionLoading(cartList, false);
-  }
-}
-export async function fetchSettingFees(products) {
-  let fetchDataArr = [];
-  const cartList = document.querySelector(".order-summary");
-  const formContainer = document.querySelector(".checkout-right-con");
-  const paymentSelections = document.querySelector(".user-payment-con");
-  formContainer.classList.add("disableForm");
-  paymentSelections.classList.add("disableForm");
-  setSectionLoading(cartList, true);
-  try {
-    fetchDataArr = await fetchSpecificSheet("paymentSettings", "settingFees");
-    renderCheckoutTotals(products, fetchDataArr);
-    formContainer.classList.remove("disableForm");
-  } catch (error) {
-    console.log(error);
-    showSectionError(cartList);
-  } finally {
-    setSectionLoading(cartList, false);
   }
 }
 
