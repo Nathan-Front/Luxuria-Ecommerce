@@ -19,8 +19,12 @@
     color: #B5A078;
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
-.styles-first-sec> h2 {
+.main-title {
     font-size: var(--heading-medium);
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+}
+.main-title-ja {
+    font-size: var(--heading-medium-ja);
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
 .styles-first-sec> p {

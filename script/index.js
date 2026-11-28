@@ -343,6 +343,8 @@ async function fetchHTML() {
   sectionsInterSections();
   sectionsInterSectionsSecond();
   sectionsInterSectionsThird();
+
+  renderFooter();
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -798,4 +800,13 @@ function restoreLoggedUser() {
   if (userData?.loggedIn && userData.avatar) {
     userAvatar.src = `https://drive.google.com/thumbnail?id=${userData.avatar}&sz=w200`;
   }
+}
+
+function renderFooter() {
+  const changeLanguage = localStorage.getItem("language") || "en";
+  const footerTitles = document.querySelectorAll(".footer-link-titles");
+  footerTitles.forEach((titles) => {
+    titles.classList =
+      changeLanguage === "en" ? "footer-link-titles" : "footer-link-titles-ja";
+  });
 }

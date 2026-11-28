@@ -17,6 +17,10 @@ function renderOccasionsHero(occasionsHero) {
   const subTitle = document.querySelector(".occasions-sub-title");
   const text = document.querySelector(".occasions-hero-text");
   const hero = document.querySelector(".occasions-hero-background");
+  mainTitle.classList =
+    changeLanguage === "en"
+      ? "occasions-main-title"
+      : "occasions-main-title-ja";
   mainTitle.textContent =
     changeLanguage === "en"
       ? occasionsHero[0].mainTitle
@@ -49,6 +53,10 @@ function renderOccasionsCasual(casual) {
   const titleImg = document.querySelector(".casual-title-image");
   casual.map((item) => {
     if (item.No === 1) {
+      title.classList =
+        changeLanguage === "en"
+          ? "section-casual-title"
+          : "section-casual-title-ja";
       title.textContent =
         changeLanguage === "en" ? item.category : item.categoryJA;
       titleText.textContent =
@@ -87,6 +95,10 @@ function renderOccasionsBusiness(business) {
   const titleImg = document.querySelector(".business-title-image");
   business.map((item) => {
     if (item.No === 1) {
+      title.classList =
+        changeLanguage === "en"
+          ? "section-business-title"
+          : "section-business-title-ja";
       title.textContent =
         changeLanguage === "en" ? item.category : item.categoryJA;
       titleText.textContent =
@@ -125,6 +137,10 @@ function renderOccasionsEvening(evening) {
   const titleImg = document.querySelector(".evening-title-image");
   evening.map((item) => {
     if (item.No === 1) {
+      title.classList =
+        changeLanguage === "en"
+          ? "section-evening-title"
+          : "section-evening-title-ja";
       title.textContent =
         changeLanguage === "en" ? item.category : item.categoryJA;
       titleText.textContent =
@@ -163,6 +179,10 @@ function renderOccasionsTravel(travel) {
   const titleImg = document.querySelector(".travel-title-image");
   travel.map((item) => {
     if (item.No === 1) {
+      title.classList =
+        changeLanguage === "en"
+          ? "section-travel-title"
+          : "section-travel-title-ja";
       title.textContent =
         changeLanguage === "en" ? item.category : item.categoryJA;
       titleText.textContent =

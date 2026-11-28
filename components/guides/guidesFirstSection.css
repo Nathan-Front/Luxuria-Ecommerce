@@ -18,8 +18,13 @@
     letter-spacing: 1px;
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
-.guides-first-sec> h2 {
+.guides-main-title {
     font-size: var(--heading-medium);
+    font-weight: 900;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+}
+.guides-main-title-ja {
+    font-size: var(--heading-medium-ja);
     font-weight: 900;
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }

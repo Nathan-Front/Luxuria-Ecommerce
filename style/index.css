@@ -5,16 +5,20 @@
     --nav-height-upper: 20px;
     --container-max-width: 1400px;
 
-    /*Text fonts*/
+    /*Text fonts en*/
     --text-xsmall: clamp(0.65rem, 0.9vw, 0.75rem);
     --text-small: clamp(0.75rem, 1vw, 0.875rem);
     --text-base: clamp(0.875rem, 1.2vw, 1rem);
     --text-large: clamp(1rem, 1.5vw, 1.25rem);
 
-    /*Header fonts*/
+    /*Header fonts en*/
     --heading-small: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
     --heading-medium: clamp(1.8rem, 1.4rem + 1.8vw, 2.75rem);
     --heading-large: clamp(2rem, 1.6rem + 3vw, 4rem);
+    /*Header fonts ja*/
+    --heading-small-ja: clamp(1.3rem, 1rem + 1vw, 1.8rem);
+    --heading-medium-ja: clamp(1.6rem, 1.2rem + 1.6vw, 2.55rem);
+    --heading-large-ja: clamp(1.8rem, 1.4rem + 2.8vw, 3.6rem);
 }
 * {
     margin: 0;
@@ -131,9 +135,6 @@ nav {
 @media only screen and (max-width: 640px) {
     .upper-nav-con {
         justify-content: center;
-    }
-    .upper-nav-con> ul {
-        
     }
     .mobile-nav-opt {
         display: none;

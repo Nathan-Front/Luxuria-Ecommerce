@@ -16,8 +16,14 @@
     overflow: hidden;
     padding: 40px 0;
 }
-.occasions-fifth-sec> div> h3 {
+.section-travel-title {
     font-size: var(--heading-large);
+    text-align: center;
+    color: #B5A078;
+    position: relative;
+}
+.section-travel-title-ja {
+    font-size: var(--heading-small);
     text-align: center;
     color: #B5A078;
     position: relative;

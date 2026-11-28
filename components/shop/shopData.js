@@ -36,6 +36,8 @@ function renderShopCont(shopHeroCon) {
   const shopHeroText = shopHeroSection.querySelector(".shop-hero-text");
   const shopHeroImg = shopHeroSection.querySelector("img");
 
+  shopMainTitle.classList =
+    changeLanguage === "en" ? "shop-hero-title" : "shop-hero-title-ja";
   shopMainTitle.textContent =
     changeLanguage === "en"
       ? shopHeroCon[0].mainTitle

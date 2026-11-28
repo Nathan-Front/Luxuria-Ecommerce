@@ -52,6 +52,8 @@ function renderAboutStory({ fetchStory, fetchValue }) {
   const subTitle = document.querySelector(".story-sub-title");
   const text = document.querySelector(".story-text");
   const image = document.querySelector(".story-main-image");
+  title.classList =
+    changeLanguage === "en" ? "story-main-title" : "story-main-title-ja";
   title.textContent =
     changeLanguage === "en"
       ? fetchStory[0].mainTitle
@@ -101,6 +103,8 @@ function renderAboutJourney(journey) {
   const subTitle = document.querySelector(".journey-sub-title");
   const text = document.querySelector(".journey-text");
   if (journey[0].No === 1) {
+    title.classList =
+      changeLanguage === "en" ? "journey-main-title" : "journey-main-title-ja";
     title.textContent =
       changeLanguage === "en" ? journey[0].mainTitle : journey[0].mainTitleJA;
     subTitle.textContent =

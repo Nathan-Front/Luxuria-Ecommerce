@@ -15,8 +15,11 @@
     text-transform: uppercase;
     color: #B5A078;
 }
-.index-first-sect> h2 {
+.index-main-title {
     font-size: var(--heading-medium);
+}
+.index-main-title-ja {
+    font-size: var(--heading-medium-ja);
 }
 .index-first-sect> p {
     font-size: var(--text-base);

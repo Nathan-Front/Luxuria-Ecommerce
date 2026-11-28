@@ -29,8 +29,12 @@
     margin-top: 8px;
     letter-spacing: 1px;
 }
-.styles-second-details> h3 {
+.occasion-main-title {
     font-size: var(--heading-small);
+    font-weight: 900;
+}
+.occasion-main-title-ja {
+    font-size: var(--text-large);
     font-weight: 900;
 }
 .styles-second-details> p {

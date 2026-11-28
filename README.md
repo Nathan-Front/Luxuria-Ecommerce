@@ -49,6 +49,8 @@ But, it will still going to check if the email is in its correct format to enabl
 
 So use this dummy account [dummy-account@gmail.com] [password is dummy2026]
 
+\*If you want to try and create an account, the EULA is just a dummy at this point but it needs to be checked.
+
 \*click the user icon beside the cart bag icon at the upper right corner of the page if in desktop viewport or
 
 click the burger menu and then click the user icon when in mobile viewport.

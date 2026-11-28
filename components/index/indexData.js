@@ -31,12 +31,14 @@ function renderHero(heroContent) {
   const heroImg = heroSection.querySelector("img");
   if (changeLanguage === "en") {
     mainTitle.textContent = heroContent[0].mainTitle;
+    mainTitle.classList = "index-main-title";
     subTitle.textContent = heroContent[0].subTitle;
     heroText.textContent = heroContent[0].text;
     heroImg.src = `./images/index/firstSection/${heroContent[0].heroImg}.webp`;
     heroImg.alt = heroContent[0].heroImgAlt;
   } else {
     mainTitle.textContent = heroContent[1].mainTitle;
+    mainTitle.classList = "index-main-title-ja";
     subTitle.textContent = heroContent[1].subTitle;
     heroText.textContent = heroContent[1].text;
     heroImg.src = `./images/index/firstSection/${heroContent[1].heroImg}.webp`;
@@ -265,7 +267,7 @@ function renderPromo(promo) {
     const div = document.createElement("div");
     div.innerHTML = `
       <span>${changeLanguage === "en" ? item.subTitle : item.subTitleJA}</span>
-      <h3>${changeLanguage === "en" ? item.mainTitle : item.mainTitleJA}</h3>
+      <h3 class=${changeLanguage === "en" ? "promo-title" : "promo-title-ja"}>${changeLanguage === "en" ? item.mainTitle : item.mainTitleJA}</h3>
       <p>${changeLanguage === "en" ? item.text : item.textJA}</p>
       <a href=${item.link}.html>${changeLanguage === "en" ? item.buttons : item.buttonsJA}</a>
       <img src="./images/index/fourthSection/${item.promoImg}.webp" alt="${item.promoImgAlt}" loading="lazy" />

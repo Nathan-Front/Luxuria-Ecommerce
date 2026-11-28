@@ -16,8 +16,14 @@
     overflow: hidden;
     padding: 40px 0;
 }
-.occasions-fourth-sec> div> h3 {
+.section-evening-title {
     font-size: var(--heading-large);
+    text-align: center;
+    color: #B5A078;
+    position: relative;
+}
+.section-evening-title-ja {
+    font-size: var(--heading-small);
     text-align: center;
     color: #B5A078;
     position: relative;

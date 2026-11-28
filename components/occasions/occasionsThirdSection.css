@@ -16,8 +16,14 @@
     overflow: hidden;
     padding: 40px 0;
 }
-.occasions-third-sec> div> h3 {
+.section-business-title {
     font-size: var(--heading-large);
+    text-align: center;
+    color: #B5A078;
+    position: relative;
+}
+.section-business-title-ja {
+    font-size: var(--heading-small);
     text-align: center;
     color: #B5A078;
     position: relative;

@@ -31,8 +31,11 @@
     text-transform: uppercase;
     margin-top: 40px;
 }
-.fourth-upper-con> div> h3 {
+.promo-title {
     font-size: var(--heading-small);
+}
+.promo-title-ja {
+    font-size: var(--text-large);
 }
 .fourth-upper-con> div> p {
     font-size: var(--text-base);

@@ -17,6 +17,8 @@ function renderGuidesHero(guidesHero) {
   const subTitle = document.querySelector(".guides-sub-title");
   const text = document.querySelector(".guides-hero-text");
   const hero = document.querySelector(".guides-hero-background");
+  mainTitle.classList =
+    changeLanguage === "en" ? "guides-main-title" : "guides-main-title-ja";
   mainTitle.textContent =
     changeLanguage === "en"
       ? guidesHero[0].mainTitle
@@ -132,7 +134,7 @@ function renderGuidesCont({ fetchCategory, fetchContents }) {
     </div>
 
     <div class="guides-content-con">
-      <h3>${changeLanguage === "en" ? item.title || "" : item.titleJA || ""}</h3>
+      <h3 class=${changeLanguage === "en" ? "guide-list-title" : "guide-list-title-ja"}>${changeLanguage === "en" ? item.title || "" : item.titleJA || ""}</h3>
       <p>${changeLanguage === "en" ? item.introduction || "" : item.introductionJA || ""}</p>
 
       ${guideContentHTML}

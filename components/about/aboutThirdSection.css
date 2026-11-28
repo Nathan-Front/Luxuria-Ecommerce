@@ -60,8 +60,12 @@
     text-transform: uppercase;
     color: #B5A078;
 }
-.about-us-journey> h2 {
+.journey-main-title {
     font-size: var(--heading-small);
+    font-weight: 900;
+}
+.journey-main-title-ja {
+    font-size: var(--heading-small-ja);
     font-weight: 900;
 }
 .about-us-journey> p {

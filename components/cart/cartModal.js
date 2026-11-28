@@ -97,6 +97,7 @@ export function renderCartModalHandler(selectedItem) {
   const sizeSelected = document.querySelector(
     'input[name="size"]:checked',
   )?.value;
+
   product.textContent =
     changeLanguage === "en" ? selectedItem.article : selectedItem.articleJA;
 

@@ -19,8 +19,12 @@
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
     color: #B5A078;
 }
-.shop-first-sec> h2 {
+.shop-hero-title {
     font-size: var(--heading-medium);
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+}
+.shop-hero-title-ja {
+    font-size: var(--heading-medium-ja);
     text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
 }
 .shop-first-sec> p {

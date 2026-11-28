@@ -19,6 +19,8 @@ function renderStyleHero(styleHero) {
   const textBottom = document.querySelector(".text-bottom");
   const hero = document.querySelector(".styles-hero-background");
 
+  mainTitle.classList =
+    changeLanguage === "en" ? "main-title" : "main-title-ja";
   mainTitle.textContent =
     changeLanguage == "en" ? styleHero[0].mainTitle : styleHero[0].mainTitleJA;
   subTitle.textContent =
@@ -53,6 +55,10 @@ function renderStyleOccasion(styleOccasion) {
 
   styleOccasion.map((item) => {
     if (item.No === 1) {
+      mainTitle.classList =
+        changeLanguage === "en"
+          ? "occasion-main-title"
+          : "occasion-main-title-ja";
       mainTitle.textContent =
         changeLanguage === "en"
           ? styleOccasion[0].mainTitle
@@ -101,6 +107,8 @@ function renderStyleGuides(styleOccasion) {
   const link = document.querySelector(".viewAllGuides");
   styleOccasion.map((item) => {
     if (item.No === 1) {
+      mainTitle.classList =
+        changeLanguage === "en" ? "guides-main-title" : "guides-main-title-ja";
       mainTitle.textContent =
         changeLanguage === "en"
           ? styleOccasion[0].mainTitle
@@ -123,7 +131,7 @@ function renderStyleGuides(styleOccasion) {
       const li = document.createElement("li");
       li.innerHTML = `
             <img src="./images/styles/thirdSection/${item.occasionImg}.webp" alt=${item.occasionImgAlt} />
-            <span>${changeLanguage === "en" ? item.imageTexts : item.imageTextsJA}</span>
+            <span class=${changeLanguage === "en" ? "guide-list-title" : "guide-list-title-ja"}>${changeLanguage === "en" ? item.imageTexts : item.imageTextsJA}</span>
         `;
       imageCon.append(li);
     }

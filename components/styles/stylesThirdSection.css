@@ -30,8 +30,12 @@
     margin-top: 8px;
     letter-spacing: 1px;
 }
-.styles-third-details> h3 {
+.guides-main-title {
     font-size: var(--heading-small);
+    font-weight: 900;
+}
+.guides-main-title-ja {
+    font-size: var(--text-large);
     font-weight: 900;
 }
 .styles-third-details> p {
@@ -95,7 +99,16 @@
 .guides-lists> li> img:hover {
     transform: scale(1.1);
 }
-.guides-lists> li> span {
+.guide-list-title {
+    padding: 16px 4px;
+    color: #B5A078;
+    font-size: var(--text-small);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.guide-list-title-ja {
     padding: 16px 4px;
     color: #B5A078;
     font-size: var(--text-small);

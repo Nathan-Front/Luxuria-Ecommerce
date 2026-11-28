@@ -34,6 +34,12 @@ footer {
 .footer-media> li> a> img {
     width: 25px;
 }
+.footer-link-titles {
+    font-size: var(--heading-small);
+}
+.footer-link-titles-ja {
+    font-size: var(--text-large);
+}
 .footer-links {
     display: flex;
     flex-direction: column;

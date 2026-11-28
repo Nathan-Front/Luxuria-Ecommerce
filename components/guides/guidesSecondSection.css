@@ -61,8 +61,11 @@
     flex-direction: column;
     gap: 8px;
 }
-.guides-content-con> h3 {
+.guide-list-title {
     font-size: var(--heading-small);
+}
+.guide-list-title-ja {
+    font-size: var(--heading-small-ja);
 }
 .guides-content-con> p {
     font-size: var(--text-base);

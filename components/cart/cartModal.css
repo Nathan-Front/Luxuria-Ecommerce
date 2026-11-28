@@ -72,7 +72,7 @@
     gap: 16px;
 }
 .product-title {
-    font-size: var(--text-large);
+    font-size: var(--text-base);
     text-transform: uppercase;
 }
 .product-condition {
@@ -82,7 +82,7 @@
     color: #fff;
     text-align: left;
     margin: 32px 0 32px 16px;
-    font-size: var(--text-large);
+    font-size: var(--text-small);
     position: relative;
     width: fit-content;
 }

@@ -19,8 +19,12 @@
     text-transform: uppercase;
     color: #B5A078;
 }
-.about-us-story> h2 {
+.story-main-title {
     font-size: var(--heading-small);
+    font-weight: 900;
+}
+.story-main-title-ja {
+    font-size: var(--text-large);
     font-weight: 900;
 }
 .about-us-story> p {
